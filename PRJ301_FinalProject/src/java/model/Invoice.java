@@ -12,16 +12,19 @@ package model;
 public class Invoice {
     private String id;
     private String date;
-    private String saleid;
-    private String carid;
-    private String custid;
+    private String saleId;
+    private String carId;
+    private String custId;
 
-    public Invoice(String id, String date, String saleid, String carid, String custid) {
+    public Invoice() {
+    }
+
+    public Invoice(String id, String date, String saleId, String carId, String custId) {
         this.id = id;
         this.date = date;
-        this.saleid = saleid;
-        this.carid = carid;
-        this.custid = custid;
+        this.saleId = saleId;
+        this.carId = carId;
+        this.custId = custId;
     }
 
     public String getId() {
@@ -40,28 +43,30 @@ public class Invoice {
         this.date = date;
     }
 
-    public String getSaleid() {
-        return saleid;
+    public String getSaleId() {
+        return saleId;
     }
 
-    public void setSaleid(String saleid) {
-        this.saleid = saleid;
+    public void setSaleId(String saleId) {
+        this.saleId = saleId;
     }
 
-    public String getCarid() {
-        return carid;
+    public String getCarId() {
+        return carId;
     }
 
-    public void setCarid(String carid) {
-        this.carid = carid;
+    public void setCarId(String carId) {
+        this.carId = carId;
     }
 
-    public String getCustid() {
-        return custid;
+    public String getCustId() {
+        return custId;
     }
 
-    public void setCustid(String custid) {
-        this.custid = custid;
+    public void setCustId(String custId) {
+        this.custId = custId;
     }
+
+    
     
 }

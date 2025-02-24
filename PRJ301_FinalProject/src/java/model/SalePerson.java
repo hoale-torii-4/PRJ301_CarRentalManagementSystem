@@ -12,16 +12,19 @@ package model;
 public class SalePerson {
     private String id;
     private String name;
-    private String bd;
+    private String yearOfBirth;
     private String address;
     private String sex;
 
-    public SalePerson(String id, String name, String bd, String address, String sex) {
+    public SalePerson(String id, String name, String yearOfBirth, String address, String sex) {
         this.id = id;
         this.name = name;
-        this.bd = bd;
+        this.yearOfBirth = yearOfBirth;
         this.address = address;
         this.sex = sex;
+    }
+
+    public SalePerson() {
     }
 
     public String getId() {
@@ -40,12 +43,12 @@ public class SalePerson {
         this.name = name;
     }
 
-    public String getBd() {
-        return bd;
+    public String getYearOfBirth() {
+        return yearOfBirth;
     }
 
-    public void setBd(String bd) {
-        this.bd = bd;
+    public void setYearOfBirth(String yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
     }
 
     public String getAddress() {
@@ -63,5 +66,8 @@ public class SalePerson {
     public void setSex(String sex) {
         this.sex = sex;
     }
+    
+
+    
     
 }
