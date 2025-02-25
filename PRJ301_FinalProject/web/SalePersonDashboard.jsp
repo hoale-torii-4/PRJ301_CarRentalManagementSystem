@@ -1,7 +1,7 @@
 <%-- 
-    Document   : QUAMETMOI
-    Created on : Feb 23, 2025, 2:43:47 PM
-    Author     : LENOVO
+    Document   : SalePersonDashBoard
+    Created on : Feb 24, 2025, 12:14:48 PM
+    Author     : hoang
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Welcome......<%= session.getAttribute("user") %>!</h1>
     </body>
 </html>

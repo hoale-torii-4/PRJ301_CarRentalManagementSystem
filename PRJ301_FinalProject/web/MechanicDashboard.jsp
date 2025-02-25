@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newjsp
-    Created on : Feb 23, 2025, 2:19:16 PM
-    Author     : HOA LE
+    Document   : MechanicDashboard
+    Created on : Feb 24, 2025, 12:16:47 PM
+    Author     : hoang
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Welcome......</h1>
     </body>
 </html>
