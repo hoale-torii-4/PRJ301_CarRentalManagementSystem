@@ -4,18 +4,20 @@
  */
 package controller;
 
+import DAO.CRUDPartCarDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.CarParts;
 
 /**
  *
- * @author HOA LE
+ * @author LENOVO
  */
-public class MainServlet extends HttpServlet {
+public class DeleteCarPartServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,15 +33,20 @@ public class MainServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MainServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MainServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String partID = request.getParameter("carPartID");
+            String action = request.getParameter("action");
+            CRUDPartCarDAO carDAO = new CRUDPartCarDAO();
+            if (partID == null || partID.isEmpty()) {
+                request.setAttribute("updateMess", "Id is null");
+            } else {
+                if (carDAO.DeleteCarPart(partID)) {
+                    request.setAttribute("updateMess", "Deleted Part successfully!");
+                } else {
+                    request.setAttribute("updateMess", "Deleted Part fail!");
+                }
+            }
+            ;
+            request.getRequestDispatcher("FindCarPart.jsp").forward(request, response);
         }
     }
 

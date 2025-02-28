@@ -1,12 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>MainServlet</servlet-name>
-        <servlet-class>controller.MainServlet</servlet-class>
+        <servlet-name>FindCarPartServlet</servlet-name>
+        <servlet-class>controller.FindCarPartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdatePartServlet</servlet-name>
+        <servlet-class>controller.UpdatePartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreatePartCarServlet</servlet-name>
+        <servlet-class>controller.CreatePartCarServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteCarPartServlet</servlet-name>
+        <servlet-class>controller.DeleteCarPartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaticCarSoldByYearServlet</servlet-name>
+        <servlet-class>controller.StaticCarSoldByYearServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaticBestUsedPartServlet</servlet-name>
+        <servlet-class>controller.StaticBestUsedPartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ThreeMechanicServlet</servlet-name>
+        <servlet-class>controller.ThreeMechanicServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/MainServlet</url-pattern>
+        <servlet-name>FindCarPartServlet</servlet-name>
+        <url-pattern>/FindCarPartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdatePartServlet</servlet-name>
+        <url-pattern>/UpdatePartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatePartCarServlet</servlet-name>
+        <url-pattern>/CreatePartCarServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCarPartServlet</servlet-name>
+        <url-pattern>/DeleteCarPartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaticCarSoldByYearServlet</servlet-name>
+        <url-pattern>/StaticCarSoldByYearServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaticBestUsedPartServlet</servlet-name>
+        <url-pattern>/StaticBestUsedPartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThreeMechanicServlet</servlet-name>
+        <url-pattern>/ThreeMechanicServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
