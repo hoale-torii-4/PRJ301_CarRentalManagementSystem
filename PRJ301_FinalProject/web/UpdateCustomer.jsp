@@ -17,21 +17,41 @@
             Customer customer = customerDAO.getCustomerById(custID); // Lấy thông tin khách hàng từ CSDL
         %>
 
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Sex</th>
+                <th>Address</th>
+            </tr>
+            <tr>
+                <td><%= customer.getCustID()%></td>
+                <td><%= customer.getCustName()%></td>
+                <td><%= customer.getPhone()%></td>
+                <td>
+                    <%= (customer.getSex() != null && customer.getSex().trim().equalsIgnoreCase("M")) ? "Male" : "Female"%>
+                </td>
+                <td><%= customer.getCustAddress()%></td>
+            </tr>
+        </table>
+
+
         <!-- Form sửa thông tin khách hàng -->
         <form action="UpdateCustomerServlet" method="post">
-            <input type="hidden" name="id" value="<%= customer.getCustID() %>"/>
+            <input type="hidden" name="id" value="<%= customer.getCustID()%>"/>
 
             <label for="name">Name:</label>
-            <input type="text" name="name" value="<%= customer.getCustName() %>" required /><br/>
+            <input type="text" name="name"   /><br/>
 
             <label for="phone">Phone:</label>
-            <input type="text" name="phone" value="<%= customer.getPhone() %>" required /><br/>
+            <input type="text" name="phone"  /><br/>
 
             <label for="sex">Sex:</label>
-            <input type="radio" name="sex" value="M" <%= customer.getSex().equals("M") ? "checked" : "" %> /> Male
-            <input type="radio" name="sex" value="F" <%= customer.getSex().equals("F") ? "checked" : "" %> /> Female
+            <input type="radio" name="sex" value="M" <%= customer.getSex().equals("M") ? "checked" : ""%> /> Male
+            <input type="radio" name="sex" value="F" <%= customer.getSex().equals("F") ? "checked" : ""%> /> Female<br/>
             <label for="address">Address:</label>
-            <input type="text" name="address" value="<%= customer.getCustAddress() %>" required /><br/> 
+            <input type="text" name="address"  /><br/> 
 
 
             <input type="submit" value="Update"/>

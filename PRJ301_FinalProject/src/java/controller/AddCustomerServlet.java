@@ -4,7 +4,7 @@
  */
 package controller;
 
-import DAO.CustomerDAO;
+import DAO.CRUDCustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -34,25 +34,28 @@ public class AddCustomerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
+       try (PrintWriter out = response.getWriter()) {
+            try {
             String name = request.getParameter("name");
             String phone = request.getParameter("phone");
             String sex = request.getParameter("sex");
             String address = request.getParameter("address");
+
+            CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
+            Customer newCustomer = new Customer(0, name, phone, sex, address);
             
-             Customer newCustomer = new Customer(Integer.parseInt(id),name,phone,sex,address);
-             CustomerDAO customerDAO = new CustomerDAO();
-             boolean isAdded = customerDAO.addCustomer(newCustomer);
-       try (PrintWriter out = response.getWriter()) {
-            if (isAdded) {
-                // Thêm thành công, hiển thị thông báo thành công
-                out.println("<h3 style='color:green;'>Customer added successfully!</h3>");
-                out.println("<a href='ListCustomer.jsp'>Back to home page</a>");
+            int custID = customerDAO.addCustomer(newCustomer);
+
+            if (custID > 0) {
+                response.sendRedirect("CreateInvoice.jsp?custID=" + custID); // Chuyển hướng sang tạo Invoice
             } else {
-                // Nếu có lỗi khi thêm, hiển thị thông báo lỗi
-                out.println("<h3 style='color:red;'>Failed to add customer.</h3>");
-                out.println("<a href='AddCustomer.jsp'>Try again</a>");
+                response.sendRedirect("ListCustomer.jsp?error=add_failed"); // Chuyển hướng nếu lỗi
             }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("ListCustomer.jsp?error=invalid_data");
+        }
         }
     }
     

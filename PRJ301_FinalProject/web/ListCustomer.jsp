@@ -1,6 +1,6 @@
+<%@page import="DAO.CRUDCustomerDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
-<%@page import="DAO.CustomerDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -31,38 +31,48 @@
             <input type="text" name="search" id="search" placeholder="Enter name" />
             <input type="submit" value="Search" />
         </form>
-        <!-- Hiển thị thông báo cập nhật thành công/thất bại -->
+
         <%
-            String updateMessage = (String) request.getAttribute("updateMessage");
-            if (updateMessage != null) {
-                if (updateMessage.equals("Customer updated successfully!")) {
+            String success = request.getParameter("success");
+            String error = request.getParameter("error");
         %>
-            <div class="success-message"><%= updateMessage %></div>
-        <%
-                } else {
-        %>
-            <div class="error-message"><%= updateMessage %></div>
-        <%
-                }
-            }
-        %>
+        <!-- thong báo delete -->
+        <% if ("1".equals(success)) { %>
+        <div class="message success"> Customer deleted successfully!</div>
+        <% } else if ("1".equals(error)) { %>
+        <div class="message error"> Customer deleted failed !</div>
+        <% } else if ("invalid_id".equals(error)) { %>
+        <div class="message error">️ ID khách hàng không hợp lệ!</div>
+        <% } %>
+        <!-- add thành công -->
+        <% if ("add".equals(success)) { %>
+        <div class="message success">Customer add successfully!</div>
+        <% } else if ("add_failed".equals(error)) { %>
+        <div class="message error">❌ Customer add failed !</div>
+        <% } else if ("invalid_data".equals(error)) { %>
+        <div class="message error">Invalid Data!!!</div>
+        <% } %>
+        <!-- comment -->
+        <% if ("update".equals(success)) { %>
+        <div class="message success">Customer updated successfully!</div>
+        <% } else if ("update_failed".equals(error)) { %>
+        <div class="message error">Customer updated fail!!</div>
+        <% } else if ("invalid_id".equals(error)) { %>
+        <div class="message error">⚠️ ID Invalid </div>
+        <% } %>
         <!-- hien thi danh sach khach hang khi click vào -->
         <h3><a href="ListCustomer.jsp?list=true">List Customers</a></h3>
-        
+
         <%
-            // Kiểm tra nếu người dùng nhấn "List Customers"
             String listCustomers = request.getParameter("list");
             String searchQuery = request.getParameter("search");
 
-            // Lấy danh sách khách hàng từ CustomerDAO
-            CustomerDAO customerDAO = new CustomerDAO();
+            CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
             ArrayList<Customer> customers = null;
-
-            // Nếu có tìm kiếm, lọc theo tên
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
                 customers = customerDAO.searchCustomersByName(searchQuery);
             } else if ("true".equals(listCustomers)) {
-                customers = customerDAO.getCustomers(); // Lấy tất cả khách hàng nếu không có tìm kiếm
+                customers = customerDAO.getCustomers();
             }
 
             if (customers != null && !customers.isEmpty()) {
@@ -89,7 +99,8 @@
                 <td><%= customer.getCustAddress()%></td>
                 <td>
                     <a href="UpdateCustomer.jsp?id=<%= customer.getCustID()%>">Update</a> |
-                    <a href="DeleteCustomerServlet?id=<%= customer.getCustID()%>">Delete</a>
+                    <a href="DeleteCustomerServlet?id=<%= customer.getCustID()%>">Delete</a>|
+                    <a href="CreateInvoice.jsp?id=<%= customer.getCustID()%>">Create Invoice</a> 
                 </td>
             </tr>
             <%

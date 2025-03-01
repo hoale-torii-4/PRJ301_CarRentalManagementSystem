@@ -9,17 +9,17 @@ package model;
  *
  * @author user
  */
-public class Invoice {
+public class SalesInvoice {
     private String id;
     private String date;
     private String saleId;
     private String carId;
     private String custId;
 
-    public Invoice() {
+    public SalesInvoice() {
     }
 
-    public Invoice(String id, String date, String saleId, String carId, String custId) {
+    public SalesInvoice(String id, String date, String saleId, String carId, String custId) {
         this.id = id;
         this.date = date;
         this.saleId = saleId;

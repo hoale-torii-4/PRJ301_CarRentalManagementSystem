@@ -24,45 +24,38 @@ public class LoginStaffServlet extends HttpServlet {
         String name = request.getParameter("name");
         String selectedRole = request.getParameter("role");
         if (name != null) {
-            SalePersonDAO salePersonDAO = new SalePersonDAO();
-            SalePerson salePerson = salePersonDAO.checkLogin(name);
+            HttpSession session = request.getSession(true);
             
-            if (salePerson != null) {
-                if (!"SalePerson".equals(selectedRole)) {
-                    request.setAttribute("errorMessage", "Login failed: Incorrect role selected");
-                    request.getRequestDispatcher("LoginStaffPage.jsp").forward(request, response);
+            if ("SalePerson".equals(selectedRole)) {
+                SalePersonDAO salePersonDAO = new SalePersonDAO();
+                SalePerson salePerson = salePersonDAO.checkLogin(name);
+                
+                if (salePerson != null) {
+                    session.setAttribute("user", salePerson.getName());
+                    session.setAttribute("salesID", salePerson.getId()); // Lưu Salesperson ID vào session
+                    session.setAttribute("role", "SalePerson");
+                    response.sendRedirect("SalePersonDashboard.jsp");
                     return;
                 }
-                HttpSession session = request.getSession(true);
-                session.setAttribute("user", salePerson.getName());
-                session.setAttribute("role", "SalePerson");
-                response.sendRedirect("MainServlet?action=home");
-                return;
             }
             
-            MechanicDAO mechanicDAO = new MechanicDAO();
-            Mechanic mechanic = mechanicDAO.checkLogin(name);
-            
-            if (mechanic != null) {
-                if (!"Mechanic".equals(selectedRole)) {
-                    request.setAttribute("errorMessage", "Login failed: Incorrect role selected");
-                    request.getRequestDispatcher("LoginStaffPage.jsp").forward(request, response);
+            if ("Mechanic".equals(selectedRole)) {
+                MechanicDAO mechanicDAO = new MechanicDAO();
+                Mechanic mechanic = mechanicDAO.checkLogin(name);
+                
+                if (mechanic != null) {
+                    session.setAttribute("user", mechanic.getName());
+                    session.setAttribute("mechanicID", mechanic.getId()); // Lưu Mechanic ID vào session
+                    session.setAttribute("role", "Mechanic");
+                    response.sendRedirect("MechanicDashboard.jsp");
                     return;
                 }
-                HttpSession session = request.getSession(true);
-                session.setAttribute("user", mechanic.getName());
-                session.setAttribute("role", "Mechanic");
-                response.sendRedirect("MainServlet?action=home");
-                return;
             }
             
-            System.out.println("❌ Login failed: No matching user found");
-            request.setAttribute("errorMessage", "Login failed: Invalid Name");
+            request.setAttribute("errorMessage", "Login failed: Invalid credentials or role selection");
             request.getRequestDispatcher("LoginStaffPage.jsp").forward(request, response);
         }
     }
-
-    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

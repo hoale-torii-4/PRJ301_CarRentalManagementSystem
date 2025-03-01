@@ -15,7 +15,7 @@ import mylib.DBUtils;
  *
  * @author hoang
  */
-public class CustomerDAO {
+public class CRUDCustomerDAO {
 
     public ArrayList<Customer> getCustomers() {
         ArrayList<Customer> list = new ArrayList();
@@ -24,7 +24,8 @@ public class CustomerDAO {
             cn = DBUtils.getConnection();
             if (cn != null) {
                 String sql = "select custID,custName,phone,sex,cusAddress\n"
-                        + "from dbo.Customer\n";
+                        + "from dbo.Customer\n"
+                        + "where status = 1";
                 PreparedStatement st = cn.prepareStatement(sql);
                 ResultSet table = st.executeQuery();
                 if (table != null) {
@@ -55,66 +56,62 @@ public class CustomerDAO {
     }
     //
 
-    public boolean addCustomer(Customer customer) {
-        Connection cn = null;
-        PreparedStatement st = null;
-        boolean isAdded = false;
+    public int addCustomer(Customer customer) {
+    int custID = 0; 
+    int newID = 10000;
 
-        try {
-            cn = DBUtils.getConnection();
-            if (cn != null) {
-                // Câu lệnh SQL để chèn dữ liệu vào bảng Customer
-                String sql = "INSERT INTO dbo.Customer (custID, custName, phone, sex, cusAddress) VALUES (?, ?, ?, ?, ?)";
-                st = cn.prepareStatement(sql);
+    try (Connection cn = DBUtils.getConnection()) {
+        if (cn != null) {
+            
+            String idQuery = "SELECT TOP 1 custID FROM dbo.Customer ORDER BY custID DESC";
+            PreparedStatement st = cn.prepareStatement(idQuery);
+            ResultSet rs = st.executeQuery();
 
-                // Thiết lập các tham số cho câu lệnh SQL
-                st.setInt(1, customer.getCustID()); // ID khách hàng
-                st.setString(2, customer.getCustName()); // Tên khách hàng
-                st.setString(3, customer.getPhone()); // Số điện thoại
-                st.setString(4, customer.getSex()); // Giới tính
-                st.setString(5, customer.getCustAddress()); // Địa chỉ
-
-                // Thực thi câu lệnh
-                int rowsAffected = st.executeUpdate();
-
-                // Kiểm tra nếu số dòng bị ảnh hưởng > 0 thì thêm thành công
-                if (rowsAffected > 0) {
-                    isAdded = true;
-                }
+            if (rs.next()) {
+                newID = rs.getInt("custID") + 1;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            rs.close();
+            st.close();
+
+            
+            String sql = "INSERT INTO dbo.Customer (custID, custName, phone, sex, cusAddress) VALUES (?, ?, ?, ?, ?)";
+            st = cn.prepareStatement(sql);
+            st.setInt(1, newID);
+            st.setString(2, customer.getCustName());
+            st.setString(3, customer.getPhone());
+            st.setString(4, customer.getSex());
+            st.setString(5, customer.getCustAddress());
+
+            int row = st.executeUpdate();
+            if (row > 0) {
+                custID = newID;
             }
+
+            st.close();
         }
-        return isAdded; // Trả về true nếu thêm thành công, ngược lại trả về false
+    } catch (Exception e) {
+        e.printStackTrace();
     }
-    //
+    return custID;
+}
+
 
     public boolean deleteCustomer(int custID) {
         Connection cn = null;
         PreparedStatement st = null;
-        boolean isDeleted = false;
+        boolean isUpdated = false;
 
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "DELETE FROM Customer WHERE custID = ?";
+               
+                String sql = "UPDATE Customer SET status = 0 WHERE custID = ?";
                 st = cn.prepareStatement(sql);
                 st.setInt(1, custID);
 
                 int rowsAffected = st.executeUpdate();
                 if (rowsAffected > 0) {
-                    isDeleted = true;
+                    isUpdated = true;
                 }
             }
         } catch (Exception e) {
@@ -131,7 +128,7 @@ public class CustomerDAO {
                 e.printStackTrace();
             }
         }
-        return isDeleted;
+        return isUpdated;
     }
 
     public Customer getCustomerById(int custID) {
@@ -143,21 +140,20 @@ public class CustomerDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                // Câu lệnh SQL để lấy thông tin khách hàng theo custID
+             
                 String sql = "SELECT * FROM Customer WHERE custID = ?";
                 st = cn.prepareStatement(sql);
-                st.setInt(1, custID); // Đặt giá trị cho tham số ? (custID)
+                st.setInt(1, custID); 
 
                 rs = st.executeQuery();
 
                 if (rs != null && rs.next()) {
-                    // Nếu có kết quả, khởi tạo đối tượng Customer từ kết quả truy vấn
                     String name = rs.getString("custName");
                     String phone = rs.getString("phone");
                     String sex = rs.getString("sex");
                     String address = rs.getString("cusAddress");
 
-                    customer = new Customer(custID, name, phone, sex, address); // Tạo đối tượng Customer
+                    customer = new Customer(custID, name, phone, sex, address);
                 }
             }
         } catch (Exception e) {
@@ -177,7 +173,7 @@ public class CustomerDAO {
                 e.printStackTrace();
             }
         }
-        return customer; // Trả về đối tượng Customer hoặc null nếu không tìm thấy
+        return customer;
     }
 
     public ArrayList<Customer> searchCustomersByName(String name) {
@@ -195,8 +191,6 @@ public class CustomerDAO {
                 st.setString(1, "%" + name + "%"); // Tìm theo tên (custName)
 
                 rs = st.executeQuery();
-
-                // Duyệt qua kết quả và thêm vào danh sách
                 while (rs != null && rs.next()) {
                     int custID = rs.getInt("custID");
                     String custName = rs.getString("custName");

@@ -4,7 +4,7 @@
  */
 package controller;
 
-import DAO.CustomerDAO;
+import DAO.CRUDCustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -33,20 +33,25 @@ public class DeleteCustomerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
         try (PrintWriter out = response.getWriter()) {
-             CustomerDAO customerDAO = new CustomerDAO();
-        boolean isDeleted = customerDAO.deleteCustomer(id);
-        
-        if (isDeleted) {
-            response.sendRedirect("ListCustomer.jsp"); // Quay lại danh sách khách hàng
-        } else {
-            response.getWriter().println("<h3>Failed to delete customer.</h3>");
+            try {
+                int id = Integer.parseInt(request.getParameter("id"));
+                CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
+                boolean isDeleted = customerDAO.deleteCustomer(id);
+                if (isDeleted) {
+                    response.sendRedirect("ListCustomer.jsp?success=1"); // Thêm query parameter
+                } else {
+                    response.sendRedirect("ListCustomer.jsp?error=1");
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                response.sendRedirect("ListCustomer.jsp?error=invalid_id");
+            }
         }
-        }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

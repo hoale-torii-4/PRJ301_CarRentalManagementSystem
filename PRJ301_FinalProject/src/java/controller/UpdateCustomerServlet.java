@@ -4,7 +4,7 @@
  */
 package controller;
 
-import DAO.CustomerDAO;
+import DAO.CRUDCustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -32,31 +32,45 @@ public class UpdateCustomerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String phone = request.getParameter("phone");
-        String sex = request.getParameter("sex");
-        String address = request.getParameter("address");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            Customer updatedCustomer = new Customer(id, name, phone, sex, address);
+            try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
+            Customer oldCustomer = customerDAO.getCustomerById(id); // Lấy thông tin cũ từ database
 
-            // Cập nhật khách hàng trong cơ sở dữ liệu
-            CustomerDAO customerDAO = new CustomerDAO();
+            if (oldCustomer == null) {
+                response.sendRedirect("ListCustomer.jsp?error=customer_not_found");
+                return;
+            }
+
+            // Nhận dữ liệu mới từ form
+            String name = request.getParameter("name");
+            String phone = request.getParameter("phone");
+            String sex = request.getParameter("sex");
+            String address = request.getParameter("address");
+
+            // Nếu một trường trống, giữ nguyên giá trị cũ
+            if (name == null || name.trim().isEmpty()) name = oldCustomer.getCustName();
+            if (phone == null || phone.trim().isEmpty()) phone = oldCustomer.getPhone();
+            if (sex == null || sex.trim().isEmpty()) sex = oldCustomer.getSex();
+            if (address == null || address.trim().isEmpty()) address = oldCustomer.getCustAddress();
+
+            
+            // Tạo đối tượng khách hàng mới
+            Customer updatedCustomer = new Customer(id, name, phone, sex, address);
             boolean isUpdated = customerDAO.updateCustomer(updatedCustomer);
 
             if (isUpdated) {
-                // Nếu cập nhật thành công, thêm thông báo và chuyển hướng đến trang ListCustomer.jsp
-                request.setAttribute("updateMessage", "Customer updated successfully!");
+                response.sendRedirect("ListCustomer.jsp?success=update");
             } else {
-                // Nếu thất bại, thêm thông báo và chuyển hướng đến trang UpdateCustomer.jsp
-                request.setAttribute("updateMessage", "Failed to update customer.");
+                response.sendRedirect("ListCustomer.jsp?error=update_failed");
             }
-
-            // Chuyển hướng đến trang ListCustomer.jsp hoặc trang khác
-            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
-
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("ListCustomer.jsp?error=invalid_id");
         }
+    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
