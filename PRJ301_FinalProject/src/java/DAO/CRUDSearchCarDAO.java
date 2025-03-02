@@ -142,7 +142,7 @@ public class CRUDSearchCarDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "UPDATE [dbo].[Car] SET [status] = 0\n"
+                String sql = "UPDATE [dbo].[Cars] SET [status] = 0\n"
                         + "WHERE [carID] LIKE ?";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, "%" + carID + "%");

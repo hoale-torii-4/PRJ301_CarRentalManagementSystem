@@ -92,7 +92,7 @@ public class CRUDCarServlet extends HttpServlet {
                     carID = request.getParameter("carID").trim();
                     if(cRUDDAO.isDeleteCar(carID))
                         isCRUD = "Delete car ID " + carID + " Successful!!";
-                    else isCRUD = "Delete car ID" + carID + " Failed!! TRY AGAIN.";
+                    else isCRUD = "Delete car ID " + carID + " Failed!! TRY AGAIN.";
                     break;
 
             }
