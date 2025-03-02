@@ -6,29 +6,37 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Search Car</title>
     <script>
-        function fetchSuggestions() {
-            let query = document.getElementById("searchInput").value;
-            if (query.length < 1) return; // Không gọi nếu chưa nhập gì
+    function fetchSuggestions() {
+        let query = document.getElementById("searchInput").value;
+        if (query.length < 1) return; // Không gọi nếu chưa nhập gì
 
-            fetch("SearchCarServlet?query=" + query)
-                .then(response => response.json())
-                .then(data => {
-                    let dataList = document.getElementById("carSuggestions");
-                    dataList.innerHTML = ""; // Xóa gợi ý cũ
+        fetch("SearchCarServlet?query=" + encodeURIComponent(query))
+            .then(response => response.json())
+            .then(data => {
+                let dataList = document.getElementById("carSuggestions");
+                dataList.innerHTML = ""; // Xóa gợi ý cũ
 
-                    data.forEach(item => {
-                        let option = document.createElement("option");
-                        option.value = item;
-                        dataList.appendChild(option);
-                    });
-                })
-                .catch(error => console.error("Error fetching suggestions:", error));
-        }
+                data.forEach(item => {
+                    let option = document.createElement("option");
+                    option.value = item; // Gán toàn bộ giá trị gợi ý
+                    dataList.appendChild(option);
+                });
+            })
+            .catch(error => console.error("Error fetching suggestions:", error));
+    }
 
-        function autoSubmit() {
-            document.getElementById("searchForm").submit();
-        }
-    </script>
+    function autoSubmit() {
+        let inputField = document.getElementById("searchInput");
+        let selectedValue = inputField.value;
+
+        // Tách chuỗi: lấy phần trước dấu '-'
+        let serialNumber = selectedValue.split(" - ")[0].trim();
+        inputField.value = serialNumber; // Cập nhật lại giá trị input
+
+        document.getElementById("searchForm").submit(); // Gửi form
+    }
+</script>
+
 </head>
 <body>
     <h2>Search Car by Serial Number, Model, or Year</h2>
