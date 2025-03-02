@@ -1,17 +1,28 @@
-<%-- 
-    Document   : MechanicDashboard
-    Created on : Feb 24, 2025, 12:16:47 PM
-    Author     : hoang
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Welcome......</h1>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanic Dashboard</title>
+</head>
+<body>
+
+    <h1>Welcome, ${sessionScope.user}!</h1>
+    
+
+    <!-- Button for searching service tickets -->
+    <a href="ServiceTicket.jsp">
+        <button>Search & View Service Tickets</button>
+    </a>
+
+    <!-- Button for updating service tickets -->
+    <a href="updateTicket.jsp">
+        <button>Update Service Ticket</button>
+    </a>
+
+    
+
+</body>
 </html>

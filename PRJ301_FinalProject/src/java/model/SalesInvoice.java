@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author user
- */
 public class SalesInvoice {
-    private String id;
+    private int id; 
     private String date;
     private String saleId;
     private String carId;
@@ -19,7 +10,7 @@ public class SalesInvoice {
     public SalesInvoice() {
     }
 
-    public SalesInvoice(String id, String date, String saleId, String carId, String custId) {
+    public SalesInvoice(int id, String date, String saleId, String carId, String custId) {
         this.id = id;
         this.date = date;
         this.saleId = saleId;
@@ -27,11 +18,11 @@ public class SalesInvoice {
         this.custId = custId;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -66,7 +57,4 @@ public class SalesInvoice {
     public void setCustId(String custId) {
         this.custId = custId;
     }
-
-    
-    
 }

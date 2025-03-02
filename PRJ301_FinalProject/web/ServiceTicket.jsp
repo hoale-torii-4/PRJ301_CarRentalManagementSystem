@@ -20,13 +20,13 @@
     <input type="text" id="carID" name="carID" /><br/>
 
     <label for="dateReceived">Date Received (YYYY-MM-DD):</label>
-    <input type="text" id="dateReceived" name="dateReceived" /><br/>
+    <input type="date" id="dateReceived" name="dateReceived" /><br/>
 
     <input type="submit" value="Search" />
 </form>
 
 <!-- Display Service Tickets -->
-<h3>Service Tickets</h3>
+<h3><a href="ServiceTickets">Service Tickets</a></h3>
 <table border="1">
     <thead>
         <tr>
@@ -59,6 +59,6 @@
         %>
     </tbody>
 </table>
-
+<a href="MechanicDashboard.jsp"><button>Back to Dashboard</button></a>
 </body>
 </html>

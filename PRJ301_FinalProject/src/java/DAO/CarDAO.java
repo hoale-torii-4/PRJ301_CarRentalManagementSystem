@@ -1,66 +1,74 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import model.Car;
 import mylib.DBUtils;
 
-/**
- *
- * @author hoang
- */
 public class CarDAO {
-    public ArrayList<Car> getAllCars() {
-        ArrayList<Car> carList = new ArrayList<>();
-        String sql = "SELECT carID, serialNumber, model, color, year FROM Cars";
 
-        try (Connection conn = DBUtils.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                Car car = new Car(
-                    rs.getString("carID"),
-                    rs.getString("serialNumber"),
-                    rs.getString("model"),
-                    rs.getString("color"),
-                    rs.getInt("year")
-                );
-                carList.add(car);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-       
-        return carList;
-    }
-
-   
-    public String getCarID(String model, String color, int year) {
-        String carID = null;
-        String sql = "SELECT carID FROM Cars WHERE model = ? AND color = ? AND year = ?";
-
-        try (Connection conn = DBUtils.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, model);
-            stmt.setString(2, color);
-            stmt.setInt(3, year);
+    public List<String> getCarSuggestions(String keyword) {
+        List<String> suggestions = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            String sql = "SELECT carID, model,colour , year FROM Cars WHERE (model LIKE ? OR colour LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
+            PreparedStatement stmt = cn.prepareStatement(sql);
+            stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
+            stmt.setString(3, "%" + keyword + "%");
 
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                carID = rs.getString("carID");
+            while (rs.next()) {
+                String carInfo = rs.getString("CarID") + " - "+ rs.getString("colour")+ " - " + rs.getString("model") + " (" + rs.getInt("year") + ")";
+                suggestions.add(carInfo);
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) cn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
-        return carID;
+        return suggestions;
+    }
+
+    public List<Car> searchCars(String keyword) {
+        List<Car> searchResults = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            String sql = "SELECT carID, serialNumber, model, colour, year, price FROM Cars WHERE (model LIKE ? OR serialNumber LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
+            PreparedStatement stmt = cn.prepareStatement(sql);
+            stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
+            stmt.setString(3, "%" + keyword + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String carID = rs.getString("carID");
+                String serialNumber = rs.getString("serialNumber");
+                String model = rs.getString("model");
+                String colour = rs.getString("colour");
+                int year = rs.getInt("year");
+                String price = rs.getString("price");
+                searchResults.add(new Car(carID, serialNumber, model, colour, year, price));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) cn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return searchResults;
     }
 }

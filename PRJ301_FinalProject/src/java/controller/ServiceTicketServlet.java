@@ -21,14 +21,14 @@ public class ServiceTicketServlet extends HttpServlet {
         String carID = request.getParameter("carID");
         String dateReceived = request.getParameter("dateReceived");
 
-        // Create a DAO to get service tickets
+        
         ServiceTicketDAO dao = new ServiceTicketDAO();
         List<ServiceTicket> tickets = dao.getServiceTickets(custID, carID, dateReceived);
 
-        // Set the list of service tickets as a request attribute
+        
         request.setAttribute("serviceTickets", tickets);
 
-        // Forward the request to ServiceTicket.jsp for rendering
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("ServiceTicket.jsp");
         dispatcher.forward(request, response);
     }

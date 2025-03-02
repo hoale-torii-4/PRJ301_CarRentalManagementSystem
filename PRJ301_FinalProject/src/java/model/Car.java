@@ -10,23 +10,24 @@ package model;
  * @author user
  */
 public class Car {
+
     private String carId;
     private String serialNumber;
     private String model;
-    private String color;
+    private String colour;
     private int year;
-
-    public Car() {
-    }
-
-    public Car(String carId, String serialNumber, String model, String color, int year) {
+    private String price;
+    public Car(String carId, String serialNumber, String model, String colour, int year, String price) {
         this.carId = carId;
         this.serialNumber = serialNumber;
         this.model = model;
-        this.color = color;
+        this.colour = colour;
         this.year = year;
+        this.price = price;
     }
 
+    public Car() {
+    }
     public String getCarId() {
         return carId;
     }
@@ -51,12 +52,12 @@ public class Car {
         this.model = model;
     }
 
-    public String getColor() {
-        return color;
+    public String getColour() {
+        return colour;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setColour(String colour) {
+        this.colour = colour;
     }
 
     public int getYear() {
@@ -66,5 +67,15 @@ public class Car {
     public void setYear(int year) {
         this.year = year;
     }
- 
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+
+
 }

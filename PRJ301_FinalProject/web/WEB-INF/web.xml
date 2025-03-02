@@ -27,12 +27,16 @@
         <servlet-class>controller.DeleteCustomerServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CreateInvoiceServlet</servlet-name>
-        <servlet-class>controller.CreateInvoiceServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ServiceTicketServlet</servlet-name>
         <servlet-class>controller.ServiceTicketServlet</servlet-class>
+    </servlet>
+    <servlet>
+    <servlet-name>CreateInvoiceServlet</servlet-name>
+    <servlet-class>controller.CreateInvoiceServlet</servlet-class>
+</servlet>
+    <servlet>
+        <servlet-name>SearchCarServlet</servlet-name>
+        <servlet-class>controller.SearchCarServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
@@ -60,12 +64,16 @@
         <url-pattern>/DeleteCustomerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CreateInvoiceServlet</servlet-name>
-        <url-pattern>/CreateInvoiceServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ServiceTicketServlet</servlet-name>
         <url-pattern>/ServiceTickets</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>CreateInvoiceServlet</servlet-name>
+    <url-pattern>/CreateInvoiceServlet</url-pattern>
+</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchCarServlet</servlet-name>
+        <url-pattern>/SearchCarServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

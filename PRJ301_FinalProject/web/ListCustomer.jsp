@@ -24,7 +24,6 @@
     </head>
     <body>
 
-
         <!-- Form tìm kiếm khách hàng -->
         <form action="ListCustomer.jsp" method="get">
             <label for="search">Enter Customer's Name:</label>
@@ -60,6 +59,17 @@
         <% } else if ("invalid_id".equals(error)) { %>
         <div class="message error">⚠️ ID Invalid </div>
         <% } %>
+        <%                    
+            if ("create_invoice".equals(success)) {
+        %>
+        <div class="message success">Created Invoice successfully!</div>
+        <%
+            }
+            if ("create_invoice_failed".equals(error)) {
+        %>
+        <div class="message error">Created Invoice fail!!</div>
+        <%
+        }%> 
         <!-- hien thi danh sach khach hang khi click vào -->
         <h3><a href="ListCustomer.jsp?list=true">List Customers</a></h3>
 
@@ -100,7 +110,7 @@
                 <td>
                     <a href="UpdateCustomer.jsp?id=<%= customer.getCustID()%>">Update</a> |
                     <a href="DeleteCustomerServlet?id=<%= customer.getCustID()%>">Delete</a>|
-                    <a href="CreateInvoice.jsp?id=<%= customer.getCustID()%>">Create Invoice</a> 
+                    <a href="CreateInvoiceServlet?custId=<%= customer.getCustID()%>">Create Invoice</a>
                 </td>
             </tr>
             <%
