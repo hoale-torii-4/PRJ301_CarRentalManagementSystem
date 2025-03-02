@@ -76,7 +76,7 @@ public class CRUDSearchCarDAO {
                 st = cn.prepareStatement(sql);
                 st.setString(1, car.getSerialNumber());
                 st.setString(2, car.getModel());
-                st.setString(3, car.getColour());
+                st.setString(3, car.getColor());
                 st.setInt(4, car.getYear());
                 st.setString(5, car.getPrice());
                 st.setString(6, car.getCarId());
@@ -124,7 +124,7 @@ public class CRUDSearchCarDAO {
                 st.setInt(1,  newID );
                 st.setString(2, newCar.getSerialNumber());
                 st.setString(3, newCar.getModel());
-                st.setString(4, newCar.getColour());
+                st.setString(4, newCar.getColor());
                 st.setInt(5, newCar.getYear());
                 st.setString(6, newCar.getPrice());
                 int row = st.executeUpdate();
