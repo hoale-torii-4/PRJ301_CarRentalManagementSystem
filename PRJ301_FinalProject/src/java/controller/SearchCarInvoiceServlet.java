@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import model.Car;
 
 @WebServlet(name = "SearchCarServlet", urlPatterns = {"/SearchCarServlet"})
-public class SearchCarServlet extends HttpServlet {
+public class SearchCarInvoiceServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String keyword = request.getParameter("query");
         CarDAO carDAO = new CarDAO();
-        List<String> suggestions = carDAO.getCarSuggestions(keyword);
+        List<String> suggestions = carDAO.getCarSuggestions1(keyword);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

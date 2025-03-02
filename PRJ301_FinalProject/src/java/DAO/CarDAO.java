@@ -11,7 +11,7 @@ import mylib.DBUtils;
 
 public class CarDAO {
 
-    public List<String> getCarSuggestions(String keyword) {
+    public List<String> getCarSuggestions1(String keyword) {
         List<String> suggestions = new ArrayList<>();
         Connection cn = null;
         try {

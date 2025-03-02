@@ -13,7 +13,7 @@
 </head>
 <body>
     <h2>Staff Login</h2>
-    <form action="MainServlet" accept-charset="UTF-8">
+    <form action="LoginStaffServlet" accept-charset="UTF-8">
         <input type="hidden" name="action" value="login">
 
         <label for="name">Name:</label>
