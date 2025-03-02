@@ -44,6 +44,34 @@
 
                 document.getElementById("searchForm").submit(); // Gửi form
             }
+            function openUpdateModal(carID, serialNumber, model, colour, year, price) {
+                document.getElementById("updateCarID").value = carID;
+                document.getElementById("updateSerialNumber").value = serialNumber;
+                document.getElementById("updateModel").value = model;
+                document.getElementById("updateColour").value = colour;
+                document.getElementById("updateYear").value = year;
+                document.getElementById("updatePrice").value = price;
+
+                document.getElementById("updateCarModal").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+
+            function closeUpdateModal() {
+                document.getElementById("updateCarModal").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            }
+            function confirmDelete(carID) {
+                document.getElementById("deleteCarID").value = carID; // Gán ID xe vào form xóa
+                document.getElementById("deleteConfirmModal").style.display = "block";
+                document.getElementById("deleteOverlay").style.display = "block";
+            }
+
+            function closeDeleteModal() {
+                document.getElementById("deleteConfirmModal").style.display = "none";
+                document.getElementById("deleteOverlay").style.display = "none";
+            }
+
+
         </script>
 
     </head>
@@ -86,12 +114,12 @@
                     <option value="<%= year%>"><%= year%></option>
                     <% }%>
                 </select> <br>
-                
+
                 <button type="submit">Submit</button>
                 <button type="button" onclick="hideCreateForm()">Cancel</button>
             </form>
         </div>
-                    <h5><%=request.getAttribute("isCRUD")%></h5>
+        <h5><%=request.getAttribute("isCRUD")%></h5>
 
         <h3>Search Results:</h3>
 
@@ -118,8 +146,20 @@
                     <td><%= car.getModel()%></td>
                     <td><%= car.getColour()%></td>
                     <td><%= car.getYear()%></td>
-                    <td><%= car.getPrice() %></td>
-                    <td><a href="#">Detail</a></td>
+                    <td><%= car.getPrice()%></td>
+                    <td>
+                        <button type="button" onclick="openUpdateModal('<%= car.getCarId()%>', '<%= car.getSerialNumber()%>',
+                                        '<%= car.getModel()%>', '<%= car.getColour()%>', '<%= car.getYear()%>', '<%= car.getPrice()%>')">
+                            Update
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" onclick="confirmDelete('<%= car.getCarId()%>')">
+                            Delete
+                        </button>
+                    </td>
+
+
                 </tr>
                 <% } %>
             </tbody>
@@ -129,6 +169,63 @@
         %>
         <p>No results found.</p>
         <% }%>
+        <!-- Modal cập nhật xe (ẩn mặc định) -->
+        <div id="updateCarModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+             background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
+            <h3>Update Car Information</h3>
+            <form id="updateCarForm" action="CRUDCarServlet?cRUDAction=UPDATE" method="POST">
+                <input type="hidden" name="carID" id="updateCarID"> <!-- Ẩn ID xe -->
 
-</body>
+                <label>Serial Number:</label>
+                <input type="text" name="carSerialNumber" id="updateSerialNumber" required><br>
+
+                <label>Model:</label>
+                <input type="text" name="carModel" id="updateModel" required><br>
+
+                <label>Colour:</label>
+                <input type="text" name="carColour" id="updateColour" required><br>
+
+                <label>Price:</label>
+                <input type="text" name="carPrice" id="updatePrice" required><br>
+
+                <label>Year:</label>
+                <select name="carYear" id="updateYear">
+                    <option value="0">No Update</option>
+                    <%
+                        startYear = 2010;
+                        currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+                        for (int year = startYear; year <= currentYear; year++) {
+                    %>
+                    <option value="<%= year%>"><%= year%></option>
+                    <% }%>
+                </select><br>
+
+                <button type="submit">Update</button>
+                <button type="button" onclick="closeUpdateModal()">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Overlay để che nền -->
+        <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+             background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeUpdateModal()"></div>
+             
+             
+        <!-- Modal xác nhận xóa -->
+        <div id="deleteConfirmModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+             background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
+            <h3>Are you sure you want to delete this car?</h3>
+            <form id="deleteCarForm" action="CRUDCarServlet?cRUDAction=DELETE" method="POST">
+                <input type="hidden" name="carID" id="deleteCarID"> <!-- ID xe cần xóa -->
+                <button type="submit">Yes</button>
+                <button type="button" onclick="closeDeleteModal()">No</button>
+            </form>
+        </div>
+
+        <!-- Overlay để che nền -->
+        <div id="deleteOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+             background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeDeleteModal()"></div>
+
+
+
+    </body>
 </html>
