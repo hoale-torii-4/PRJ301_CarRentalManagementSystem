@@ -10,20 +10,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author HOA LE
  */
-public class MainServlet extends HttpServlet {
-
-    public final String HOME = "HOME";
-    public String url = "CustomerDashboardPage.jsp";
-    public final String LOGIN = "LOGIN";
-    public final String REGISTER = "REGISTER";
-    public final String VIEWCART = "VIEWCART";
-    public final String SIGNUP = "SIGNUP";
-    public final String STAFF = "STAFF";
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,33 +30,14 @@ public class MainServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String ac = request.getParameter("action");
-            if (ac == null) {
-                ac = HOME;
-            }
-            switch (ac) {
-                case HOME:
-                    url = "CustomerDashboardPage.jsp";
-                    break;
-                case LOGIN:
-                    url = "LoginCustomerServlet";
-                    break;
-                case STAFF:
-                    url = "LoginStaffPage.jsp";
-                    break;
-                case SIGNUP:
-                    url = "RegisterPage.jsp";
-                    break;
-                case REGISTER:
-                    url = "RegisterServlet";
-                    break;
-
-            }
-
-            request.getRequestDispatcher(url).forward(request, response);
+            HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // Xóa session
+        }
+           
+        request.getRequestDispatcher("MainServlet?action=HOME").forward(request, response) ;
         }
     }
 
