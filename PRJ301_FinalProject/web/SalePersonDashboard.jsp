@@ -1,3 +1,4 @@
+<%@page import="model.Car"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -50,20 +51,40 @@
         <button type="submit">Search</button>
     </form>
 
-    <h3>Search Results:</h3>
-    <ul>
-        <% 
-            List<String> searchResults = (List<String>) request.getAttribute("searchResults");
-            if (searchResults != null && !searchResults.isEmpty()) {
-                for (String car : searchResults) {
-        %>
-                    <li><%= car %></li>
-        <% 
-                }
-            } else { 
-        %>
-            <li>No results found.</li>
-        <% } %>
+<h3>Search Results:</h3>
+
+    <% 
+        List<Car> searchResults = (List<Car>) request.getAttribute("searchResults");
+        if (searchResults != null && !searchResults.isEmpty()) { 
+    %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Car ID</th>
+                    <th>Serial Number</th>
+                    <th>Model</th>
+                    <th>Colour</th>
+                    <th>Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (Car car : searchResults) { %>
+                <tr>
+                    <td><%= car.getCarId()%></td>
+                    <td><%= car.getSerialNumber() %></td>
+                    <td><%= car.getModel() %></td>
+                    <td><%= car.getColour()%></td>
+                    <td><%= car.getYear() %></td>
+
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% 
+        } else { 
+    %>
+        <p>No results found.</p>
+    <% } %>
     </ul>
 </body>
 </html>

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Car;
 import mylib.DBUtils;
 
 public class CarDAO {
@@ -38,12 +39,12 @@ public class CarDAO {
         return suggestions;
     }
 
-    public List<String> searchCars(String keyword) {
-        List<String> searchResults = new ArrayList<>();
+    public List<Car> searchCars(String keyword) {
+        List<Car> searchResults = new ArrayList<>();
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
-            String sql = "SELECT serialNumber, model, year FROM Cars WHERE (model LIKE ? OR serialNumber LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
+            String sql = "SELECT carID, serialNumber, model, colour, year FROM Cars WHERE (model LIKE ? OR serialNumber LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
             PreparedStatement stmt = cn.prepareStatement(sql);
             stmt.setString(1, "%" + keyword + "%");
             stmt.setString(2, "%" + keyword + "%");
@@ -51,8 +52,12 @@ public class CarDAO {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String carInfo = rs.getString("serialNumber") + " - " + rs.getString("model") + " (" + rs.getInt("year") + ")";
-                searchResults.add(carInfo);
+                String carID = rs.getString("carID");
+                String serialNumber = rs.getString("serialNumber");
+                String model = rs.getString("model");
+                String colour = rs.getString("colour");
+                int year = rs.getInt("year");
+                searchResults.add(new Car(carID, serialNumber, model, colour, year));
             }
         } catch (Exception e) {
             e.printStackTrace();

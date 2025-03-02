@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Car;
 
 @WebServlet(name = "SearchCarServlet", urlPatterns = {"/SearchCarServlet"})
 public class SearchCarServlet extends HttpServlet {
@@ -34,7 +35,7 @@ public class SearchCarServlet extends HttpServlet {
         String keyword = request.getParameter("query");
 
         CarDAO carDAO = new CarDAO();
-        List<String> searchResults = carDAO.searchCars(keyword);
+        List<Car> searchResults = carDAO.searchCars(keyword);
 
         request.setAttribute("searchQuery", keyword);
         request.setAttribute("searchResults", searchResults);
