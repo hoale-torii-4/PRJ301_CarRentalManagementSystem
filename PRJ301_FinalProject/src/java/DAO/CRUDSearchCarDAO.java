@@ -27,24 +27,21 @@ public class CRUDSearchCarDAO {
                         + ",[model]\n"
                         + ",[colour]\n"
                         + ",[year]\n"
-                        + ",[status]\n"
+                        + ",[price]\n"
                         + "FROM [dbo].[Cars]\n"
-                        + "WHERE [carID] LIKE ?";
+                        + "WHERE [carID] LIKE ? AND status LIKE 1";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, cartID);
                 ResultSet table = st.executeQuery();
                 if (table != null) {
                     while (table.next()) {
-                        boolean status = table.getBoolean("status");
-                        if (status) {
                             String cartId = table.getString("carID");
                             String serialNumber = table.getString("serialNumber");
                             String model = table.getString("model");
                             String colour = table.getString("colour");
+                            String price =  table.getString("price");
                             int year = table.getInt("year");
-                            car = new Car(cartId, serialNumber, model, colour, year);
-
-                        }
+                            car = new Car(cartId, serialNumber, model, colour, year, price);
                     }
                 }
             }
@@ -74,13 +71,15 @@ public class CRUDSearchCarDAO {
                         + "      ,[model] = ?"
                         + "      ,[colour] = ?"
                         + "      ,[year] = ?"
-                        + " WHERE [carID] LIKE ?";
+                        +"       ,[price] = ?"
+                        + " WHERE [carID] LIKE ? AND status LIKE 1";
                 st = cn.prepareStatement(sql);
                 st.setString(1, car.getSerialNumber());
                 st.setString(2, car.getModel());
                 st.setString(3, car.getColour());
                 st.setInt(4, car.getYear());
-                st.setString(5, car.getCarId());
+                st.setString(5, car.getPrice());
+                st.setString(6, car.getCarId());
                 int rowsAffected = st.executeUpdate();
                 if (rowsAffected > 0) {
                     isUpdated = true;
@@ -119,14 +118,15 @@ public class CRUDSearchCarDAO {
                     newID = rs.getInt("carID") + 1;
                 }
 
-                sql = "INSERT [dbo].[Cars] ([carID], [serialNumber], [model], [colour], [year])\n"
-                        + "VALUES (?,?,?,?,?)";
+                sql = "INSERT [dbo].[Cars] ([carID], [serialNumber], [model], [colour], [year],[price])\n"
+                        + "VALUES (?,?,?,?,?,?)";
                 st = cn.prepareStatement(sql);
-                st.setString(1, "%" + newID + "%");
+                st.setInt(1,  newID );
                 st.setString(2, newCar.getSerialNumber());
                 st.setString(3, newCar.getModel());
                 st.setString(4, newCar.getColour());
                 st.setInt(5, newCar.getYear());
+                st.setString(6, newCar.getPrice());
                 int row = st.executeUpdate();
                 return row > 0;
             }

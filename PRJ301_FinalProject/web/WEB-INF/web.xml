@@ -21,7 +21,7 @@
         <servlet-class>controller.ChangeProfileCustomerServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CRUDSearchCarServlet</servlet-name>
+        <servlet-name>CRUDCarServlet</servlet-name>
         <servlet-class>controller.CRUDCarServlet</servlet-class>
     </servlet>
     <servlet>
@@ -49,8 +49,8 @@
         <url-pattern>/ChangeProfileCustomerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CRUDSearchCarServlet</servlet-name>
-        <url-pattern>/CRUDSearchCarServlet</url-pattern>
+        <servlet-name>CRUDCarServlet</servlet-name>
+        <url-pattern>/CRUDCarServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SearchCarServlet</servlet-name>

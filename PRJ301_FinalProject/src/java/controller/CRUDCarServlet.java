@@ -23,7 +23,7 @@ public class CRUDCarServlet extends HttpServlet {
     final String CREATE = "CREATE";
     final String UPDATE = "UPDATE";
     final String DELETE = "DELETE";
-    String url = "CustomerDashboardPage.jsp";
+    String url = "SalePersonDashboard.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,13 +49,16 @@ public class CRUDCarServlet extends HttpServlet {
             String model;
             String colour;
             int year;
+            String price;
             switch (cRUDAction) {
                 case CREATE:
                     serialNumber = request.getParameter("carSerialNumber").trim();
                     model = request.getParameter("carModel").trim();
-                    colour = request.getParameter("carClour").trim();
+                    colour = request.getParameter("carColour").trim();
                     year = Integer.parseInt(request.getParameter("carYear").trim());
-                    car = new Car(carID, serialNumber, model, colour, year);
+                    price = request.getParameter("carPrice");
+                    
+                    car = new Car(carID, serialNumber, model, colour, year, price);
                     if (cRUDDAO.isCreateCar(car)) {
                         isCRUD = "Create new car Successful!!";
                     } else {
@@ -67,8 +70,9 @@ public class CRUDCarServlet extends HttpServlet {
                     car = cRUDDAO.getCarByID(carID);
                     serialNumber = request.getParameter("carSerialNumber").trim();
                     model = request.getParameter("carModel").trim();
-                    colour = request.getParameter("carClour").trim();
+                    colour = request.getParameter("carColour").trim();
                     year = Integer.parseInt(request.getParameter("carYear").trim());
+                    price = request.getParameter("carPrice").trim();
                     if(serialNumber == null || serialNumber.trim().isEmpty())
                         serialNumber = car.getSerialNumber();
                     if(model == null || model.trim().isEmpty())
@@ -77,7 +81,9 @@ public class CRUDCarServlet extends HttpServlet {
                         colour = car.getColour();
                     if(year == 0)
                        year = car.getYear();
-                    car = new Car(carID, serialNumber, model, colour, year);
+                    if(price == null || price.trim().isEmpty())
+                        price = car.getPrice();
+                    car = new Car(carID, serialNumber, model, colour, year, price);
                     if(cRUDDAO.isUpdateCar(car))
                         isCRUD = "Update car Successful!!";
                     else isCRUD = "Update car Failed!! TRY AGAIN.";

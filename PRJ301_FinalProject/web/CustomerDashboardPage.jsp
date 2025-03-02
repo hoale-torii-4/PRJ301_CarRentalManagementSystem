@@ -75,9 +75,8 @@
 
         <%
            }
-           String r = request.getParameter("isCRUD");
-           out.print(r);
+           
         %>
-
+        <a href="SalePersonDashboard.jsp">Sale Person</a>
     </body>
 </html>
