@@ -88,7 +88,7 @@
         </form>
 
         <button type="submit" onclick="autoSubmit()">View List ALL CAR</button>
-        <button type="button" onclick="showCreateForm()">Create</button>
+        <button type="button" onclick="showCreateForm()">Add new Car</button>
 
         <!-- Form nhập thông tin xe (Ẩn mặc định) -->
         <div id="createCarForm" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
@@ -119,7 +119,16 @@
                 <button type="button" onclick="hideCreateForm()">Cancel</button>
             </form>
         </div>
-        <h5><%=request.getAttribute("isCRUD")%></h5>
+                
+                
+ <!-- In thông báo sau khi thực hiện CRUD -->
+<% 
+    if (request.getAttribute("isCRUD") != null) { 
+%>
+    <h4><%= request.getAttribute("isCRUD") %></h4>
+<% 
+    } 
+%>
 
         <h3>Search Results:</h3>
 
