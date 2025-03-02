@@ -78,7 +78,7 @@ public class CRUDCarServlet extends HttpServlet {
                     if(model == null || model.trim().isEmpty())
                         model = car.getModel();
                     if(colour == null || colour.trim().isEmpty())
-                        colour = car.getColour();
+                        colour = car.getColor();
                     if(year == 0)
                        year = car.getYear();
                     if(price == null || price.trim().isEmpty())
