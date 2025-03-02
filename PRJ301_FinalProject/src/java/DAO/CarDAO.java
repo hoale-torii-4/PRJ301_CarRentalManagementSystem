@@ -15,7 +15,7 @@ public class CarDAO {
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
-            String sql = "SELECT serialNumber, model, year FROM Cars WHERE model LIKE ? OR serialNumber LIKE ? OR year LIKE ?";
+            String sql = "SELECT serialNumber, model, year FROM Cars WHERE (model LIKE ? OR serialNumber LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
             PreparedStatement stmt = cn.prepareStatement(sql);
             stmt.setString(1, "%" + keyword + "%");
             stmt.setString(2, "%" + keyword + "%");
@@ -43,7 +43,7 @@ public class CarDAO {
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
-            String sql = "SELECT serialNumber, model, year FROM Cars WHERE model LIKE ? OR serialNumber LIKE ? OR year LIKE ?";
+            String sql = "SELECT serialNumber, model, year FROM Cars WHERE (model LIKE ? OR serialNumber LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
             PreparedStatement stmt = cn.prepareStatement(sql);
             stmt.setString(1, "%" + keyword + "%");
             stmt.setString(2, "%" + keyword + "%");

@@ -35,7 +35,7 @@
 
     <form id="searchForm" action="SearchCarServlet" method="POST">
         <input type="text" name="query" id="searchInput" list="carSuggestions" 
-               oninput="fetchSuggestions()" onchange="autoSubmit()" >
+               oninput="fetchSuggestions()" onchange="autoSubmit()">
 
         <datalist id="carSuggestions"></datalist>
 
