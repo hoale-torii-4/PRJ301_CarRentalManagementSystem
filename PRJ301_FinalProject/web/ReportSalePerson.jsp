@@ -14,7 +14,13 @@
     <body>
         <h1>REPORT FOR SALE PERSON</h1>
         <form action="StaticCarSoldByYear.jsp">
-            <input type="submit" value="Report Sale Person">
+            <input type="submit" value="Report of cars sold by year">
+        </form>
+        <form action="StaticCarRevenueByYear.jsp">
+            <input type="submit" value="Report of car sales revenue by year">
+        </form>
+        <form action="BestSellingCarModelServlet">
+            <input type="submit" value="Report of car best-selling car models">
         </form>
         <form action="StaticBestUsedPartServlet">
             <input type="submit" value="Report Best used part">

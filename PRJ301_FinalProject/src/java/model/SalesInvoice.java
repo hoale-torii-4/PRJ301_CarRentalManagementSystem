@@ -14,10 +14,11 @@ public class SalesInvoice {
     private String salesId;
     private String carId;
     private String custId;
+    
     public SalesInvoice() {
     }
 
-    public SalesInvoice(String invoiceId, String invoiceDate, String salesId, String carId, String custId, String status) {
+    public SalesInvoice(String invoiceId, String invoiceDate, String salesId, String carId, String custId) {
         this.invoiceId = invoiceId;
         this.invoiceDate = invoiceDate;
         this.salesId = salesId;

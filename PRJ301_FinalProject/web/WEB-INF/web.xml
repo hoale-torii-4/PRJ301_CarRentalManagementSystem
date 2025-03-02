@@ -28,6 +28,18 @@
         <servlet-name>ThreeMechanicServlet</servlet-name>
         <servlet-class>controller.ThreeMechanicServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateServiceTicketServlet</servlet-name>
+        <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaticCarRevenueByYearServlet</servlet-name>
+        <servlet-class>controller.StaticCarRevenueByYearServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BestSellingCarModelServlet</servlet-name>
+        <servlet-class>controller.BestSellingCarModelServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FindCarPartServlet</servlet-name>
         <url-pattern>/FindCarPartServlet</url-pattern>
@@ -55,6 +67,18 @@
     <servlet-mapping>
         <servlet-name>ThreeMechanicServlet</servlet-name>
         <url-pattern>/ThreeMechanicServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateServiceTicketServlet</servlet-name>
+        <url-pattern>/UpdateServiceTicketServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaticCarRevenueByYearServlet</servlet-name>
+        <url-pattern>/StaticCarRevenueByYearServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BestSellingCarModelServlet</servlet-name>
+        <url-pattern>/BestSellingCarModelServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import model.Car;
 import model.Mechanic;
 import model.PartUsed;
 import model.SalesInvoice;
@@ -42,7 +43,7 @@ public class ReportDAO {
                             String salesID = table.getString("salesID");
                             String carID = table.getString("carID");
                             String custID = table.getString("custID");
-                            si = new SalesInvoice(invoiceId, invoiceDate, salesID, carID, custID, custID);
+                            si = new SalesInvoice(invoiceId, invoiceDate, salesID, carID, custID);
                             list.add(si);
                         }
                     }
@@ -146,5 +147,69 @@ public class ReportDAO {
             }
         }
         return mapMechanic;
+    }
+
+    public HashMap<SalesInvoice, Double> mapInvoice(String year) {
+        HashMap<SalesInvoice, Double> map = new HashMap<>();
+        String sql = "SELECT SalesInvoice.invoiceID, SalesInvoice.invoiceDate, "
+                + "SalesInvoice.salesID, SalesInvoice.carID, SalesInvoice.custID, "
+                + "Cars.price, SalesInvoice.status "
+                + "FROM SalesInvoice JOIN Cars ON SalesInvoice.carID = Cars.carID "
+                + "WHERE YEAR(SalesInvoice.invoiceDate) = ?";
+
+        try (Connection cn = DBUtils.getConnection(); PreparedStatement st = cn.prepareStatement(sql)) {
+
+            st.setInt(1, Integer.parseInt(year));
+            try (ResultSet table = st.executeQuery()) {
+                while (table.next()) {
+                    if (table.getBoolean("status")) {
+                        String invoiceId = table.getString("invoiceID");
+                        String invoiceDate = table.getString("invoiceDate");
+                        String salesID = table.getString("salesID");
+                        String carID = table.getString("carID");
+                        String custID = table.getString("custID");
+                        double price = table.getDouble("price");
+
+                        SalesInvoice si = new SalesInvoice(invoiceId, invoiceDate, salesID, carID, custID);
+                        map.put(si, price);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Nên log lỗi thay vì in ra console trong môi trường sản xuất.
+        }
+
+        return map;
+    }
+
+    public HashMap<Car, Integer> bestSellingCarModel() {
+        HashMap<Car, Integer> map = new HashMap<>();
+        String sql = "SELECT Cars.carID,Cars.serialNumber,Cars.model,Cars.colour,Cars.year,Cars.price,COUNT(SalesInvoice.carID) AS NumberOfCarSold\n"
+                + "FROM SalesInvoice JOIN Cars ON SalesInvoice.carID = Cars.carID \n"
+                + "WHERE SalesInvoice.status = 1\n"
+                + "GROUP BY  Cars.carID,Cars.serialNumber,Cars.model,Cars.colour,Cars.year,Cars.price\n"
+                + "ORDER BY NumberOfCarSold DESC";
+
+        try (Connection cn = DBUtils.getConnection(); PreparedStatement st = cn.prepareStatement(sql)) {
+
+            try (ResultSet table = st.executeQuery()) {
+                while (table.next()) {
+                        String carID = table.getString("carID");
+                        String serialNumber = table.getString("serialNumber");
+                        String model = table.getString("model");
+                        String color = table.getString("colour");
+                        int year = table.getInt("year");
+                        double price = table.getDouble("price");
+                        int carNumber = table.getInt("NumberOfCarSold");
+
+                        Car car = new Car(carID, serialNumber, model, color, year, price);
+                        map.put(car, carNumber);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Nên log lỗi thay vì in ra console trong môi trường sản xuất.
+        }
+
+        return map;
     }
 }
