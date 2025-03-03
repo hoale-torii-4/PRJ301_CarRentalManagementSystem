@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import model.Car;
 
 @WebServlet(name = "SearchCarServlet", urlPatterns = {"/SearchCarServlet"})
-public class SearchCarInvoiceServlet extends HttpServlet {
+public class SearchCarServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String keyword = request.getParameter("query");
         CarDAO carDAO = new CarDAO();
-        List<String> suggestions = carDAO.getCarSuggestions1(keyword);
+        List<String> suggestions = carDAO.getCarSuggestions(keyword);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -40,6 +40,6 @@ public class SearchCarInvoiceServlet extends HttpServlet {
         request.setAttribute("searchQuery", keyword);
         request.setAttribute("searchResults", searchResults);
 
-        request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+        request.getRequestDispatcher("SalePersonDashboard.jsp").forward(request, response);
     }
 }

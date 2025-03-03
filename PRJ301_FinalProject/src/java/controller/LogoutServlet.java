@@ -4,20 +4,19 @@
  */
 package controller;
 
-import DAO.CRUDCustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Customer;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author hoang
+ * @author HOA LE
  */
-public class UpdateCustomerServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,46 +30,15 @@ public class UpdateCustomerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
-            Customer oldCustomer = customerDAO.getCustomerById(id); // Lấy thông tin cũ từ database
-
-            if (oldCustomer == null) {
-                response.sendRedirect("ListCustomer.jsp?error=customer_not_found");
-                return;
-            }
-
-            // Nhận dữ liệu mới từ form
-            String name = request.getParameter("name");
-            String phone = request.getParameter("phone");
-            String sex = request.getParameter("sex");
-            String address = request.getParameter("address");
-
-            // Nếu một trường trống, giữ nguyên giá trị cũ
-            if (name == null || name.trim().isEmpty()) name = oldCustomer.getCustName();
-            if (phone == null || phone.trim().isEmpty()) phone = oldCustomer.getPhone();
-            if (sex == null || sex.trim().isEmpty()) sex = oldCustomer.getSex();
-            if (address == null || address.trim().isEmpty()) address = oldCustomer.getCustAddress();
-
-            
-            // Tạo đối tượng khách hàng mới
-            Customer updatedCustomer = new Customer(id, name, phone, sex, address);
-            boolean isUpdated = customerDAO.updateCustomer(updatedCustomer);
-
-            if (isUpdated) {
-                response.sendRedirect("ListCustomer.jsp?success=update");
-            } else {
-                response.sendRedirect("ListCustomer.jsp?error=update_failed");
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            response.sendRedirect("ListCustomer.jsp?error=invalid_id");
+            HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // Xóa session
         }
-    }
+           
+        request.getRequestDispatcher("CustomerDashboardPage.jsp").forward(request, response) ;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
