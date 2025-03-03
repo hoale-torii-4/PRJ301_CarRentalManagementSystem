@@ -14,14 +14,14 @@ public class Car {
     private String carId;
     private String serialNumber;
     private String model;
-    private String colour;
+    private String color;
     private int year;
     private String price;
-    public Car(String carId, String serialNumber, String model, String colour, int year, String price) {
+    public Car(String carId, String serialNumber, String model, String color, int year, String price) {
         this.carId = carId;
         this.serialNumber = serialNumber;
         this.model = model;
-        this.colour = colour;
+        this.color = color;
         this.year = year;
         this.price = price;
     }
@@ -52,12 +52,12 @@ public class Car {
         this.model = model;
     }
 
-    public String getColour() {
-        return colour;
+    public String getColor() {
+        return color;
     }
 
-    public void setColour(String colour) {
-        this.colour = colour;
+    public void setColor(String colour) {
+        this.color = colour;
     }
 
     public int getYear() {
