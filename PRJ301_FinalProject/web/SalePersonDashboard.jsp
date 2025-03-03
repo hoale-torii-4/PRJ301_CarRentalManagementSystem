@@ -153,12 +153,12 @@
                     <td><%= car.getCarId()%></td>
                     <td><%= car.getSerialNumber()%></td>
                     <td><%= car.getModel()%></td>
-                    <td><%= car.getColour()%></td>
+                    <td><%= car.getColor()%></td>
                     <td><%= car.getYear()%></td>
                     <td><%= car.getPrice()%></td>
                     <td>
                         <button type="button" onclick="openUpdateModal('<%= car.getCarId()%>', '<%= car.getSerialNumber()%>',
-                                        '<%= car.getModel()%>', '<%= car.getColour()%>', '<%= car.getYear()%>', '<%= car.getPrice()%>')">
+                                        '<%= car.getModel()%>', '<%= car.getColor()%>', '<%= car.getYear()%>', '<%= car.getPrice()%>')">
                             Update
                         </button>
                     </td>
