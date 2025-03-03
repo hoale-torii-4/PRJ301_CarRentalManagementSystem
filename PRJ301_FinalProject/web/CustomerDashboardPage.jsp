@@ -6,7 +6,6 @@
 
 <%@page import="model.Customer"%>
 <%@page import="model.Car"%>
-<%@page import="model.Invoice"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

@@ -35,13 +35,13 @@ public class CRUDSearchCarDAO {
                 ResultSet table = st.executeQuery();
                 if (table != null) {
                     while (table.next()) {
-                            String cartId = table.getString("carID");
-                            String serialNumber = table.getString("serialNumber");
-                            String model = table.getString("model");
-                            String colour = table.getString("colour");
-                            String price =  table.getString("price");
-                            int year = table.getInt("year");
-                            car = new Car(cartId, serialNumber, model, colour, year, price);
+                        String cartId = table.getString("carID");
+                        String serialNumber = table.getString("serialNumber");
+                        String model = table.getString("model");
+                        String colour = table.getString("colour");
+                        String price = table.getString("price");
+                        int year = table.getInt("year");
+                        car = new Car(cartId, serialNumber, model, colour, year, price);
                     }
                 }
             }
@@ -71,7 +71,7 @@ public class CRUDSearchCarDAO {
                         + "      ,[model] = ?"
                         + "      ,[colour] = ?"
                         + "      ,[year] = ?"
-                        +"       ,[price] = ?"
+                        + "       ,[price] = ?"
                         + " WHERE [carID] LIKE ? AND status LIKE 1";
                 st = cn.prepareStatement(sql);
                 st.setString(1, car.getSerialNumber());
@@ -105,23 +105,15 @@ public class CRUDSearchCarDAO {
 
     public boolean isCreateCar(Car newCar) {
         boolean isCreated = false;
-        int newID = 0;
         try {
             Connection cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT TOP 1 [carID]\n"
-                        + "FROM [dbo].[Cars]\n"
-                        + "ORDER BY [carID] DESC";
-                PreparedStatement st = cn.prepareStatement(sql);
-                ResultSet rs = st.executeQuery();
-                if (rs.next()) {
-                    newID = rs.getInt("carID") + 1;
-                }
+                long newID = System.currentTimeMillis();
 
-                sql = "INSERT [dbo].[Cars] ([carID], [serialNumber], [model], [colour], [year],[price])\n"
+                String sql = "INSERT [dbo].[Cars] ([carID], [serialNumber], [model], [colour], [year], [price]) "
                         + "VALUES (?,?,?,?,?,?)";
-                st = cn.prepareStatement(sql);
-                st.setInt(1,  newID );
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setLong(1, newID);
                 st.setString(2, newCar.getSerialNumber());
                 st.setString(3, newCar.getModel());
                 st.setString(4, newCar.getColor());
