@@ -14,10 +14,10 @@
     <body>
         <h1>Hello World!</h1>
         
-        <form action="MainServlet">
+        <form action="LoginStaffPage.jsp">
             <p style="border: 1px solid black">CUSTOMER   <input type="submit" name="action" value="STAFF"></p>
         </form>
-        <form action="MainServlet" accept-charset="UTF-8" method="POST">
+        <form action="LoginCustomerServlet" accept-charset="UTF-8" method="POST">
             
             <p>Full name : <input type="text" name="custName" placeholder="Enter your Name">* </p>
             <p>Phone: <input type="text" name="custPhone" placeholder="Enter your Phone number">* </p>

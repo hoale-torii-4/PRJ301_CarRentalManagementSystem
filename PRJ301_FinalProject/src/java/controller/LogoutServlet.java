@@ -37,7 +37,7 @@ public class LogoutServlet extends HttpServlet {
             session.invalidate(); // Xóa session
         }
            
-        request.getRequestDispatcher("MainServlet?action=HOME").forward(request, response) ;
+        request.getRequestDispatcher("CustomerDashboardPage.jsp").forward(request, response) ;
         }
     }
 
