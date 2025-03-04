@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@page import="DAO.CRUDCustomerDAO"%>
+
 <%@page import="model.Customer"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +15,9 @@
         <%
             // Lấy id khách hàng cần cập nhật từ URL
             int custID = Integer.parseInt(request.getParameter("id"));
+
             CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
+
             Customer customer = customerDAO.getCustomerById(custID); // Lấy thông tin khách hàng từ CSDL
         %>
 

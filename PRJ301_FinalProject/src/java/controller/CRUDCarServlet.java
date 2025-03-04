@@ -49,14 +49,15 @@ public class CRUDCarServlet extends HttpServlet {
             String model;
             String colour;
             int year;
-            String price;
+            double price;
             switch (cRUDAction) {
                 case CREATE:
                     serialNumber = request.getParameter("carSerialNumber").trim();
                     model = request.getParameter("carModel").trim();
                     colour = request.getParameter("carColour").trim();
                     year = Integer.parseInt(request.getParameter("carYear").trim());
-                    price = request.getParameter("carPrice");
+
+                    price = Double.parseDouble(request.getParameter("carPrice").trim());
                     
                     car = new Car(carID, serialNumber, model, colour, year, price);
                     if (cRUDDAO.isCreateCar(car)) {
@@ -72,7 +73,9 @@ public class CRUDCarServlet extends HttpServlet {
                     model = request.getParameter("carModel").trim();
                     colour = request.getParameter("carColour").trim();
                     year = Integer.parseInt(request.getParameter("carYear").trim());
-                    price = request.getParameter("carPrice").trim();
+
+                    price = Double.parseDouble(request.getParameter("carPrice").trim());
+
                     if(serialNumber == null || serialNumber.trim().isEmpty())
                         serialNumber = car.getSerialNumber();
                     if(model == null || model.trim().isEmpty())
@@ -81,7 +84,8 @@ public class CRUDCarServlet extends HttpServlet {
                         colour = car.getColor();
                     if(year == 0)
                        year = car.getYear();
-                    if(price == null || price.trim().isEmpty())
+
+                    if(price == 0 )
                         price = car.getPrice();
                     car = new Car(carID, serialNumber, model, colour, year, price);
                     if(cRUDDAO.isUpdateCar(car))
