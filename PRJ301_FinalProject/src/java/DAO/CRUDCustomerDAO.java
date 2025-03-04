@@ -129,7 +129,7 @@ public class CRUDCustomerDAO {
             cn = DBUtils.getConnection();
             if (cn != null) {
              
-                String sql = "SELECT * FROM Customer WHERE custID = ?";
+                String sql = "SELECT * FROM Customer WHERE custID = ? and status = 1";
                 st = cn.prepareStatement(sql);
                 st.setInt(1, custID); 
 
@@ -173,9 +173,9 @@ public class CRUDCustomerDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT * FROM Customer WHERE custName LIKE ?";
+                String sql = "SELECT * FROM Customer WHERE custName LIKE ? and status = 1";
                 st = cn.prepareStatement(sql);
-                st.setString(1, "%" + name + "%"); // Tìm theo tên (custName)
+                st.setString(1, "%" + name + "%"); 
 
                 rs = st.executeQuery();
                 while (rs != null && rs.next()) {

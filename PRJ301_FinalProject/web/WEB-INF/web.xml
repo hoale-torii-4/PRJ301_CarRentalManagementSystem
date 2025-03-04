@@ -72,6 +72,16 @@
         <servlet-class>controller.CarDetailServlet</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>UpdateCustomerServlet</servlet-name>
+        <servlet-class>controller.UpdateCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateServiceTicketServlet</servlet-name>
+        <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
+    </servlet>
+    
+    
     <!-- New servlets to be added -->
     <servlet>
         <servlet-name>AddCustomerServlet</servlet-name>
@@ -122,6 +132,10 @@
     <servlet-mapping>
         <servlet-name>LoginStaffServlet</servlet-name>
         <url-pattern>/LoginStaffServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateServiceTicketServlet</servlet-name>
+        <url-pattern>/UpdateServiceTicketServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginCustomerServlet</servlet-name>
@@ -226,6 +240,10 @@
     <servlet-mapping>
         <servlet-name>UpdateServiceMechanicServlet</servlet-name>
         <url-pattern>/UpdateServiceMechanicServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCustomerServlet</servlet-name>
+        <url-pattern>/UpdateCustomerServlet</url-pattern>
     </servlet-mapping>
 
     <!-- Session Configuration -->

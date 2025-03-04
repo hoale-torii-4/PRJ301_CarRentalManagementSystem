@@ -7,6 +7,7 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,11 +34,31 @@ public class LogoutServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate(); // Xóa session
-        }
-           
-        request.getRequestDispatcher("CustomerDashboardPage.jsp").forward(request, response) ;
+            if (session != null) {
+                session.invalidate(); // Xóa session
+            }
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie c : cookies) {
+                    if ("token".equals(c.getName())) {
+                        c.setValue("");
+                        c.setMaxAge(0);
+                        c.setPath("/PRJ301_FinalProject"); // Phải khớp với Path của cookie
+                        response.addCookie(c);
+                    }
+                    if ("JSESSIONID".equals(c.getName())) {
+                        c.setValue("");
+                        c.setMaxAge(0);
+                        c.setPath("/PRJ301_FinalProject"); // Phải khớp với Path của cookie
+                        response.addCookie(c);
+                    }
+
+                }
+            }
+
+            // Sau khi xóa cookie và invalidate session
+            response.sendRedirect("LoginCustomerPage.jsp");
+
         }
     }
 

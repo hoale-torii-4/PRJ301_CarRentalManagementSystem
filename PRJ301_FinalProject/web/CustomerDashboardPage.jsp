@@ -26,7 +26,9 @@
            } else {
         %>
 
-        <h2>Welcome <%= (kq == null) ? token : kq.getCustName() %> </h2>
+        <h2>Welcome <%= (kq == null) ? token : kq.getCustName() %></h2>
+        <%= token %>
+
 
 </select>
         <form action="CustomerDashboardPage.jsp" method="GET">
@@ -71,12 +73,12 @@
         </form>
 
         <h1>DASHBOARD</h1> 
-
+        
         <%
            }
            
         %>
-        <a href="SalePersonDashboard.jsp">Sale Person</a>
-        <a href="ViewServiceTicket?id=<%=kq.getCustID() %>">View Your Service Tickets</a>
+        <a href="ViewServiceTicket?id=<%=kq.getCustID()%>"><button>View My Service Ticket</button></a>
+        
     </body>
 </html>

@@ -8,6 +8,7 @@ package controller;
 import DAO.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -71,9 +72,9 @@ public class LoginCustomerServlet extends HttpServlet {
                        HttpSession s = request.getSession(true);
                        s.setAttribute("user", kq);
                        String save=request.getParameter("custSave");
-                       if (save!=null && save.equals("Save")) {
-                           Cookie cookie = new Cookie("token",  kq.getPhone());
-                           cookie.setMaxAge(300); 
+                       if (save!=null && save.equalsIgnoreCase("Save")) {
+                           Cookie cookie = new Cookie("token",  URLEncoder.encode(kq.getCustName(), "UTF-8"));
+                           cookie.setMaxAge(3000); 
                            response.addCookie(cookie);
                        }
                        response.sendRedirect("CustomerDashboardPage.jsp");
