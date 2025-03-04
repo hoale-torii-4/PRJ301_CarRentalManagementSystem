@@ -41,7 +41,7 @@
         <% } else if ("1".equals(error)) { %>
         <div class="message error"> Customer deleted failed !</div>
         <% } else if ("invalid_id".equals(error)) { %>
-        <div class="message error">️ ID khách hàng không hợp lệ!</div>
+        <div class="message error">️ ID invalid!!!</div>
         <% } %>
         <!-- add thành công -->
         <% if ("add".equals(success)) { %>
@@ -71,7 +71,7 @@
         <%
         }%> 
         <!-- hien thi danh sach khach hang khi click vào -->
-        <h3><a href="ListCustomer.jsp?list=true">List Customers</a></h3>
+        <button><a href="ListCustomer.jsp?list=true">List Customers</a></button>
 
         <%
             String listCustomers = request.getParameter("list");

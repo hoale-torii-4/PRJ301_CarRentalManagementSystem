@@ -73,7 +73,7 @@ public class LoginCustomerServlet extends HttpServlet {
                        String save=request.getParameter("custSave");
                        if (save!=null && save.equals("Save")) {
                            Cookie cookie = new Cookie("token",  kq.getPhone());
-                           cookie.setMaxAge(30000); 
+                           cookie.setMaxAge(300); 
                            response.addCookie(cookie);
                        }
                        response.sendRedirect("CustomerDashboardPage.jsp");

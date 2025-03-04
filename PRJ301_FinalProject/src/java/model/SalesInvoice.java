@@ -6,16 +6,18 @@ public class SalesInvoice {
     private String saleId;
     private String carId;
     private String custId;
-
+    private String price;
+    
     public SalesInvoice() {
     }
-
-    public SalesInvoice(int id, String date, String saleId, String carId, String custId) {
+    
+     public SalesInvoice(int id, String date, String saleId, String carId, String custId, String price) {
         this.id = id;
         this.date = date;
         this.saleId = saleId;
         this.carId = carId;
         this.custId = custId;
+        this.price = price;
     }
 
     public int getId() {
@@ -57,4 +59,13 @@ public class SalesInvoice {
     public void setCustId(String custId) {
         this.custId = custId;
     }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+     
 }
