@@ -47,12 +47,9 @@ public class AddCustomerServlet extends HttpServlet {
             int custID = customerDAO.addCustomer(newCustomer);
 
            if (custID > 0) {
-                    // Lưu custID vào session
                     request.getSession().setAttribute("custId", custID);
-                    // Chuyển hướng về CreateInvoice.jsp và truyền thông báo thành công
                     response.sendRedirect("CreateInvoice.jsp?success=customer_added");
                 } else {
-                    // Chuyển hướng về ListCustomer.jsp với thông báo lỗi
                     response.sendRedirect("ListCustomer.jsp?error=add_failed");
                 }
             

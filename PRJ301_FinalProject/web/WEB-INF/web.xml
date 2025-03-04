@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <display-name>My Web Application</display-name>
-
     <!-- Define servlets -->
     <servlet>
         <servlet-name>FindCarPartServlet</servlet-name>
@@ -55,6 +54,7 @@
         <servlet-name>CreateServiceServlet</servlet-name>
         <servlet-class>controller.CreateServiceServlet</servlet-class>
     </servlet>
+
     <servlet>
         <servlet-name>CustomerInvoiceServlet</servlet-name>
         <servlet-class>controller.CustomerInvoiceServlet</servlet-class>
@@ -91,6 +91,35 @@
         <servlet-name>CustomerServlet</servlet-name>
         <servlet-class>controller.CustomerServlet</servlet-class>
     </servlet>
+    <!-- Define servlet mappings -->
+    <servlet>
+        <servlet-name>ViewServiceTicket</servlet-name>
+        <servlet-class>controller.ViewServiceTicket</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginStaffServlet</servlet-name>
+        <url-pattern>/LoginStaffServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerServlet</servlet-name>
+        <url-pattern>/CustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCustomerServlet</servlet-name>
+        <url-pattern>/UpdateCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCustomerServlet</servlet-name>
+        <url-pattern>/DeleteCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServiceTicketServlet</servlet-name>
+        <url-pattern>/ServiceTickets</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateInvoiceServlet</servlet-name>
+        <url-pattern>/CreateInvoiceServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FindCarPartServlet</servlet-name>
         <url-pattern>/FindCarPartServlet</url-pattern>
@@ -115,9 +144,15 @@
         <servlet-name>SearchCarServlet</servlet-name>
         <url-pattern>/SearchCarServlet</url-pattern>
     </servlet-mapping>
+    <!-- Session Configuration -->
+    <servlet-mapping>
+        <servlet-name>ViewServiceTicket</servlet-name>
+        <url-pattern>/ViewServiceTicket</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+    <!-- Welcome File -->
     <welcome-file-list>
         <welcome-file>CustomerDashboardPage.jsp</welcome-file>
     </welcome-file-list>

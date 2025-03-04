@@ -77,5 +77,6 @@
            
         %>
         <a href="SalePersonDashboard.jsp">Sale Person</a>
+        <a href="ViewServiceTicket?id=<%=kq.getCustID() %>">View Your Service Tickets</a>
     </body>
 </html>

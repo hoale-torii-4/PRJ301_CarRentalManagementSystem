@@ -37,14 +37,13 @@ public class UpdateCustomerServlet extends HttpServlet {
             try {
             int id = Integer.parseInt(request.getParameter("id"));
             CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
-            Customer oldCustomer = customerDAO.getCustomerById(id); // Lấy thông tin cũ từ database
+            Customer oldCustomer = customerDAO.getCustomerById(id); 
 
             if (oldCustomer == null) {
                 response.sendRedirect("ListCustomer.jsp?error=customer_not_found");
                 return;
             }
 
-            // Nhận dữ liệu mới từ form
             String name = request.getParameter("name");
             String phone = request.getParameter("phone");
             String sex = request.getParameter("sex");
@@ -56,8 +55,6 @@ public class UpdateCustomerServlet extends HttpServlet {
             if (sex == null || sex.trim().isEmpty()) sex = oldCustomer.getSex();
             if (address == null || address.trim().isEmpty()) address = oldCustomer.getCustAddress();
 
-            
-            // Tạo đối tượng khách hàng mới
             Customer updatedCustomer = new Customer(id, name, phone, sex, address);
             boolean isUpdated = customerDAO.updateCustomer(updatedCustomer);
 

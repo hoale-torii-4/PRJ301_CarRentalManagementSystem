@@ -19,7 +19,7 @@
     <label for="carID">Car ID:</label>
     <input type="text" id="carID" name="carID" /><br/>
 
-    <label for="dateReceived">Date Received (YYYY-MM-DD):</label>
+    <label for="dateReceived">Date Received:</label>
     <input type="date" id="dateReceived" name="dateReceived" /><br/>
 
     <input type="submit" value="Search" />
@@ -39,10 +39,8 @@
     </thead>
     <tbody>
         <% 
-            // Get the list of service tickets from the request attribute
             List<ServiceTicket> tickets = (List<ServiceTicket>) request.getAttribute("serviceTickets");
             
-            // Loop through the list and display each ticket
             if (tickets != null) {
                 for (ServiceTicket ticket : tickets) {
         %>

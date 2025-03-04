@@ -18,7 +18,7 @@ public class LoginStaffServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding(StandardCharsets.UTF_8.name()); // ✅ Ensure UTF-8
+        request.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType("text/html;charset=UTF-8");
 
         String name = request.getParameter("name");
@@ -32,7 +32,7 @@ public class LoginStaffServlet extends HttpServlet {
                 
                 if (salePerson != null) {
                     session.setAttribute("user", salePerson.getName());
-                    session.setAttribute("salesID", salePerson.getId()); // Lưu Salesperson ID vào session
+                    session.setAttribute("salesID", salePerson.getId()); 
                     session.setAttribute("role", "SalePerson");
                     response.sendRedirect("SalePersonDashboard.jsp");
                     return;
@@ -45,7 +45,7 @@ public class LoginStaffServlet extends HttpServlet {
                 
                 if (mechanic != null) {
                     session.setAttribute("user", mechanic.getName());
-                    session.setAttribute("mechanicID", mechanic.getId()); // Lưu Mechanic ID vào session
+                    session.setAttribute("mechanicID", mechanic.getId());
                     session.setAttribute("role", "Mechanic");
                     response.sendRedirect("MechanicDashboard.jsp");
                     return;
