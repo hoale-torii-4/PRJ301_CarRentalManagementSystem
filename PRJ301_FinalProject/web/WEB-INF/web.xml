@@ -3,73 +3,16 @@
     <display-name>My Web Application</display-name>
     <!-- Define servlets -->
     <servlet>
-        <servlet-name>FindCarPartServlet</servlet-name>
-        <servlet-class>controller.FindCarPartServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdatePartServlet</servlet-name>
-        <servlet-class>controller.UpdatePartServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CreatePartCarServlet</servlet-name>
-        <servlet-class>controller.CreatePartCarServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteCarPartServlet</servlet-name>
-        <servlet-class>controller.DeleteCarPartServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>StaticCarSoldByYearServlet</servlet-name>
-        <servlet-class>controller.StaticCarSoldByYearServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>StaticBestUsedPartServlet</servlet-name>
-        <servlet-class>controller.StaticBestUsedPartServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ThreeMechanicServlet</servlet-name>
-        <servlet-class>controller.ThreeMechanicServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateServiceTicketServlet</servlet-name>
-        <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>BestSellingCarModelServlet</servlet-name>
-        <servlet-class>controller.BestSellingCarModelServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateServiceMechanicServlet</servlet-name>
-        <servlet-class>controller.UpdateServiceMechanicServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SearchServiceByNameServlet</servlet-name>
-        <servlet-class>controller.SearchServiceByNameServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteServiceServlet</servlet-name>
-        <servlet-class>controller.DeleteServiceServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CreateServiceServlet</servlet-name>
-        <servlet-class>controller.CreateServiceServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>CustomerInvoiceServlet</servlet-name>
-        <servlet-class>controller.CustomerInvoiceServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CarDetailServlet</servlet-name>
-        <servlet-class>controller.CarDetailServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LoginStaffServlet</servlet-name>
         <servlet-class>controller.LoginStaffServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginCustomerServlet</servlet-name>
         <servlet-class>controller.LoginCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutCustomerServlet</servlet-name>
+        <servlet-class>controller.LogoutCustomerServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
@@ -90,6 +33,26 @@
     <servlet>
         <servlet-name>CustomerServlet</servlet-name>
         <servlet-class>controller.CustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCustomerServlet</servlet-name>
+        <servlet-class>controller.UpdateCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteCustomerServlet</servlet-name>
+        <servlet-class>controller.DeleteCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServiceTicketServlet</servlet-name>
+        <servlet-class>controller.ServiceTicketServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateInvoiceServlet</servlet-name>
+        <servlet-class>controller.CreateInvoiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchCarInvoiceServlet</servlet-name>
+        <servlet-class>controller.SearchCarInvoiceServlet</servlet-class>
     </servlet>
     <!-- Define servlet mappings -->
     <servlet>
@@ -121,24 +84,24 @@
         <url-pattern>/CreateInvoiceServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FindCarPartServlet</servlet-name>
-        <url-pattern>/FindCarPartServlet</url-pattern>
+        <servlet-name>SearchCarInvoiceServlet</servlet-name>
+        <url-pattern>/SearchCarInvoiceServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UpdatePartServlet</servlet-name>
-        <url-pattern>/UpdatePartServlet</url-pattern>
+        <servlet-name>LoginCustomerServlet</servlet-name>
+        <url-pattern>/LoginCustomerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CreatePartCarServlet</servlet-name>
-        <url-pattern>/CreatePartCarServlet</url-pattern>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DeleteCarPartServlet</servlet-name>
-        <url-pattern>/DeleteCarPartServlet</url-pattern>
+        <servlet-name>ChangeProfileCustomerServlet</servlet-name>
+        <url-pattern>/ChangeProfileCustomerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CustomerServlet</servlet-name>
-        <url-pattern>/CustomerServlet</url-pattern>
+        <servlet-name>CRUDCarServlet</servlet-name>
+        <url-pattern>/CRUDCarServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SearchCarServlet</servlet-name>

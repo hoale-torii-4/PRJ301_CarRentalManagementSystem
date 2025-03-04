@@ -1,63 +1,47 @@
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-/**
- *
- * @author LENOVO
- */
 public class SalesInvoice {
-    private String invoiceId;
-    private String invoiceDate;
-    private String salesId;
+    private int id; 
+    private String date;
+    private String saleId;
     private String carId;
     private String custId;
-    private double price;
+    private String price;
+    
     public SalesInvoice() {
     }
-
-    public SalesInvoice(String invoiceId, String invoiceDate, String salesId, String carId, String custId, double price) {
-        this.invoiceId = invoiceId;
-        this.invoiceDate = invoiceDate;
-        this.salesId = salesId;
+    
+     public SalesInvoice(int id, String date, String saleId, String carId, String custId, String price) {
+        this.id = id;
+        this.date = date;
+        this.saleId = saleId;
         this.carId = carId;
         this.custId = custId;
         this.price = price;
     }
 
-    public double getPrice() {
-        return price;
+    public int getId() {
+        return id;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getInvoiceId() {
-        return invoiceId;
+    public String getDate() {
+        return date;
     }
 
-    public void setInvoiceId(String invoiceId) {
-        this.invoiceId = invoiceId;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getInvoiceDate() {
-        return invoiceDate;
+    public String getSaleId() {
+        return saleId;
     }
 
-    public void setInvoiceDate(String invoiceDate) {
-        this.invoiceDate = invoiceDate;
-    }
-
-    public String getSalesId() {
-        return salesId;
-    }
-
-    public void setSalesId(String salesId) {
-
+    public void setSaleId(String saleId) {
+        this.saleId = saleId;
     }
 
     public String getCarId() {
@@ -76,12 +60,12 @@ public class SalesInvoice {
         this.custId = custId;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
-
+     
 }

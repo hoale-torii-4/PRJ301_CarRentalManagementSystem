@@ -16,28 +16,17 @@ public class Car {
     private String model;
     private String color;
     private int year;
-    private double price;
+    private String price;
 
    
 
-    public Car(String carId, String serialNumber, String model, String color, int year, double price) {
-
+    public Car(String carId, String serialNumber, String model, String color, int year, String price) {
         this.carId = carId;
         this.serialNumber = serialNumber;
         this.model = model;
         this.color = color;
         this.year = year;
         this.price = price;
-
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-
     }
 
     public Car() {
