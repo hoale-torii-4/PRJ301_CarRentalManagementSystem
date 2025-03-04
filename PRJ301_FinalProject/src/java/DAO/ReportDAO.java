@@ -28,7 +28,7 @@ public class ReportDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT [invoiceID],[invoiceDate],[salesID],[carID],[custID],[status]\n"
+                String sql = "SELECT [invoiceID],[invoiceDate],[salesID],[carID],[custID],[price],[status]\n"
                         + "FROM [dbo].[SalesInvoice]\n"
                         + "WHERE YEAR(invoiceDate) like ?";
                 PreparedStatement st = cn.prepareStatement(sql);
@@ -43,7 +43,8 @@ public class ReportDAO {
                             String salesID = table.getString("salesID");
                             String carID = table.getString("carID");
                             String custID = table.getString("custID");
-                            si = new SalesInvoice(invoiceId, invoiceDate, salesID, carID, custID);
+                            double price = table.getDouble("price");
+                            si = new SalesInvoice(invoiceId, invoiceDate, salesID, carID, custID, price);
                             list.add(si);
                         }
                     }
@@ -149,38 +150,33 @@ public class ReportDAO {
         return mapMechanic;
     }
 
-    public HashMap<SalesInvoice, Double> mapInvoice(String year) {
-        HashMap<SalesInvoice, Double> map = new HashMap<>();
-        String sql = "SELECT SalesInvoice.invoiceID, SalesInvoice.invoiceDate, "
-                + "SalesInvoice.salesID, SalesInvoice.carID, SalesInvoice.custID, "
-                + "Cars.price, SalesInvoice.status "
-                + "FROM SalesInvoice JOIN Cars ON SalesInvoice.carID = Cars.carID "
-                + "WHERE YEAR(SalesInvoice.invoiceDate) = ?";
-
-        try (Connection cn = DBUtils.getConnection(); PreparedStatement st = cn.prepareStatement(sql)) {
-
-            st.setInt(1, Integer.parseInt(year));
-            try (ResultSet table = st.executeQuery()) {
-                while (table.next()) {
-                    if (table.getBoolean("status")) {
-                        String invoiceId = table.getString("invoiceID");
-                        String invoiceDate = table.getString("invoiceDate");
-                        String salesID = table.getString("salesID");
-                        String carID = table.getString("carID");
-                        String custID = table.getString("custID");
-                        double price = table.getDouble("price");
-
-                        SalesInvoice si = new SalesInvoice(invoiceId, invoiceDate, salesID, carID, custID);
-                        map.put(si, price);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Nên log lỗi thay vì in ra console trong môi trường sản xuất.
-        }
-
-        return map;
-    }
+//    public ArrayList<SalesInvoice> mapInvoice(String year) {
+//        ArrayList<SalesInvoice> list = new ArrayList<>();
+//        String sql = "SELECT [invoiceID],[invoiceDate],[salesID],[carID],[price],[custID]\n"
+//                + "FROM [dbo].[SalesInvoice]\n"
+//                + "WHERE YEAR([invoiceDate]) = ? AND [status]=1";
+//
+//        try (Connection cn = DBUtils.getConnection(); PreparedStatement st = cn.prepareStatement(sql)) {
+//
+//            st.setInt(1, Integer.parseInt(year));
+//            try (ResultSet table = st.executeQuery()) {
+//                while (table.next()) {                   
+//                        String invoiceId = table.getString("invoiceID");
+//                        String invoiceDate = table.getString("invoiceDate");
+//                        String salesID = table.getString("salesID");
+//                        String carID = table.getString("carID");
+//                        String custID = table.getString("custID");
+//                        double price = table.getDouble("price");
+//                        SalesInvoice si = new SalesInvoice(invoiceId, invoiceDate, salesID, carID, custID,price);
+//                        list.add(si);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace(); // Nên log lỗi thay vì in ra console trong môi trường sản xuất.
+//        }
+//
+//        return list;
+//    }
 
     public HashMap<Car, Integer> bestSellingCarModel() {
         HashMap<Car, Integer> map = new HashMap<>();
@@ -194,16 +190,16 @@ public class ReportDAO {
 
             try (ResultSet table = st.executeQuery()) {
                 while (table.next()) {
-                        String carID = table.getString("carID");
-                        String serialNumber = table.getString("serialNumber");
-                        String model = table.getString("model");
-                        String color = table.getString("colour");
-                        int year = table.getInt("year");
-                        double price = table.getDouble("price");
-                        int carNumber = table.getInt("NumberOfCarSold");
+                    String carID = table.getString("carID");
+                    String serialNumber = table.getString("serialNumber");
+                    String model = table.getString("model");
+                    String color = table.getString("colour");
+                    int year = table.getInt("year");
+                    double price = table.getDouble("price");
+                    int carNumber = table.getInt("NumberOfCarSold");
 
-                        Car car = new Car(carID, serialNumber, model, color, year, price);
-                        map.put(car, carNumber);
+                    Car car = new Car(carID, serialNumber, model, color, year, price);
+                    map.put(car, carNumber);
                 }
             }
         } catch (Exception e) {

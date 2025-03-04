@@ -40,6 +40,34 @@
         <servlet-name>BestSellingCarModelServlet</servlet-name>
         <servlet-class>controller.BestSellingCarModelServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateServiceMechanicServlet</servlet-name>
+        <servlet-class>controller.UpdateServiceMechanicServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchServiceByNameServlet</servlet-name>
+        <servlet-class>controller.SearchServiceByNameServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdatServiceServlet</servlet-name>
+        <servlet-class>controller.UpdatServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteServiceServlet</servlet-name>
+        <servlet-class>controller.DeleteServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateServiceServlet</servlet-name>
+        <servlet-class>controller.CreateServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerInvoiceServlet</servlet-name>
+        <servlet-class>controller.CustomerInvoiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CarDetailServlet</servlet-name>
+        <servlet-class>controller.CarDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FindCarPartServlet</servlet-name>
         <url-pattern>/FindCarPartServlet</url-pattern>
@@ -79,6 +107,34 @@
     <servlet-mapping>
         <servlet-name>BestSellingCarModelServlet</servlet-name>
         <url-pattern>/BestSellingCarModelServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateServiceMechanicServlet</servlet-name>
+        <url-pattern>/UpdateServiceMechanicServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchServiceByNameServlet</servlet-name>
+        <url-pattern>/SearchServiceByNameServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdatServiceServlet</servlet-name>
+        <url-pattern>/UpdatServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteServiceServlet</servlet-name>
+        <url-pattern>/DeleteServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateServiceServlet</servlet-name>
+        <url-pattern>/CreateServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerInvoiceServlet</servlet-name>
+        <url-pattern>/CustomerInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CarDetailServlet</servlet-name>
+        <url-pattern>/CarDetailServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

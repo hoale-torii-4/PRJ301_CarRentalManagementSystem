@@ -4,6 +4,7 @@
     Author     : LENOVO
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="model.SalesInvoice"%>
 <%@page import="java.util.HashMap"%>
 <%@ page import="java.text.NumberFormat" %>
@@ -35,8 +36,8 @@
         <h2><p><%=updateStatus%></p></h2>
         <%
             }
-            HashMap<SalesInvoice, Double> invoiceMap = (HashMap) request.getAttribute("MAP_INVOICE");
-            if (invoiceMap != null && !invoiceMap.isEmpty()) {
+            ArrayList<SalesInvoice> invoicelist = (ArrayList<SalesInvoice>) request.getAttribute("LIST_INVOICE");
+            if (invoicelist != null && !invoicelist.isEmpty()) {
         %>
 
         <table>
@@ -49,8 +50,8 @@
                 <th>Price</th>
 
             </tr>
-            <%                for (SalesInvoice si : invoiceMap.keySet()) {
-                    double price = invoiceMap.get(si);
+            <%                for (SalesInvoice si : invoicelist) {
+                    
             %>
             <tr>
                 <td><%=si.getInvoiceId()%></td>
@@ -58,7 +59,7 @@
                 <td><%=si.getSalesId()%></td>
                 <td><%=si.getCarId()%></td>
                 <td><%=si.getCustId()%></td>
-                <td><%= NumberFormat.getInstance().format(price)%></td>
+                <td><%= NumberFormat.getInstance().format(si.getPrice())%></td>
             </tr>
             <%
                 }

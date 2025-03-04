@@ -28,9 +28,9 @@ public class ServiceMechanicDAO {
                 PreparedStatement st = cn.prepareStatement(sql);
                 ResultSet table = st.executeQuery();
                 ServiceMechanic sm = null;
-                if(table != null){
-                    while(table.next()){
-                        if(table.getBoolean("status")){
+                if (table != null) {
+                    while (table.next()) {
+                        if (table.getBoolean("status")) {
                             String serviceTicketID = table.getString("serviceTicketID");
                             String serviceID = table.getString("serviceID");
                             String mechanicID = table.getString("mechanicID");
@@ -56,5 +56,40 @@ public class ServiceMechanicDAO {
             }
         }
         return list;
+    }
+
+    public boolean UpdateServiceMechanic(String id, int hour, String comment, double rate) {
+        boolean isUpdate = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "UPDATE [dbo].[ServiceMehanic]\n"
+                        + "SET [hours]=?,[comment]=?,[rate]=?\n"
+                        + "WHERE [serviceTicketID] LIKE ?";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, hour);
+                st.setString(2, comment);
+                st.setDouble(3, rate);
+                st.setString(4, id);
+                int row = st.executeUpdate();
+                if(row>0)
+                    isUpdate = true;
+          
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return isUpdate;
     }
 }

@@ -14,16 +14,25 @@ public class SalesInvoice {
     private String salesId;
     private String carId;
     private String custId;
-    
+    private double price;
     public SalesInvoice() {
     }
 
-    public SalesInvoice(String invoiceId, String invoiceDate, String salesId, String carId, String custId) {
+    public SalesInvoice(String invoiceId, String invoiceDate, String salesId, String carId, String custId, double price) {
         this.invoiceId = invoiceId;
         this.invoiceDate = invoiceDate;
         this.salesId = salesId;
         this.carId = carId;
         this.custId = custId;
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getInvoiceId() {

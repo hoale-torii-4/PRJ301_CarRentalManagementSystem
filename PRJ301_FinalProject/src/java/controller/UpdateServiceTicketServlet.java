@@ -36,20 +36,8 @@ public class UpdateServiceTicketServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-//            ServiceMechanicDAO serviceMechanicDAO = new ServiceMechanicDAO();
             UpdateServiceTicketDAO updateServiceTicketDAO = new UpdateServiceTicketDAO();
             HashMap<ServiceMechanic,String>[] maps = updateServiceTicketDAO.getServiceMechanicDetails();
-            
-            
-            
-//            HashMap<ServiceMechanic,String> listServiceMeGetServiceName = updateServiceTicketDAO.mapServiceMeGetServiceName();
-//            HashMap<ServiceMechanic,String> listServiceMeGetMechanicName = updateServiceTicketDAO.mapServiceMeGetMechanicName();
-//            if (listServiceMeGetServiceName == null) {
-//                listServiceMeGetServiceName = new HashMap<>();
-//            }
-//            if (listServiceMeGetMechanicName == null) {
-//                listServiceMeGetMechanicName = new HashMap<>();
-//            }
             request.getSession().setAttribute("mapUpdateServiceTicketServiceName", maps[0]);
             request.getSession().setAttribute("mapUpdateServiceTicketMechanicName", maps[1]);
             request.getRequestDispatcher("ServiceTicketPage.jsp").forward(request, response);

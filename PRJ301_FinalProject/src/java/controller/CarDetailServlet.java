@@ -4,22 +4,18 @@
  */
 package controller;
 
-import DAO.ReportDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.SalesInvoice;
 
 /**
  *
  * @author LENOVO
  */
-public class StaticCarRevenueByYearServlet extends HttpServlet {
+public class CarDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,18 +31,15 @@ public class StaticCarRevenueByYearServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String year = request.getParameter("year-select");
-            if (year == null || year.isEmpty()) {
-                request.setAttribute("updateMess", "Somethings wrong!");
-            }
-            ReportDAO reportDAO = new ReportDAO();
-//            HashMap<SalesInvoice, Double> map = reportDAO.mapInvoice(year);
-            ArrayList<SalesInvoice> invoiceList = reportDAO.listInvoice(year);
-            request.setAttribute("LIST_INVOICE", invoiceList);
-            double totalPrice = invoiceList.stream().mapToDouble(SalesInvoice::getPrice).sum();
-            request.setAttribute("TOTAL_PRICE", totalPrice);
-            request.getRequestDispatcher("StaticCarRevenueByYear.jsp").forward(request, response);
-
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CarDetailServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CarDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
