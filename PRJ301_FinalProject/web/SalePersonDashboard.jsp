@@ -187,7 +187,7 @@
 
                 <label>Serial Number:</label>
                 <input type="text" name="carSerialNumber" id="updateSerialNumber" required><br>
-
+ 
                 <label>Model:</label>
                 <input type="text" name="carModel" id="updateModel" required><br>
 
