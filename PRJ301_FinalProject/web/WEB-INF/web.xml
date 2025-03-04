@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <display-name>My Web Application</display-name>
+
+    <!-- Define servlets -->
     <servlet>
         <servlet-name>FindCarPartServlet</servlet-name>
         <servlet-class>controller.FindCarPartServlet</servlet-class>
@@ -33,10 +36,6 @@
         <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>StaticCarRevenueByYearServlet</servlet-name>
-        <servlet-class>controller.StaticCarRevenueByYearServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>BestSellingCarModelServlet</servlet-name>
         <servlet-class>controller.BestSellingCarModelServlet</servlet-class>
     </servlet>
@@ -47,10 +46,6 @@
     <servlet>
         <servlet-name>SearchServiceByNameServlet</servlet-name>
         <servlet-class>controller.SearchServiceByNameServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdatServiceServlet</servlet-name>
-        <servlet-class>controller.UpdatServiceServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteServiceServlet</servlet-name>
@@ -67,6 +62,34 @@
     <servlet>
         <servlet-name>CarDetailServlet</servlet-name>
         <servlet-class>controller.CarDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginStaffServlet</servlet-name>
+        <servlet-class>controller.LoginStaffServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginCustomerServlet</servlet-name>
+        <servlet-class>controller.LoginCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeProfileCustomerServlet</servlet-name>
+        <servlet-class>controller.ChangeProfileCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CRUDCarServlet</servlet-name>
+        <servlet-class>controller.CRUDCarServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchCarServlet</servlet-name>
+        <servlet-class>controller.SearchCarServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerServlet</servlet-name>
+        <servlet-class>controller.CustomerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FindCarPartServlet</servlet-name>
@@ -85,60 +108,17 @@
         <url-pattern>/DeleteCarPartServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>StaticCarSoldByYearServlet</servlet-name>
-        <url-pattern>/StaticCarSoldByYearServlet</url-pattern>
+        <servlet-name>CustomerServlet</servlet-name>
+        <url-pattern>/CustomerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>StaticBestUsedPartServlet</servlet-name>
-        <url-pattern>/StaticBestUsedPartServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ThreeMechanicServlet</servlet-name>
-        <url-pattern>/ThreeMechanicServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateServiceTicketServlet</servlet-name>
-        <url-pattern>/UpdateServiceTicketServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>StaticCarRevenueByYearServlet</servlet-name>
-        <url-pattern>/StaticCarRevenueByYearServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>BestSellingCarModelServlet</servlet-name>
-        <url-pattern>/BestSellingCarModelServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateServiceMechanicServlet</servlet-name>
-        <url-pattern>/UpdateServiceMechanicServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SearchServiceByNameServlet</servlet-name>
-        <url-pattern>/SearchServiceByNameServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdatServiceServlet</servlet-name>
-        <url-pattern>/UpdatServiceServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteServiceServlet</servlet-name>
-        <url-pattern>/DeleteServiceServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CreateServiceServlet</servlet-name>
-        <url-pattern>/CreateServiceServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CustomerInvoiceServlet</servlet-name>
-        <url-pattern>/CustomerInvoiceServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CarDetailServlet</servlet-name>
-        <url-pattern>/CarDetailServlet</url-pattern>
+        <servlet-name>SearchCarServlet</servlet-name>
+        <url-pattern>/SearchCarServlet</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>CustomerDashboardPage.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

@@ -1,0 +1,62 @@
+<%@page import="java.util.List"%>
+<%@page import="model.ServiceTicket"%>
+<%@page import="model.ServiceTicket"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Service Tickets</title>
+</head>
+<body>
+
+<h2>Search Service Tickets</h2>
+
+<!-- Search Form -->
+<form method="get" action="ServiceTickets">
+    <label for="custID">Customer ID:</label>
+    <input type="text" id="custID" name="custID" /><br/>
+
+    <label for="carID">Car ID:</label>
+    <input type="text" id="carID" name="carID" /><br/>
+
+    <label for="dateReceived">Date Received:</label>
+    <input type="date" id="dateReceived" name="dateReceived" /><br/>
+
+    <input type="submit" value="Search" />
+</form>
+
+<!-- Display Service Tickets -->
+<h3><a href="ServiceTickets">Service Tickets</a></h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Customer ID</th>
+            <th>Car ID</th>
+            <th>Date Received</th>
+            <th>Date Returned</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% 
+            List<ServiceTicket> tickets = (List<ServiceTicket>) request.getAttribute("serviceTickets");
+            
+            if (tickets != null) {
+                for (ServiceTicket ticket : tickets) {
+        %>
+            <tr>
+                <td><%= ticket.getServiceTicketID() %></td>
+                <td><%= ticket.getCustID() %></td>
+                <td><%= ticket.getCarID() %></td>
+                <td><%= ticket.getDateReceived() %></td>
+                <td><%= ticket.getDateReturned() %></td>
+            </tr>
+        <% 
+                }
+            }
+        %>
+    </tbody>
+</table>
+<a href="MechanicDashboard.jsp"><button>Back to Dashboard</button></a>
+</body>
+</html>
