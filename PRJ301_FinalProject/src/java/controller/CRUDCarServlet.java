@@ -56,6 +56,7 @@ public class CRUDCarServlet extends HttpServlet {
                     model = request.getParameter("carModel").trim();
                     colour = request.getParameter("carColour").trim();
                     year = Integer.parseInt(request.getParameter("carYear").trim());
+
                     price = Double.parseDouble(request.getParameter("carPrice").trim());
                     
                     car = new Car(carID, serialNumber, model, colour, year, price);
@@ -72,7 +73,9 @@ public class CRUDCarServlet extends HttpServlet {
                     model = request.getParameter("carModel").trim();
                     colour = request.getParameter("carColour").trim();
                     year = Integer.parseInt(request.getParameter("carYear").trim());
+
                     price = Double.parseDouble(request.getParameter("carPrice").trim());
+
                     if(serialNumber == null || serialNumber.trim().isEmpty())
                         serialNumber = car.getSerialNumber();
                     if(model == null || model.trim().isEmpty())
@@ -81,6 +84,7 @@ public class CRUDCarServlet extends HttpServlet {
                         colour = car.getColor();
                     if(year == 0)
                        year = car.getYear();
+
                     if(price == 0 )
                         price = car.getPrice();
                     car = new Car(carID, serialNumber, model, colour, year, price);

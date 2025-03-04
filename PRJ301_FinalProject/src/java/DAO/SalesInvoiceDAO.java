@@ -23,6 +23,7 @@ public class SalesInvoiceDAO {
         try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, newInvoiceId);
+
             ps.setString(2, invoice.getInvoiceDate());
             ps.setString(3, invoice.getInvoiceId());
             ps.setDouble(5, invoice.getPrice());

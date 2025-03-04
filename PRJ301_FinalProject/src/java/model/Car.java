@@ -16,12 +16,12 @@ public class Car {
     private String model;
     private String color;
     private int year;
-    private double price;
+    private String price;
 
    
 
-    public Car(String carId, String serialNumber, String model, String color, int year, double price) {
 
+    public Car(String carId, String serialNumber, String model, String color, int year, double price) {
         this.carId = carId;
         this.serialNumber = serialNumber;
         this.model = model;
@@ -30,6 +30,7 @@ public class Car {
         this.price = price;
 
     }
+
 
     public double getPrice() {
         return price;
@@ -42,6 +43,7 @@ public class Car {
 
     public Car() {
     }
+
     public String getCarId() {
         return carId;
     }
@@ -81,5 +83,6 @@ public class Car {
     public void setYear(int year) {
         this.year = year;
     }
+
 
 }

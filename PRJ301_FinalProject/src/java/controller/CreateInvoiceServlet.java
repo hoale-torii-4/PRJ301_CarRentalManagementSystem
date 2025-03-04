@@ -58,7 +58,9 @@ public class CreateInvoiceServlet extends HttpServlet {
 
         String date = request.getParameter("date");
         String carId = request.getParameter("carId"); 
+
         double price = Double.parseDouble(request.getParameter("price").trim());
+
         if (carId == null || carId.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Không tìm thấy ID xe!");
             request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
@@ -66,6 +68,7 @@ public class CreateInvoiceServlet extends HttpServlet {
         }
 
         SalesInvoice invoice = new SalesInvoice();
+
         invoice.setSalesId(saleId);
         invoice.setCustId(String.valueOf(customer.getCustID()));
         invoice.setPrice(price);

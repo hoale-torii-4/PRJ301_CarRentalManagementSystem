@@ -71,7 +71,9 @@
         <%
         }%> 
         <!-- hien thi danh sach khach hang khi click vào -->
-        <button><a href="ListCustomer.jsp?list=true">List Customers</a></button>
+
+        <a href="ListCustomer.jsp?list=true"><button>List Customer</button></a>
+
 
         <%
             String listCustomers = request.getParameter("list");
@@ -96,7 +98,8 @@
                 <th>Phone</th>
                 <th>Sex</th>
                 <th>Address</th>
-                <th>Actions</th> <!-- Cột cho các hành động (Cập nhật, Xóa) -->
+                <th>Actions</th>
+
             </tr>
             <%
                 for (Customer customer : customers) {
