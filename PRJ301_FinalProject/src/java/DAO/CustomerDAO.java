@@ -126,7 +126,7 @@ public class CustomerDAO {
         return list;
     }
     public boolean isUpdateCustomerInformation(int custID, String name, String phone, String sex, String cusAddress) {
-    boolean isUpdate = false; // ❗ Đổi thành false mặc định
+    boolean isUpdate = false; 
     Connection cn = null;
     try {
         cn = DBUtils.getConnection();
@@ -139,9 +139,9 @@ public class CustomerDAO {
             st.setString(4, cusAddress);
             st.setInt(5, custID);
 
-            int rowsAffected = st.executeUpdate(); // ✅ Dùng executeUpdate()
+            int rowsAffected = st.executeUpdate(); 
             if (rowsAffected > 0) {
-                isUpdate = true; // Nếu có dòng nào bị ảnh hưởng thì cập nhật thành công
+                isUpdate = true; 
             }
         }
     } catch (Exception e) {

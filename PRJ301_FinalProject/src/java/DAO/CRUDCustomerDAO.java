@@ -57,26 +57,14 @@ public class CRUDCustomerDAO {
     //
 
     public int addCustomer(Customer customer) {
-    int custID = 0; 
-    int newID = 10000;
+    int custID = 0;
 
     try (Connection cn = DBUtils.getConnection()) {
         if (cn != null) {
-            
-            String idQuery = "SELECT TOP 1 custID FROM dbo.Customer ORDER BY custID DESC";
-            PreparedStatement st = cn.prepareStatement(idQuery);
-            ResultSet rs = st.executeQuery();
-
-            if (rs.next()) {
-                newID = rs.getInt("custID") + 1;
-            }
-            rs.close();
-            st.close();
-
-            
+           long newID = System.currentTimeMillis() % Integer.MAX_VALUE;
             String sql = "INSERT INTO dbo.Customer (custID, custName, phone, sex, cusAddress) VALUES (?, ?, ?, ?, ?)";
-            st = cn.prepareStatement(sql);
-            st.setInt(1, newID);
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setLong(1, newID);  // Đặt newID là custID
             st.setString(2, customer.getCustName());
             st.setString(3, customer.getPhone());
             st.setString(4, customer.getSex());
@@ -84,7 +72,7 @@ public class CRUDCustomerDAO {
 
             int row = st.executeUpdate();
             if (row > 0) {
-                custID = newID;
+                custID = (int) newID;
             }
 
             st.close();
@@ -185,7 +173,6 @@ public class CRUDCustomerDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                // Câu lệnh SQL tìm kiếm theo tên khách hàng
                 String sql = "SELECT * FROM Customer WHERE custName LIKE ?";
                 st = cn.prepareStatement(sql);
                 st.setString(1, "%" + name + "%"); // Tìm theo tên (custName)
