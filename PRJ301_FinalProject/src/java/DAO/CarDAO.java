@@ -58,9 +58,7 @@ public class CarDAO {
                 String model = rs.getString("model");
                 String colour = rs.getString("colour");
                 int year = rs.getInt("year");
-
                 double price = rs.getDouble("price");
-
                 searchResults.add(new Car(carID, serialNumber, model, colour, year, price));
             }
         } catch (Exception e) {

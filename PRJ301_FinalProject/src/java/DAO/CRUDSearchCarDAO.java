@@ -39,9 +39,7 @@ public class CRUDSearchCarDAO {
                         String serialNumber = table.getString("serialNumber");
                         String model = table.getString("model");
                         String colour = table.getString("colour");
-
                         double price = table.getDouble("price");
-
                         int year = table.getInt("year");
                         car = new Car(cartId, serialNumber, model, colour, year, price);
                     }
@@ -80,9 +78,7 @@ public class CRUDSearchCarDAO {
                 st.setString(2, car.getModel());
                 st.setString(3, car.getColor());
                 st.setInt(4, car.getYear());
-
                 st.setDouble(5, car.getPrice());
-
                 st.setString(6, car.getCarId());
                 int rowsAffected = st.executeUpdate();
                 if (rowsAffected > 0) {
@@ -122,9 +118,7 @@ public class CRUDSearchCarDAO {
                 st.setString(3, newCar.getModel());
                 st.setString(4, newCar.getColor());
                 st.setInt(5, newCar.getYear());
-
                 st.setDouble(6, newCar.getPrice());
-
                 int row = st.executeUpdate();
                 return row > 0;
             }
