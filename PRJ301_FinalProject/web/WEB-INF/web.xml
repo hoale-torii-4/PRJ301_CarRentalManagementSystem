@@ -55,10 +55,6 @@
         <servlet-class>controller.CustomerInvoiceServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CarDetailServlet</servlet-name>
-        <servlet-class>controller.CarDetailServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>UpdateCustomerServlet</servlet-name>
         <servlet-class>controller.UpdateCustomerServlet</servlet-class>
     </servlet>
@@ -66,12 +62,10 @@
         <servlet-name>UpdateServiceTicketServlet</servlet-name>
         <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>SearchServiceTicketServlet</servlet-name>
         <servlet-class>controller.SearchServiceTicketServlet</servlet-class>
     </servlet>
-    
-
     <!-- New servlets to be added -->
     <servlet>
         <servlet-name>AddCustomerServlet</servlet-name>
@@ -151,10 +145,6 @@
         <url-pattern>/CustomerInvoiceServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CarDetailServlet</servlet-name>
-        <url-pattern>/CarDetailServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>AddCustomerServlet</servlet-name>
         <url-pattern>/AddCustomerServlet</url-pattern>
     </servlet-mapping>
@@ -183,14 +173,11 @@
         <servlet-name>CRUDServiceServlet</servlet-name>
         <url-pattern>/CRUDServiceServlet</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SearchServiceTicketServlet</servlet-name>
         <url-pattern>/SearchServiceTicketServlet</url-pattern>
     </servlet-mapping>
-    
-
     <!-- Session Configuration -->
-
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
