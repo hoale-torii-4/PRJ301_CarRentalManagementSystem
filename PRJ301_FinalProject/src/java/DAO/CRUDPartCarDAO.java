@@ -95,35 +95,24 @@ public class CRUDPartCarDAO {
 
     public boolean CreateCarPart(CarParts newPart) {
         boolean isCreated = false;
-        int newID = 0;
+        int newID = (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
         try {
-            Connection cn = DBUtils.getConnection();
-            if (cn != null) {
-                String id = "SELECT TOP 1 [partID]\n"
-                        + "FROM [dbo].[Parts]\n"
-                        + "ORDER BY [partID] DESC";
-                PreparedStatement st = cn.prepareStatement(id);
-                ResultSet rs = st.executeQuery();
-                if (rs.next()) {
-                    newID = rs.getInt("partID") + 1;
-                }
-
+                Connection cn = DBUtils.getConnection();
                 String sql = "INSERT INTO [dbo].[Parts] ([partID],[partName],[purchasePrice],[retailPrice])\n"
                         + "VALUES (?,?,?,?)";
-                st = cn.prepareStatement(sql);
+                PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, newID);
                 st.setString(2, newPart.getPartName());
                 st.setDouble(3, newPart.getPurchasePrice());
                 st.setDouble(4, newPart.getRetailPrice());
                 int row = st.executeUpdate();
                 return row > 0;
-            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
         return isCreated;
     }
-
     public boolean DeleteCarPart(String partID) {
         Connection cn = null;
         boolean isDelete = false;

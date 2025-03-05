@@ -1,25 +1,36 @@
-package controller;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package controller;
 
 import DAO.ReportDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Car;
+import model.Mechanic;
 import model.PartUsed;
+import model.SalesInvoice;
 
 /**
  *
  * @author LENOVO
  */
-public class StaticBestUsedPartServlet extends HttpServlet {
+@WebServlet(name = "ReportSalePersonServlet", urlPatterns = {"/ReportSalePersonServlet"})
+public class ReportSalePersonServlet extends HttpServlet {
+
+    final String SOLD = "SOLD";
+    final String BESTMODEL = "BESTMODEL";
+    final String BESTPART = "BESTPART";
+    final String MECHANIC = "MECHANIC";
+    String url = "";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,9 +47,38 @@ public class StaticBestUsedPartServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             ReportDAO reportDAO = new ReportDAO();
-            ArrayList<PartUsed> PuList = reportDAO.partUsedList();
-            request.getSession().setAttribute("LIST_USEDPART", PuList);
-            request.getRequestDispatcher("StaticBestUsedPart.jsp").forward(request, response);
+            String updateMess = "";
+            String year = request.getParameter("year-select");
+            String reportType = request.getParameter("reportType");
+
+            switch (reportType) {
+                case SOLD:
+                    ArrayList<SalesInvoice> list = reportDAO.listInvoice(year);
+                    double revenue = list.stream().mapToDouble(SalesInvoice::getPrice).sum();
+                    request.setAttribute("LIST_YEAR", list);
+                    request.setAttribute("REVENUE", revenue);
+                    url = "StaticCarSoldByYear.jsp";
+                    break;
+                case BESTMODEL:
+                    HashMap<Car, Integer> cars = reportDAO.bestSellingCarModel();
+                    request.setAttribute("BSCAR_MAP", cars);
+                    url = "BestCarSellingModel.jsp";
+                    break;
+                case BESTPART:
+                    ArrayList<PartUsed> PuList = reportDAO.partUsedList();
+                    request.setAttribute("LIST_USEDPART", PuList);
+                    url = "StaticBestUsedPart.jsp";
+                    break;
+                case MECHANIC:
+                    HashMap<Mechanic, Integer> mapMechanic = reportDAO.ThreeMechanicID();
+                    request.setAttribute("MAP_MECHANIC", mapMechanic);
+                    url = "ThreeMostMechanic.jsp";
+                    break;
+                default:
+                    updateMess = "Somethings wrong!";
+            }
+            request.setAttribute("updateMess", updateMess);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

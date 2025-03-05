@@ -1,3 +1,4 @@
+<%@page import="java.text.NumberFormat"%>
 <%@page import="model.Service"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Map"%>
@@ -69,7 +70,7 @@
     <body>
         <h1>SERVICE PAGE</h1>
 
-        <form id="searchForm" action="SearchServiceByNameServlet" method="POST">
+        <form id="searchForm" action="SearchServiceByNameServlet" method="POST" accept-charset="UTF-8">
             <input type="text" name="query" id="searchInput" list="serviceSuggestions" oninput="fetchSuggestions()" onchange="autoSubmit()">
             <datalist id="serviceSuggestions"></datalist>
             <button type="submit">Search</button>
@@ -101,7 +102,7 @@
             <tr>
                 <td><%= s.getServiceID()%></td>
                 <td><%= s.getName()%></td>
-                <td><%= s.getHourlyRate()%></td>
+                <td><%= NumberFormat.getInstance().format(s.getHourlyRate())%></td>
                 <td>
                     <button type="button" onclick="openUpdateModal('<%= s.getServiceID()%>', '<%= s.getName()%>', '<%= s.getHourlyRate()%>')">Update</button>
                     <button type="button" onclick="confirmDelete('<%= s.getServiceID()%>')">Delete</button>
@@ -115,7 +116,7 @@
         </table>
         <div id="createServiceModal" style="display: none; background: white; padding: 20px; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
             <h3>Create New Service</h3>
-            <form action="CreateServiceServlet" method="POST">
+            <form action="CRUDServiceServlet?cRUDAction=CREATE" method="POST" accept-charset="UTF-8">
                 <label>Name:</label>
                 <input type="text" name="serviceName" id="createName" required><br>
                 <label>Hourly Rate:</label>
@@ -127,7 +128,7 @@
         <!-- Update Modal -->
         <div id="updateTicketModal" style="display: none; background: white; padding: 20px; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
             <h3>Update Service Ticket</h3>
-            <form action="UpdatServiceServlet" method="POST">
+            <form action="CRUDServiceServlet?cRUDAction=UPDATE" method="POST" accept-charset="UTF-8">
                 <input type="hidden" name="serviceID" id="updateServiceID">
                 <label>Name:</label>
                 <input type="text" name="serviceName" id="updateName" required><br>
@@ -141,7 +142,7 @@
         <!-- Delete Modal -->
         <div id="deleteConfirmModal" style="display: none; background: white; padding: 20px; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
             <h3>Are you sure you want to delete this service?</h3>
-            <form action="DeleteServiceServlet" method="POST">
+            <form action="CRUDServiceServlet?cRUDAction=DELETE" method="POST">
                 <input type="hidden" name="serviceID" id="deleteServiceID">
                 <button type="submit">Yes</button>
                 <button type="button" onclick="closeDeleteModal()">No</button>

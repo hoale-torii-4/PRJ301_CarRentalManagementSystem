@@ -18,8 +18,15 @@
     </a>
 
     <!-- Button for updating service tickets -->
-    <a href="updateTicket.jsp">
-        <button>Update Service Ticket</button>
+    <%
+        String mechanicId = (String)session.getAttribute("mechanicID");
+    %>
+    <a href="UpdateServiceTicketServlet?mechanicID=<%=mechanicId%>&serviceTicket=VIEW">
+        <button>Update Service Ticket</button>        
+    </a>
+        
+        <a href="ServicePage.jsp">
+        <button>Manage Service</button>        
     </a>
 
     

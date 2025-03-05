@@ -19,7 +19,7 @@
         <h1>THREE MOST MECHANIC</h1>
         <%
 //            ArrayList<Mechanic> list = (ArrayList<Mechanic>) session.getAttribute("LIST_MECHANIC");
-            HashMap<Mechanic, Integer> map = (HashMap<Mechanic, Integer>) session.getAttribute("MAP_MECHANIC");
+            HashMap<Mechanic, Integer> map = (HashMap<Mechanic, Integer>) request.getAttribute("MAP_MECHANIC");
         %>
         <table>
             <tr>

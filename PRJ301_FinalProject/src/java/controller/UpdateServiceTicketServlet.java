@@ -22,6 +22,10 @@ import model.ServiceMechanic;
  */
 public class UpdateServiceTicketServlet extends HttpServlet {
 
+    final String VIEW = "VIEW";
+    final String UPDATE = "UPDATE";
+    String url = "ServiceTicketPage.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,14 +41,40 @@ public class UpdateServiceTicketServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             UpdateServiceTicketDAO updateServiceTicketDAO = new UpdateServiceTicketDAO();
-            HashMap<ServiceMechanic,String>[] maps = updateServiceTicketDAO.getServiceMechanicDetails();
-            request.getSession().setAttribute("mapUpdateServiceTicketServiceName", maps[0]);
-            request.getSession().setAttribute("mapUpdateServiceTicketMechanicName", maps[1]);
-            request.getRequestDispatcher("ServiceTicketPage.jsp").forward(request, response);
+            ServiceMechanicDAO mechanicDAO = new ServiceMechanicDAO();
+            String serviceTicket = request.getParameter("serviceTicket");
+            String mechanicID = request.getParameter("mechanicID");
+
+            switch (serviceTicket) {
+                case VIEW:
+                    HashMap<ServiceMechanic, String>[] maps = updateServiceTicketDAO.getServiceMechanicDetails(mechanicID);
+                    request.setAttribute("mapUpdateServiceTicketServiceName", maps[0]);
+                    request.setAttribute("mapUpdateServiceTicketMechanicName", maps[1]);
+                    request.setAttribute("mechanicID", mechanicID);
+                    request.getRequestDispatcher(url).forward(request, response);
+                    break;
+                case UPDATE:
+                    String id = request.getParameter("ticketID");
+                    String comment = request.getParameter("comment");
+                    int hour = 0;
+                    double rate = 0;
+                    try {
+                        hour = Integer.parseInt(request.getParameter("hours").trim());
+                        rate = Double.parseDouble(request.getParameter("rate").trim());
+                    } catch (NumberFormatException e) {
+                        request.getSession().setAttribute("updateMess", "wrong number format");
+                    }
+                    if(mechanicDAO.UpdateServiceMechanic(id, hour, comment, rate)){
+                        request.getSession().setAttribute("updateMess", "Updated successfully!");
+                    }else request.setAttribute("updateMess", "Updated fail!");
+                    response.sendRedirect("UpdateServiceTicketServlet?serviceTicket=VIEW&mechanicID="+mechanicID);
+                    break;
+            }
+            
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

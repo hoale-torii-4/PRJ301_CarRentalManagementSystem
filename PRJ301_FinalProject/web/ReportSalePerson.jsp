@@ -16,16 +16,16 @@
         <form action="StaticCarSoldByYear.jsp">
             <input type="submit" value="Report of cars sold by year">
         </form>
-        <form action="StaticCarRevenueByYear.jsp">
-            <input type="submit" value="Report of car sales revenue by year">
-        </form>
-        <form action="BestSellingCarModelServlet">
+        <form action="ReportSalePersonServlet">
+            <input type="hidden" name="reportType" value="BESTMODEL">
             <input type="submit" value="Report of car best-selling car models">
         </form>
-        <form action="StaticBestUsedPartServlet">
+        <form action="ReportSalePersonServlet">
+            <input type="hidden" name="reportType" value="BESTPART">
             <input type="submit" value="Report Best used part">
         </form>
-        <form action="ThreeMechanicServlet">
+        <form action="ReportSalePersonServlet">
+            <input type="hidden" name="reportType" value="MECHANIC">
             <input type="submit" value="Report 3 mechanic most repair">
         </form>
         

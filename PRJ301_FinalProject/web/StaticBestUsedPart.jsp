@@ -18,7 +18,7 @@
         <h1>STATICS OF BEST USED PARTS</h1>
         <%
             
-            ArrayList<PartUsed> list = (ArrayList<PartUsed>)session.getAttribute("LIST_USEDPART");
+            ArrayList<PartUsed> list = (ArrayList<PartUsed>)request.getAttribute("LIST_USEDPART");
             if (list != null && !list.isEmpty()) {
         %>
 
