@@ -97,7 +97,7 @@ public class UpdateServiceTicketDAO {
         return map;
     }
     
-    public HashMap<ServiceMechanic, String>[] getServiceMechanicDetails() {
+    public HashMap<ServiceMechanic, String>[] getServiceMechanicDetails(String mechanicID) {
     Connection cn = null;
     HashMap<ServiceMechanic, String> mapServiceName = new HashMap<>();
     HashMap<ServiceMechanic, String> mapMechanicName = new HashMap<>();
@@ -109,9 +109,11 @@ public class UpdateServiceTicketDAO {
                        + "sm.comment, sm.rate, s.serviceName, m.mechanicName, sm.status "
                        + "FROM ServiceMehanic sm "
                        + "JOIN Service s ON sm.serviceID = s.serviceID "
-                       + "JOIN Mechanic m ON sm.mechanicID = m.mechanicID";
+                       + "JOIN Mechanic m ON sm.mechanicID = m.mechanicID "
+                       + "WHERE sm.mechanicID LIKE ?";
 
             PreparedStatement st = cn.prepareStatement(sql);
+            st.setString(1, "%"+mechanicID+"%");
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {

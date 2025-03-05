@@ -40,7 +40,6 @@ public class CRUDCarServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String cRUDAction = request.getParameter("cRUDAction");
-            HttpSession session = request.getSession(true);
             CRUDSearchCarDAO cRUDDAO = new CRUDSearchCarDAO();
             Car car = new Car();
             String isCRUD = "Failed to ";
@@ -97,6 +96,7 @@ public class CRUDCarServlet extends HttpServlet {
                     break;
 
             }
+            
             request.setAttribute("isCRUD", isCRUD);
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -32,6 +32,7 @@ public class FindCarPartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 //            String partId = request.getParameter("carPartID");
@@ -43,8 +44,8 @@ public class FindCarPartServlet extends HttpServlet {
             }
 
             ArrayList<CarParts> list = findCar.getPartCar(partName);
-            request.getSession().setAttribute("LIST_PART", list);
-            request.getRequestDispatcher("FindCarPart.jsp").forward(request, response);
+            request.setAttribute("LIST_PART", list);
+            request.getRequestDispatcher("PartManagementPage.jsp").forward(request, response);
         }
     }
 
@@ -75,7 +76,9 @@ public class FindCarPartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         processRequest(request, response);
+        
     }
 
     /**

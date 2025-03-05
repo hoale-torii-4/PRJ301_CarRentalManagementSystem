@@ -11,12 +11,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Service;
 
 /**
  *
  * @author LENOVO
  */
-public class CreateServiceServlet extends HttpServlet {
+public class CRUDServiceServlet extends HttpServlet {
+
+    final String CREATE = "CREATE";
+    final String UPDATE = "UPDATE";
+    final String DELETE = "DELETE";
+    String url = "ServicePage.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,21 +36,56 @@ public class CreateServiceServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String cRUDAction = request.getParameter("cRUDAction");
             CRUDServiceDAO serviceDAO = new CRUDServiceDAO();
-            String name = request.getParameter("serviceName");
+            String isCRUD = "Failed to";
+            Service s = new Service();
+            String serviceName = "";
             double hourlyRate = 0;
-            try {
-                hourlyRate = Double.parseDouble("hourlyRate".trim());
-                
-            } catch (NumberFormatException e) {
+            String serviceID = "";
+            switch (cRUDAction) {
+                case CREATE:
+                    serviceName = request.getParameter("serviceName");
+                    hourlyRate = 0;
+                    try {
+                        hourlyRate = Double.parseDouble(request.getParameter("hourlyRate"));
+                        if (serviceDAO.isCreated(serviceName, hourlyRate)) {
+                            isCRUD = "Created new service successfully!";
+                        } else {
+                            isCRUD = "Created new service fail!";
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                    break;
+                case DELETE:
+                    serviceID = request.getParameter("serviceID");
+                    if (serviceDAO.DeleteServlet(serviceID)) {
+                        isCRUD = "Deleted service successfully!";
+                    } else {
+                        isCRUD = "Deleted service fail!";
+                    }
+                    break;
+                case UPDATE:
+                    serviceID = request.getParameter("serviceID");
+                    serviceName = request.getParameter("serviceName");
+                    hourlyRate = 0;
+                    try {
+                        hourlyRate = Double.parseDouble(request.getParameter("hourlyRate").trim());
+                    } catch (NumberFormatException e) {
+                        request.setAttribute("updateMess", "Wrong format number!");
+                    }
+                    if (serviceDAO.UpdateService(serviceID, serviceName, hourlyRate)) {
+                        isCRUD = "Updated service successfully!";
+                    } else {
+                        isCRUD = "Updated service fail!";
+                    }
+                    break;
             }
-            if(serviceDAO.isCreated(name, hourlyRate))
-                request.setAttribute("updateMess", "Created successfully!");
-            else
-                request.setAttribute("updateMess", "Created fail!");
-            request.getRequestDispatcher("ServicePage.jsp").forward(request, response);
+            request.setAttribute("updateMess", isCRUD);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

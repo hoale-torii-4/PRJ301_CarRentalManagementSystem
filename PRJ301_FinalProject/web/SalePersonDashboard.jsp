@@ -236,6 +236,8 @@
 
             
              <a href="ListCustomer.jsp"><button>Manage Customer</button></a>
+             <a href="PartManagementPage.jsp"><button>Manage Part</button></a>
+             <a href="ReportSalePerson.jsp"><button>Report</button></a>
 
 
     </body>
