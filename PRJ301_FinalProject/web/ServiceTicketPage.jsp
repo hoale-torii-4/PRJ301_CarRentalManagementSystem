@@ -53,7 +53,7 @@
         %>
         <h2><%= mess %></h2>
         
-        <form id="searchForm" action="SearchServiceTicketServlet" method="POST">
+        <form id="searchForm" action="UpdateServiceTicketServlet" method="POST">
             <input type="text" name="query" id="searchInput" list="serviceSuggestions" oninput="fetchSuggestions()" onchange="autoSubmit()">
             <datalist id="serviceSuggestions"></datalist>
             <button type="submit">Search</button>

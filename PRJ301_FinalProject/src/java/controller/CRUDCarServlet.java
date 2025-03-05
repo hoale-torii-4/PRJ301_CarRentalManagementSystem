@@ -61,6 +61,7 @@ public class CRUDCarServlet extends HttpServlet {
                     car = new Car(carID, serialNumber, model, colour, year, price);
                     if (cRUDDAO.isCreateCar(car)) {
                         isCRUD = "Create new car Successful!!";
+                       
                     } else {
                         isCRUD = "Create new Car is Failed!! TRY AGAIN!";
                     }

@@ -7,7 +7,9 @@
     <body>
         <h1 >Add a new Customer</h1>
 
-<form action="AddCustomerServlet" method="post" accept-charset="UTF-8">
+<form action="CRUDCustomerServlet" method="post" accept-charset="UTF-8">
+    <input type="hidden" name="cRUDAction" value="CREATE"/>
+        
     <label>Enter Name:</label>
     <input type="text" name="name" required/><br/>
 

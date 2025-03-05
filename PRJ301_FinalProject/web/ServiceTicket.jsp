@@ -22,11 +22,12 @@
     <label for="dateReceived">Date Received:</label>
     <input type="date" id="dateReceived" name="dateReceived" /><br/>
 
-    <input type="submit" value="Search" />
+    <input type="submit" value="Search" /><br/><br/>
+    <button type="submit"> <p>Service Tickets</p> </button><br/><br/>
 </form>
 
 <!-- Display Service Tickets -->
-<h3><a href="ServiceTickets">Service Tickets</a></h3>
+
 <table border="1">
     <thead>
         <tr>

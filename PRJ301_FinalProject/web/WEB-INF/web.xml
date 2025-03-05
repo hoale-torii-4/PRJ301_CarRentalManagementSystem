@@ -80,6 +80,10 @@
         <servlet-name>UpdateServiceTicketServlet</servlet-name>
         <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>SearchServiceTicketServlet</servlet-name>
+        <servlet-class>controller.SearchServiceTicketServlet</servlet-class>
+    </servlet>
     
     
     <!-- New servlets to be added -->
@@ -245,6 +249,11 @@
         <servlet-name>UpdateCustomerServlet</servlet-name>
         <url-pattern>/UpdateCustomerServlet</url-pattern>
     </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>SearchServiceTicketServlet</servlet-name>
+        <url-pattern>/SearchServiceTicketServlet</url-pattern>
+    </servlet-mapping>
+    
 
     <!-- Session Configuration -->
     <session-config>
