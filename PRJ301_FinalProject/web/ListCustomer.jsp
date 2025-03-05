@@ -109,7 +109,7 @@
                 <td><%= customer.getCustAddress()%></td>
                 <td>
                     <a href="UpdateCustomer.jsp?id=<%= customer.getCustID()%>">Update</a> |
-                    <a href="DeleteCustomerServlet?id=<%= customer.getCustID()%>">Delete</a>|
+                    <a href="CRUDCustomerServlet?cRUDAction=DELETE&id=<%= customer.getCustID()%>">Delete</a>|
                     <a href="CreateInvoiceServlet?custId=<%= customer.getCustID()%>">Create Invoice</a>
                 </td>
             </tr>

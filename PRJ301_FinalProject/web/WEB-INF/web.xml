@@ -66,6 +66,12 @@
         <servlet-name>UpdateServiceTicketServlet</servlet-name>
         <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>SearchServiceTicketServlet</servlet-name>
+        <servlet-class>controller.SearchServiceTicketServlet</servlet-class>
+    </servlet>
+    
+
     <!-- New servlets to be added -->
     <servlet>
         <servlet-name>AddCustomerServlet</servlet-name>
@@ -177,6 +183,14 @@
         <servlet-name>CRUDServiceServlet</servlet-name>
         <url-pattern>/CRUDServiceServlet</url-pattern>
     </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>SearchServiceTicketServlet</servlet-name>
+        <url-pattern>/SearchServiceTicketServlet</url-pattern>
+    </servlet-mapping>
+    
+
+    <!-- Session Configuration -->
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
