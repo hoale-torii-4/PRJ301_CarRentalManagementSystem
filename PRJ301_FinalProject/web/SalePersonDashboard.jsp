@@ -67,7 +67,6 @@
                 document.getElementById("updateColour").value = colour;
                 document.getElementById("updateYear").value = year;
                 document.getElementById("updatePrice").value = price;
-
                 document.getElementById("updateCarModal").style.display = "block";
                 document.getElementById("overlay").style.display = "block";
             }
@@ -191,8 +190,6 @@
                                 Delete
                             </button>
                         </td>
-
-
                     </tr>
                     <% } %>
                 </tbody>

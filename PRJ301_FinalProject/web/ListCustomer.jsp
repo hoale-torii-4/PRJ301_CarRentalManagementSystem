@@ -76,7 +76,7 @@
         %>
 
         <!-- Bảng khách hàng -->
-        <table>
+        <table id="customerTableResult">
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -106,6 +106,7 @@
             </tr>
             <% } %>
         </table>
+        <button onclick="closeAllModals()">Cancel</button>
         <% } else { %>
         <p>No customers found matching your search.</p>
         <% } %>
@@ -141,7 +142,7 @@
         <%
             }%> 
         <!-- Overlay để che nền -->
-        <div id="overlay" class="overlay" onclick="closeAllModals()"></div>
+        <div id="overlay" class="overlay" onclick="closeAllModals(); hideCreateForm();"></div>
 
         <!-- Pop-up Thêm Khách Hàng -->
         <div id="addCustomerModal" class="modal">
@@ -178,8 +179,8 @@
                 <label>Address:</label>
                 <input type="text" name="address" id="updateCustomerAddress" required/><br/>
                 <button type="submit">Update</button>
-                <button type="button" onclick="closeUpdateCustomerModal()">Cancel</button>
             </form>
+                <button type="button" onclick="closeUpdateCustomerModal()">Cancel</button>
         </div>
         <div id="createInvoiceModal" class="modal">
             <h3>Create Invoice</h3>
@@ -203,8 +204,8 @@
                 <datalist id="carSuggestions1"></datalist><br>
 
                 <button type="submit">Create Invoice</button>
-                <button type="button" onclick="closeCreateInvoiceModal()">Cancel</button>
             </form>
+                <button type="button" onclick="closeCreateInvoiceModal()">Cancel</button>
         </div>
 
         <!-- JavaScript -->
@@ -251,7 +252,7 @@
                 document.getElementById("overlay").style.display = "none";
             }
 
-
+            
             function deleteCustomer(customerId) {
                 if (confirm("Are you sure you want to delete this customer?")) {
                     window.location.href = "CRUDCustomerServlet?cRUDAction=DELETE&id=" + customerId;
@@ -262,7 +263,11 @@
                 window.location.href = "CreateInvoiceServlet?custId=" + customerId;
             }
             function closeAllModals() {
-                closeCreateInvoiceModal();
+                document.getElementById("addCustomerModal").style.display = "none";
+                document.getElementById("updateCustomerModal").style.display = "none";
+                document.getElementById("createInvoiceModal").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+                document.getElementById("customerTableResult").style.display = "none";
             }
         </script>
         <script>
