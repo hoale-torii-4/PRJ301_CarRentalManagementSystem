@@ -4,18 +4,23 @@
  */
 package controller;
 
+import DAO.CustomerInvoiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.SaleInvoiceDetail;
 
 /**
  *
  * @author LENOVO
  */
-public class CarDetailServlet extends HttpServlet {
+@WebServlet(name = "CustomerDetailInvoiceServlet", urlPatterns = {"/CustomerDetailInvoiceServlet"})
+public class CustomerDetailInvoiceServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,15 +36,11 @@ public class CarDetailServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CarDetailServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CarDetailServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String invoiceID = request.getParameter("invoiceID");
+            CustomerInvoiceDAO invoiceDAO = new CustomerInvoiceDAO();
+            ArrayList<SaleInvoiceDetail> list = invoiceDAO.invoiceDetailByInvoiceID(invoiceID);
+            request.setAttribute("LIST_DETAIL", list);
+            request.getRequestDispatcher("CustomerInvoicePage.jsp").forward(request, response);
         }
     }
 

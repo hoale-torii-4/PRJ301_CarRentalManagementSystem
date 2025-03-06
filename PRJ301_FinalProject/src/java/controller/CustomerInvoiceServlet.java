@@ -7,12 +7,16 @@ package controller;
 import DAO.CustomerInvoiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Car;
+import model.SaleInvoiceDetail;
 import model.SalesInvoice;
+import model.ServiceTicketDetails;
 
 /**
  *
@@ -35,11 +39,15 @@ public class CustomerInvoiceServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 //            String customerID = (String) request.getAttribute("11051");
-            String customerID = "11051";
+            String customerID = request.getParameter("id");
             CustomerInvoiceDAO invoiceDAO = new CustomerInvoiceDAO();
-            HashMap<SalesInvoice,String>[] map = invoiceDAO.customerInvoice(customerID);
-            request.setAttribute("MAP_SALEINVOICE", map);
+//            HashMap<SalesInvoice,String>[] map = invoiceDAO.customerInvoice(customerID);
+//            request.setAttribute("MAP_SALEINVOICE", map);
+//            request.getRequestDispatcher("CustomerInvoicePage.jsp").forward(request, response);
+            ArrayList<SaleInvoiceDetail> list = invoiceDAO.getInvoiceDetail(customerID);
+            request.setAttribute("LIST_INVOICE", list);
             request.getRequestDispatcher("CustomerInvoicePage.jsp").forward(request, response);
+//            response.sendRedirect("CustomerInvoicePage.jsp");
         }
     }
 

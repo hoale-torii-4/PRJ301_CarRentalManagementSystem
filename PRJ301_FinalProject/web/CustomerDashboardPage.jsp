@@ -79,6 +79,7 @@
            
         %>
         <a href="ViewServiceTicket?id=<%=kq.getCustID()%>"><button>View My Service Ticket</button></a>
+        <a href="CustomerInvoiceServlet?id=<%=kq.getCustID()%>"><button>View Invoice</button></a>  
         
     </body>
 </html>
