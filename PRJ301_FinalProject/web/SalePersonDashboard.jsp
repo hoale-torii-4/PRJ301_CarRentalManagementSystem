@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="model.Car"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -7,6 +8,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Search Car</title>
         <script>
+            window.onload = function () {
+                let searchResults = <%= (request.getAttribute("searchResults") != null) ? "true" : "false"%>;
+                if (searchResults) {
+                    document.getElementById("searchDiv").style.display = "block";
+                }
+            };
             function fetchSuggestions() {
                 let query = document.getElementById("searchInput").value;
                 if (query.length < 1)
@@ -28,10 +35,19 @@
             }
             function showCreateForm() {
                 document.getElementById("createCarForm").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
             }
 
             function hideCreateForm() {
                 document.getElementById("createCarForm").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            }
+            function showSearchDiv() {
+                document.getElementById("searchDiv").style.display = "block";
+            }
+
+            function hideSearchDiv() {
+                document.getElementById("searchDiv").style.display = "none";
             }
 
             function autoSubmit() {
@@ -76,22 +92,18 @@
 
     </head>
     <body>
-        <h2>Search Car by Serial Number, Model, or Year</h2>
-
-        <form id="searchForm" action="SearchCarServlet" method="POST">
-            <input type="text" name="query" id="searchInput" list="carSuggestions" 
-                   oninput="fetchSuggestions()" onchange="autoSubmit()">
-
-            <datalist id="carSuggestions"></datalist>
-
-            <button type="submit">Search</button>
-        </form>
-
+        <a href="ListCustomer.jsp"><button>Manage Customer</button></a>
+        <a href="PartManagementPage.jsp"><button>Manage Part</button></a>
+        <a href="ReportSalePerson.jsp"><button>Report</button></a>
         <button type="submit" onclick="autoSubmit()">View List ALL CAR</button>
-        <button type="button" onclick="showCreateForm()">Add new Car</button>
+        <button type="button" onclick="showCreateForm()">Add new Car</button><br>
+        <button type="button" onclick="showSearchDiv()">Search Car by Serial Number, Model, or Year </button>
 
-        <!-- Form nhập thông tin xe (Ẩn mặc định) -->
-        <div id="createCarForm" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+
+
+
+        <div id="createCarForm" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+             background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
             <h3>Create New Car</h3>
             <form id="newCarForm" action="CRUDCarServlet?cRUDAction=CREATE" method="POST">
                 <label>Serial Number:</label>
@@ -119,65 +131,78 @@
                 <button type="button" onclick="hideCreateForm()">Cancel</button>
             </form>
         </div>
-                
-                
- <!-- In thông báo sau khi thực hiện CRUD -->
-<% 
-    if (request.getAttribute("isCRUD") != null) { 
-%>
-    <h4><%= request.getAttribute("isCRUD") %></h4>
-<% 
-    } 
-%>
+        <div id="searchDiv"style="display: none">
+            <h4>Search Car by Serial Number, Model, or Year</h4>
+            <form id="searchForm"  action="SearchCarServlet" method="POST">
+                <input type="text" name="query" id="searchInput" list="carSuggestions" 
+                       oninput="fetchSuggestions()" onchange="autoSubmit()">
 
-        <h3>Search Results:</h3>
+                <datalist id="carSuggestions"></datalist>
 
-        <%
-            List<Car> searchResults = (List<Car>) request.getAttribute("searchResults");
-            if (searchResults != null && !searchResults.isEmpty()) {
-        %>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Car ID</th>
-                    <th>Serial Number</th>
-                    <th>Model</th>
-                    <th>Colour</th>
-                    <th>Year</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (Car car : searchResults) {%>
-                <tr>
-                    <td><%= car.getCarId()%></td>
-                    <td><%= car.getSerialNumber()%></td>
-                    <td><%= car.getModel()%></td>
-                    <td><%= car.getColor()%></td>
-                    <td><%= car.getYear()%></td>
-                    <td><%= car.getPrice()%></td>
-                    <td>
-                        <button type="button" onclick="openUpdateModal('<%= car.getCarId()%>', '<%= car.getSerialNumber()%>',
-                                        '<%= car.getModel()%>', '<%= car.getColor()%>', '<%= car.getYear()%>', '<%= car.getPrice()%>')">
-                            Update
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" onclick="confirmDelete('<%= car.getCarId()%>')">
-                            Delete
-                        </button>
-                    </td>
+                <button type="submit">Search</button>
+                <button type="button" onclick="hideSearchDiv()">Cancel Search</button>
+            </form>
+
+            <!-- In thông báo sau khi thực hiện CRUD -->
+            <%
+                if (request.getAttribute("isCRUD") != null) {
+            %>
+            <h4><%= request.getAttribute("isCRUD")%></h4>
+            <%
+                }
+            %>
+
+            <h3>Search Results:</h3>
+
+            <%
+                //format price
+                DecimalFormat df = new DecimalFormat("#,###");
+                List<Car> searchResults = (List<Car>) request.getAttribute("searchResults");
+                if (searchResults != null && !searchResults.isEmpty()) {
+            %>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Car ID</th>
+                        <th>Serial Number</th>
+                        <th>Model</th>
+                        <th>Colour</th>
+                        <th>Year</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (Car car : searchResults) {%>
+                    <tr>
+                        <td><%= car.getCarId()%></td>
+                        <td><%= car.getSerialNumber()%></td>
+                        <td><%= car.getModel()%></td>
+                        <td><%= car.getColor()%></td>
+                        <td><%= car.getYear()%></td>
+                        <td><%= df.format(car.getPrice())%></td>
+                        <td>
+                            <button type="button" onclick="openUpdateModal('<%= car.getCarId()%>', '<%= car.getSerialNumber()%>',
+                                            '<%= car.getModel()%>', '<%= car.getColor()%>', '<%= car.getYear()%>', '<%= car.getPrice()%>')">
+                                Update
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" onclick="confirmDelete('<%= car.getCarId()%>')">
+                                Delete
+                            </button>
+                        </td>
 
 
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
-        <%
-        } else {
-        %>
-        <p>No results found.</p>
-        <% }%>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            <%
+            } else {
+            %>
+            <p>No results found.</p>
+            <% }%>
+        </div>
         <!-- Modal cập nhật xe (ẩn mặc định) -->
         <div id="updateCarModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
              background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
@@ -187,7 +212,7 @@
 
                 <label>Serial Number:</label>
                 <input type="text" name="carSerialNumber" id="updateSerialNumber" required><br>
- 
+
                 <label>Model:</label>
                 <input type="text" name="carModel" id="updateModel" required><br>
 
@@ -216,9 +241,10 @@
 
         <!-- Overlay để che nền -->
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-             background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeUpdateModal()"></div>
-             
-             
+             background: rgba(0,0,0,0.5); z-index: 999;" onclick="hideCreateForm(); closeUpdateModal();">
+        </div>
+
+
         <!-- Modal xác nhận xóa -->
         <div id="deleteConfirmModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
              background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
@@ -234,10 +260,7 @@
         <div id="deleteOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
              background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeDeleteModal()"></div>
 
-            
-             <a href="ListCustomer.jsp"><button>Manage Customer</button></a>
-             <a href="PartManagementPage.jsp"><button>Manage Part</button></a>
-             <a href="ReportSalePerson.jsp"><button>Report</button></a>
+
 
 
     </body>

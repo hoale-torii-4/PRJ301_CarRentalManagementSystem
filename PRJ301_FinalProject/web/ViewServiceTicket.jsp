@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
-        <title>Your Service Tickets</title>
+        <title>SERVICE TICKET</title>
         <style>
             table {
                 width: 100%;
@@ -37,7 +37,7 @@
     </head>
 
     <body>
-        <h2>Your Service Tickets</h2>
+        <h2 style="text-align: center">SEVICE TICKET</h2>
 
         <%
             List<ServiceTicketDetails> serDetail = (List<ServiceTicketDetails>) request.getAttribute("serDetail");
@@ -131,7 +131,7 @@
                                 <td>
                                     <form action="ViewServiceTicket" method="POST">
                                         <input type="hidden" name="ticketID" value="<%= ticket.getTicketID() %>">
-                                        <input type="submit" value="Detail" />
+                                        <input type="submit" class="details-btn" value="Detail" />
                                     </form>
                                 </td>
                             </tr>
@@ -148,7 +148,7 @@
             </tbody>
         </table>
 
-        <% } %>
         <a href="CustomerDashboardPage.jsp"><button>Back</button></a>
+        <% } %>
     </body>
 </html>
