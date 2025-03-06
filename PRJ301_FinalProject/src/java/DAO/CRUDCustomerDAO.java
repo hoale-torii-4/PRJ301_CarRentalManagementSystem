@@ -57,32 +57,31 @@ public class CRUDCustomerDAO {
     //
 
     public int addCustomer(Customer customer) {
-    int custID = 0;
+        int custID = 0;
 
-    try (Connection cn = DBUtils.getConnection()) {
-        if (cn != null) {
-           long newID = System.currentTimeMillis() % Integer.MAX_VALUE;
-            String sql = "INSERT INTO dbo.Customer (custID, custName, phone, sex, cusAddress) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement st = cn.prepareStatement(sql);
-            st.setLong(1, newID);  // Đặt newID là custID
-            st.setString(2, customer.getCustName());
-            st.setString(3, customer.getPhone());
-            st.setString(4, customer.getSex());
-            st.setString(5, customer.getCustAddress());
+        try (Connection cn = DBUtils.getConnection()) {
+            if (cn != null) {
+                long newID = System.currentTimeMillis() % Integer.MAX_VALUE;
+                String sql = "INSERT INTO dbo.Customer (custID, custName, phone, sex, cusAddress) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setLong(1, newID);  // Đặt newID là custID
+                st.setString(2, customer.getCustName());
+                st.setString(3, customer.getPhone());
+                st.setString(4, customer.getSex());
+                st.setString(5, customer.getCustAddress());
 
-            int row = st.executeUpdate();
-            if (row > 0) {
-                custID = (int) newID;
+                int row = st.executeUpdate();
+                if (row > 0) {
+                    custID = (int) newID;
+                }
+
+                st.close();
             }
-
-            st.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return custID;
     }
-    return custID;
-}
-
 
     public boolean deleteCustomer(int custID) {
         Connection cn = null;
@@ -92,7 +91,7 @@ public class CRUDCustomerDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-               
+
                 String sql = "UPDATE Customer SET status = 0 WHERE custID = ?";
                 st = cn.prepareStatement(sql);
                 st.setInt(1, custID);
@@ -128,10 +127,10 @@ public class CRUDCustomerDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-             
+
                 String sql = "SELECT * FROM Customer WHERE custID = ? and status = 1";
                 st = cn.prepareStatement(sql);
-                st.setInt(1, custID); 
+                st.setInt(1, custID);
 
                 rs = st.executeQuery();
 
@@ -175,7 +174,7 @@ public class CRUDCustomerDAO {
             if (cn != null) {
                 String sql = "SELECT * FROM Customer WHERE custName LIKE ? and status = 1";
                 st = cn.prepareStatement(sql);
-                st.setString(1, "%" + name + "%"); 
+                st.setString(1, "%" + name + "%");
 
                 rs = st.executeQuery();
                 while (rs != null && rs.next()) {
@@ -210,14 +209,14 @@ public class CRUDCustomerDAO {
     }
 
     public boolean updateCustomer(Customer customer) {
+        boolean isUpdated = false;
         Connection cn = null;
         PreparedStatement st = null;
-        boolean isUpdated = false;
 
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "UPDATE Customer SET custName = ?, phone = ?, sex = ?, cusAddress = ? WHERE custID = ?";
+                String sql = "UPDATE Customer SET custName = ?, phone = ?, sex = ?, cusAddress = ? WHERE custID = ? AND status = 1";
                 st = cn.prepareStatement(sql);
                 st.setString(1, customer.getCustName());
                 st.setString(2, customer.getPhone());
@@ -226,8 +225,11 @@ public class CRUDCustomerDAO {
                 st.setInt(5, customer.getCustID());
 
                 int rowsAffected = st.executeUpdate();
+                System.out.println("🔄 Rows affected: " + rowsAffected);
                 if (rowsAffected > 0) {
                     isUpdated = true;
+                } else {
+                    System.out.println("⚠️ No rows updated. Check custID and status.");
                 }
             }
         } catch (Exception e) {
