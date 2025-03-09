@@ -71,7 +71,7 @@ public class ReportDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT [serviceTicketID],[partID],[numberUsed],[price],[status]\n"
+                String sql = "SELECT TOP 1 WITH TIES [serviceTicketID],[partID],[numberUsed],[price],[status]\n"
                         + "FROM [dbo].[PartsUsed]\n"
                         + "ORDER BY numberUsed DESC";
                 PreparedStatement st = cn.prepareStatement(sql);
@@ -113,7 +113,7 @@ public class ReportDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT TOP 3\n"
+                String sql = "SELECT TOP 3 WITH TIES\n"
                         + "    ServiceMehanic.mechanicID, \n"
                         + "    Mechanic.mechanicName, \n"
                         + "    COUNT(ServiceMehanic.mechanicID) AS TOTAL,Mechanic.status\n"
@@ -180,7 +180,7 @@ public class ReportDAO {
 
     public HashMap<Car, Integer> bestSellingCarModel() {
         HashMap<Car, Integer> map = new HashMap<>();
-        String sql = "SELECT Cars.carID,Cars.serialNumber,Cars.model,Cars.colour,Cars.year,Cars.price,COUNT(SalesInvoice.carID) AS NumberOfCarSold\n"
+        String sql = "SELECT TOP 1 WITH TIES Cars.carID,Cars.serialNumber,Cars.model,Cars.colour,Cars.year,Cars.price,COUNT(SalesInvoice.carID) AS NumberOfCarSold\n"
                 + "FROM SalesInvoice JOIN Cars ON SalesInvoice.carID = Cars.carID \n"
                 + "WHERE SalesInvoice.status = 1\n"
                 + "GROUP BY  Cars.carID,Cars.serialNumber,Cars.model,Cars.colour,Cars.year,Cars.price\n"
