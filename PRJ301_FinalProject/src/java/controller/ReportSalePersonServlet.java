@@ -30,7 +30,7 @@ public class ReportSalePersonServlet extends HttpServlet {
     final String BESTMODEL = "BESTMODEL";
     final String BESTPART = "BESTPART";
     final String MECHANIC = "MECHANIC";
-    String url = "";
+    String url = "ReportSalePerson.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,23 +57,19 @@ public class ReportSalePersonServlet extends HttpServlet {
                     double revenue = list.stream().mapToDouble(SalesInvoice::getPrice).sum();
                     request.setAttribute("LIST_YEAR", list);
                     request.setAttribute("REVENUE", revenue);
-                    url = "StaticCarSoldByYear.jsp";
                     break;
                 case BESTMODEL:
                     HashMap<Car, Integer> cars = reportDAO.bestSellingCarModel();
                     request.setAttribute("BSCAR_MAP", cars);
-                    url = "BestCarSellingModel.jsp";
                     break;
                 case BESTPART:
                     ArrayList<PartUsed> PuList = reportDAO.partUsedList();
                     request.setAttribute("LIST_USEDPART", PuList);
-                    url = "StaticBestUsedPart.jsp";
+             
                     break;
                 case MECHANIC:
                     HashMap<Mechanic, Integer> mapMechanic = reportDAO.ThreeMechanicID();
-                    request.setAttribute("MAP_MECHANIC", mapMechanic);
-                    url = "ThreeMostMechanic.jsp";
-                    break;
+                    request.setAttribute("MAP_MECHANIC", mapMechanic);                    break;
                 default:
                     updateMess = "Somethings wrong!";
             }
