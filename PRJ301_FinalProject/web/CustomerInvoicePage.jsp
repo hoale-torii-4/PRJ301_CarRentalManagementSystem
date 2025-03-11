@@ -34,59 +34,38 @@
             ArrayList<SaleInvoiceDetail> saleInvoices = (ArrayList<SaleInvoiceDetail>) request.getAttribute("LIST_INVOICE");
             ArrayList<SaleInvoiceDetail> detaiInvoices = (ArrayList<SaleInvoiceDetail>) request.getAttribute("LIST_DETAIL");
 
-            boolean isDetailView = (detaiInvoices != null && !detaiInvoices.isEmpty()); // Ki?m tra có ?ang ? ch? ?? xem chi ti?t không
+            boolean isDetailView = (detaiInvoices != null && !detaiInvoices.isEmpty()); 
         %>
         <% if (isDetailView) { %>
-        <!-- Hi?n th? thông tin chi ti?t hóa ??n -->
+        <h2>Detail</h2>
         <% for (SaleInvoiceDetail si : detaiInvoices) {%>
         <table class="info-table">
             <tr>
                 <td><strong>Invoice ID:</strong> <%= si.getInvoiceID()%></td>
                 <td><strong>Invoice Date:</strong> <%= si.getInvoiceDate()%></td>
-                <td><strong>Price:</strong> <%= si.getInvoicePrice()%></td>
-                <td><strong>Car Serial number:</strong> <%= si.getSerialNumber()%></td>
+                <td><strong>Sale Name:</strong> <%= si.getSalesName()%></td>
+                <td><strong>Price:</strong> <%= NumberFormat.getInstance().format(si.getInvoicePrice()) %></td>
+                
             </tr>
             <tr>
+                <td><strong>Cust Name:</strong> <%= si.getCustName()%></td>
+                <td><strong>Sex:</strong> <%= si.getSex()%></td>
+                <td><strong>Cust Address:</strong> <%= si.getCusAddress()%></td>
+                <td><strong>Phone:</strong> <%= si.getPhone()%></td>
+            </tr>
+            <tr>
+                <td><strong>Car Serial number:</strong> <%= si.getSerialNumber()%></td>
                 <td><strong>Car model:</strong> <%= si.getModel()%></td>
                 <td><strong>Car color:</strong> <%= si.getColour()%></td>
                 <td><strong>Car year:</strong> <%= si.getYear()%></td>
-                <td><strong>Cust Name:</strong> <%= si.getCustName()%></td>
-            </tr>
-            <tr>
-                <td><strong>Phone:</strong> <%= si.getPhone()%></td>
-                <td><strong>Sex:</strong> <%= si.getSex()%></td>
-                <td><strong>Cust Address:</strong> <%= si.getCusAddress()%></td>
-                <td><strong>Sale Name:</strong> <%= si.getSalesName()%></td>
+                
             </tr>
         </table>
         <% } %>
 
-        <h3 style="text-align: center">DETAIL</h3>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Car Model</th>
-                    <th>Serial Number</th>
-                    <th>Color</th>
-                    <th>Year</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (SaleInvoiceDetail s : detaiInvoices) {%>
-                <tr>
-                    <td><%= s.getModel()%></td>
-                    <td><%= s.getSerialNumber()%></td>
-                    <td><%= s.getColour()%></td>
-                    <td><%= s.getYear()%></td>
-                    <td><%= NumberFormat.getNumberInstance().format(s.getInvoicePrice())%></td>
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
         <% } else { %>
         <!-- Hi?n th? danh sách hóa ??n n?u không có chi ti?t -->
-        <h3>List of Invoices</h3>
+        <h2>List of Invoices</h2>
         <table>
             <tr>
                 <th>Invoice Id</th>
@@ -120,6 +99,7 @@
         </table>
         <% }%>
 
-        <a href="CustomerDashboardPage.jsp"><button>Back</button></a>
+        
+        <a href="CustomerDashboardPage.jsp"><button>Back to dashboard</button></a>
     </body>
 </html>
