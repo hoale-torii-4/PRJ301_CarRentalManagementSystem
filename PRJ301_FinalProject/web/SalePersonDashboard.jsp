@@ -26,7 +26,7 @@
 
         /* Navbar Styling */
         .navbar {
-            background-color: red;
+            background-color: #003366;
             color: white;
         }
 

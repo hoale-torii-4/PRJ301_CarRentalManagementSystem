@@ -4,11 +4,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Staff Login</title>
-        <style>
+          <style>
             /* General Styling */
             body {
                 font-family: 'Arial', sans-serif;
-                background-color: #1a1a1a; /* Dark background for contrast */
+                background-color: #ffffff; /* Nền trắng */
+                color: #003366; /* Chữ màu xanh da trời */
                 margin: 0;
                 padding: 0;
                 display: flex;
@@ -19,7 +20,7 @@
 
             /* Container Styling */
             .login-container {
-                background-color: #2b2b2b; /* Dark grey container */
+                background-color: #f4f4f4; /* Nền sáng cho container */
                 padding: 30px;
                 border-radius: 15px;
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -30,7 +31,7 @@
 
             /* Title Styling */
             h2 {
-                color: #FF5722; /* Bright orange-red */
+                color: #003366; /* Chữ màu xanh da trời */
                 margin-bottom: 25px;
                 font-size: 32px;
                 letter-spacing: 1px;
@@ -40,7 +41,7 @@
             label {
                 font-size: 14px;
                 margin-bottom: 5px;
-                color: #bbb; /* Lighter text color */
+                color: #003366; /* Chữ màu xanh da trời */
                 width: 20%;
                 text-align: left;
             }
@@ -60,8 +61,8 @@
                 border: 1px solid #444;
                 border-radius: 8px;
                 font-size: 16px;
-                background-color: #3c3c3c;
-                color: white;
+                background-color: #e8e8e8;
+                color: #333;
                 width: 80%; /* Adjust to make them side by side with space between */
             }
 
@@ -72,7 +73,7 @@
             /* Submit Button Styling */
             input[type="submit"] {
                 padding: 12px;
-                background-color: #FF5722; /* Consistent with the header color */
+                background-color: #003366; /* Màu xanh da trời */
                 color: white;
                 font-size: 16px;
                 border: none;
@@ -83,12 +84,12 @@
             }
 
             input[type="submit"]:hover {
-                background-color: #F44336; /* Slightly darker red */
+                background-color: #1565C0; /* Màu xanh đậm khi hover */
             }
 
             /* Error message Styling */
             p {
-                color: #FF3B3B; /* Red error message */
+                color: #FF3B3B; /* Màu đỏ cho thông báo lỗi */
                 font-weight: bold;
                 text-align: center;
                 font-size: 16px;
