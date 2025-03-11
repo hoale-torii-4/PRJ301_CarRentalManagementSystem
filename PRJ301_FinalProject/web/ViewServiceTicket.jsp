@@ -69,7 +69,7 @@
             <tr>
                 <td><strong>Car Model:</strong> <%= ser.getCarModel()%></td>
                 <td><strong>Mechanic Name:</strong> <%= ser.getMechanicName()%></td>
-                <td><strong>Service Name:</strong> <%= ser.getServiceName()%></td>
+                <td><strong>Ticket ID:</strong> <%= ser.getTicketID()%></td>
             </tr>
         </table>
         <%
