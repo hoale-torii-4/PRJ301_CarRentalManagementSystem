@@ -33,6 +33,7 @@ public class LoginStaffServlet extends HttpServlet {
                 if (salePerson != null) {
                     session.setAttribute("user", salePerson.getName());
                     session.setAttribute("salesID", salePerson.getId()); 
+                    session.setAttribute("salePerson", salePerson); 
                     session.setAttribute("role", "SalePerson");
                     response.sendRedirect("SalePersonDashboard.jsp");
                     return;
@@ -44,6 +45,7 @@ public class LoginStaffServlet extends HttpServlet {
                 Mechanic mechanic = mechanicDAO.checkLogin(name);
                 
                 if (mechanic != null) {
+                    session.setAttribute("mechanic", mechanic);
                     session.setAttribute("user", mechanic.getName());
                     session.setAttribute("mechanicID", mechanic.getId());
                     session.setAttribute("role", "Mechanic");

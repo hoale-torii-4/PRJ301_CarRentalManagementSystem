@@ -22,7 +22,7 @@ public class CRUDCarServlet extends HttpServlet {
     final String CREATE = "CREATE";
     final String UPDATE = "UPDATE";
     final String DELETE = "DELETE";
-    String url = "SalePersonDashboard.jsp";
+    String url = "ManageCarPage.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

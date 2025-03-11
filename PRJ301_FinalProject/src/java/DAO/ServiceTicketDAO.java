@@ -6,49 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import model.ServiceMechanic;
 import model.ServiceTicket;
 import model.ServiceTicketDetails;
 import mylib.DBUtils;
 
 public class ServiceTicketDAO {
-    
-    public List<ServiceTicketDetails>getServiceTicketDetails (String ticketID) {
-        List<ServiceTicketDetails> serviceTickets = new ArrayList<>();
 
-        String sql = "SELECT s.serviceName, "
-                + "p.partName, pu.price , pu.numberUsed "
-                + "FROM ServiceTicket st "
-                + "JOIN Customer c ON st.custID = c.custID "
-                + "JOIN Cars ca ON st.carID = ca.carID "
-                + "JOIN ServiceMehanic sm ON st.serviceTicketID = sm.serviceTicketID "
-                + "JOIN Mechanic m ON sm.mechanicID = m.mechanicID "
-                + "JOIN Service s ON sm.serviceID = s.serviceID "
-                + "JOIN PartsUsed pu ON st.serviceTicketID = pu.serviceTicketID "
-                + "JOIN Parts p ON pu.partID = p.partID "
-                + "WHERE st.serviceTicketID LIKE ?";
-
-        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, ticketID);
-            ResultSet rs = ps.executeQuery();
-    
-            String serviceName;
-            String partName;
-            String partPrice;
-            int numberUsed;
-            while (rs.next()) {
-                serviceName = rs.getString("serviceName");
-                numberUsed = rs.getInt("numberUsed");
-                partName = rs.getString("partName");
-                partPrice = rs.getString("price");
-                serviceTickets.add(new ServiceTicketDetails(serviceName, partName, partPrice, numberUsed));
-
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return serviceTickets;
-    }
     public List<ServiceTicketDetails> getServiceTicketForCustomer(String custID) {
         List<ServiceTicketDetails> serviceTickets = new ArrayList<>();
 
@@ -81,7 +47,7 @@ public class ServiceTicketDAO {
             String serviceName;
             String mechanicName;
             String partName;
-            String partPrice;
+            long partPrice;
             int numberUsed;
             while (rs.next()) {
                 ticketID = rs.getString("serviceTicketID");
@@ -95,7 +61,7 @@ public class ServiceTicketDAO {
                 mechanicName = rs.getString("mechanicName");
                 numberUsed = rs.getInt("numberUsed");
                 partName = rs.getString("partName");
-                partPrice = rs.getString("price");
+                partPrice = rs.getLong("price");
                 serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed));
 
             }
@@ -104,7 +70,44 @@ public class ServiceTicketDAO {
         }
         return serviceTickets;
     }
-      public List<ServiceTicketDetails> getServiceTicketForCustomerTiketID(String ticketID) {
+
+    public List<ServiceTicketDetails> getAllServiceTicketForSalePerson() {
+        List<ServiceTicketDetails> serviceTickets = new ArrayList<>();
+
+        String sql = "SELECT st.serviceTicketID, st.dateReceived, st.dateReturned, "
+                + "c.custName, c.phone, "
+                + "ca.model , ca.colour "
+                + "FROM ServiceTicket st "
+                + "JOIN Customer c ON st.custID = c.custID "
+                + "JOIN Cars ca ON st.carID = ca.carID ";
+
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            String ticketID;
+            String dateReceived;
+            String dateReturned;
+            String custName;
+            String phone;
+            String carModel;
+            String carColour;
+
+            while (rs.next()) {
+                ticketID = rs.getString("serviceTicketID");
+                dateReceived = rs.getString("dateReceived");
+                dateReturned = rs.getString("dateReturned");
+                custName = rs.getString("custName");
+                phone = rs.getString("phone");
+                carModel = rs.getString("model");
+                carColour = rs.getString("colour");
+                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return serviceTickets;
+    }
+
+    public List<ServiceTicketDetails> getServiceTicketForCustomerTiketID(String ticketID) {
         List<ServiceTicketDetails> serviceTickets = new ArrayList<>();
 
         String sql = "SELECT st.dateReceived, st.dateReturned, "
@@ -135,7 +138,7 @@ public class ServiceTicketDAO {
             String serviceName;
             String mechanicName;
             String partName;
-            String partPrice;
+            long partPrice;
             int numberUsed;
             while (rs.next()) {
                 dateReceived = rs.getString("dateReceived");
@@ -148,7 +151,7 @@ public class ServiceTicketDAO {
                 mechanicName = rs.getString("mechanicName");
                 numberUsed = rs.getInt("numberUsed");
                 partName = rs.getString("partName");
-                partPrice = rs.getString("price");
+                partPrice = rs.getLong("price");
                 serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed));
 
             }
@@ -205,5 +208,161 @@ public class ServiceTicketDAO {
         }
 
         return tickets;
+    }
+
+    public List<ServiceTicketDetails> createServiceTicketForSalePerson() {
+        Connection cn = null;
+        List<ServiceTicketDetails> list = new ArrayList<>();
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
+
+    public HashMap<ServiceMechanic, String> mapServiceMeGetServiceName() {
+        Connection cn = null;
+        HashMap<ServiceMechanic, String> map = new HashMap<>();
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT ServiceMehanic.serviceTicketID,ServiceMehanic.serviceID,ServiceMehanic.mechanicID,ServiceMehanic.hours,ServiceMehanic.comment,ServiceMehanic.rate,Service.serviceName,ServiceMehanic.status\n"
+                        + "FROM [dbo].[ServiceMehanic] join [dbo].[Service] ON ServiceMehanic.serviceID = Service.serviceID";
+                PreparedStatement st = cn.prepareStatement(sql);
+                ResultSet table = st.executeQuery();
+                if (table != null) {
+                    while (table.next()) {
+                        if (table.getBoolean("status")) {
+                            String serviceTicketID = table.getString("serviceTicketID");
+                            String serviceID = table.getString("serviceID");
+                            String mechanicID = table.getString("mechanicID");
+                            int hour = table.getInt("hours");
+                            String comment = table.getString("comment");
+                            double rate = table.getDouble("rate");
+                            String serviceName = table.getString("serviceName");
+                            map.put(new ServiceMechanic(serviceTicketID, serviceID, mechanicID, hour, comment, rate), serviceName);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return map;
+    }
+
+    public HashMap<ServiceMechanic, String> mapServiceMeGetMechanicName() {
+        Connection cn = null;
+        HashMap<ServiceMechanic, String> map = new HashMap<>();
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT ServiceMehanic.serviceTicketID,ServiceMehanic.serviceID,ServiceMehanic.mechanicID,ServiceMehanic.hours,ServiceMehanic.comment,ServiceMehanic.rate,Mechanic.mechanicName,ServiceMehanic.status\n"
+                        + "FROM [dbo].[ServiceMehanic] join [dbo].[Mechanic] ON ServiceMehanic.mechanicID = Mechanic.mechanicID";
+                PreparedStatement st = cn.prepareStatement(sql);
+                ResultSet table = st.executeQuery();
+                if (table != null) {
+                    while (table.next()) {
+                        if (table.getBoolean("status")) {
+                            String serviceTicketID = table.getString("serviceTicketID");
+                            String serviceID = table.getString("serviceID");
+                            String mechanicID = table.getString("mechanicID");
+                            int hour = table.getInt("hours");
+                            String comment = table.getString("comment");
+                            double rate = table.getDouble("rate");
+                            String mechanicName = table.getString("mechanicName");
+                            map.put(new ServiceMechanic(serviceTicketID, serviceID, mechanicID, hour, comment, rate), mechanicName);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return map;
+    }
+
+    public HashMap<ServiceMechanic, String>[] getServiceMechanicDetails(String mechanicID) {
+        Connection cn = null;
+        HashMap<ServiceMechanic, String> mapServiceName = new HashMap<>();
+        HashMap<ServiceMechanic, String> mapMechanicName = new HashMap<>();
+
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT sm.serviceTicketID, sm.serviceID, sm.mechanicID, sm.hours, "
+                        + "sm.comment, sm.rate, s.serviceName, m.mechanicName, sm.status "
+                        + "FROM ServiceMehanic sm "
+                        + "JOIN Service s ON sm.serviceID = s.serviceID "
+                        + "JOIN Mechanic m ON sm.mechanicID = m.mechanicID "
+                        + "WHERE sm.mechanicID LIKE ?";
+
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setString(1, "%" + mechanicID + "%");
+                ResultSet rs = st.executeQuery();
+
+                while (rs.next()) {
+                    if (rs.getBoolean("status")) {
+                        ServiceMechanic sm = new ServiceMechanic(
+                                rs.getString("serviceTicketID"),
+                                rs.getString("serviceID"),
+                                rs.getString("mechanicID"),
+                                rs.getInt("hours"),
+                                rs.getString("comment"),
+                                rs.getDouble("rate")
+                        );
+
+                        String serviceName = rs.getString("serviceName");
+                        String mechanicName = rs.getString("mechanicName");
+
+                        mapServiceName.put(sm, serviceName);
+                        mapMechanicName.put(sm, mechanicName);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new HashMap[]{mapServiceName, mapMechanicName};
     }
 }

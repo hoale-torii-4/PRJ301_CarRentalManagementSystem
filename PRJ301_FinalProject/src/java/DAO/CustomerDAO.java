@@ -91,6 +91,42 @@ public class CustomerDAO {
         }
         return rs;
     }
+    public Customer getCustomerByName(String custName){
+        Customer rs=null;
+        Connection cn=null;
+        try{
+          cn=DBUtils.getConnection();
+          if(cn!=null){
+              String sql = "select custID,phone,sex,cusAddress\n"
+                      + "from dbo.Customer\n"
+                      + "where custName LIKE ?";
+              PreparedStatement st=cn.prepareStatement(sql);
+              st.setString(1, custName);
+
+              ResultSet table=st.executeQuery();
+                if(table!=null){
+                  while(table.next()){
+                      int custid=table.getInt("custID");
+                      String phone=""+table.getString("phone");
+                      String sex=table.getString("sex");
+                      String custadd=table.getString("cusAddress");
+                      rs=new Customer(custid, custName, phone, sex, custadd);
+                      
+                  }
+              }
+          }
+        
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                if(cn!=null) cn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rs;
+    }
     public ArrayList<Customer> getCustomers(){
         ArrayList<Customer> list=new ArrayList();
         Connection cn=null;

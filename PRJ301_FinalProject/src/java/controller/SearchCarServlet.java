@@ -40,6 +40,6 @@ public class SearchCarServlet extends HttpServlet {
         request.setAttribute("searchQuery", keyword);
         request.setAttribute("searchResults", searchResults);
 
-        request.getRequestDispatcher("SalePersonDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("ManageCarPage.jsp").forward(request, response);
     }
 }

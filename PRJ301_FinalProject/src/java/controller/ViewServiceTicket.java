@@ -20,6 +20,7 @@ public class ViewServiceTicket extends HttpServlet {
     try {
         String ticketID = request.getParameter("ticketID"); // Lấy ticketID từ URL
         String custID = request.getParameter("id");
+        String salePersonID = request.getParameter("salePersonID");
 
         ServiceTicketDAO serviceTicketDAO = new ServiceTicketDAO();
 
@@ -34,7 +35,12 @@ public class ViewServiceTicket extends HttpServlet {
             List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getServiceTicketForCustomer(custID);
             request.setAttribute("serviceTicket", serviceTickets);
             request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
-        } else {
+        } if (salePersonID != null && !salePersonID.isEmpty()) {
+            List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getAllServiceTicketForSalePerson();
+            request.setAttribute("serviceTicket", serviceTickets);
+            request.setAttribute("salePersonID", salePersonID);
+            request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
+        } else  {
             response.sendRedirect("LoginCustomerPage.jsp");
         }
     } catch (Exception e) {
