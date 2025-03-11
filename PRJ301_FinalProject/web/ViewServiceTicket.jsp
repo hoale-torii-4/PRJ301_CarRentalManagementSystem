@@ -45,24 +45,7 @@
             if (request.getAttribute("salePersonID") != null) {
         %>
         <button>Create new Service Ticket</button>
-        <div>
-            <table class="create-table">
-            <tr>
-                <td><strong>Customer Name:</strong> <input type="text" name="custName"></td>
-                <td><strong>Phone:</strong><input type="text" name="custPhone"></td>
-            </tr>
-            <tr>
-                <td><strong>Car Colour:</strong> <%= ser.getCarColour()%></td>
-                <td><strong>Date Received:</strong> <%= ser.getDateReceived()%></td>
-                <td><strong>Date Returned:</strong> <%= ser.getDateReturned()%></td>
-            </tr>
-            <tr>
-                <td><strong>Car Model:</strong> <%= ser.getCarModel()%></td>
-                <td><strong>Mechanic Name:</strong> <%= ser.getMechanicName()%></td>
-                <td><strong>Service Name:</strong> <%= ser.getServiceName()%></td>
-            </tr>
-        </table>
-        </div>
+        
 
         <%
             }
@@ -86,7 +69,7 @@
             <tr>
                 <td><strong>Car Model:</strong> <%= ser.getCarModel()%></td>
                 <td><strong>Mechanic Name:</strong> <%= ser.getMechanicName()%></td>
-                <td><strong>Service Name:</strong> <%= ser.getServiceName()%></td>
+                <td><strong>Ticket ID:</strong> <%= ser.getTicketID()%></td>
             </tr>
         </table>
         <%

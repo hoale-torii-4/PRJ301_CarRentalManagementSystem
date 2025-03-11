@@ -8,41 +8,151 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>List of Customers</title>
 
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 8px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            .modal {
-                display: none;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                padding: 20px;
-                border: 1px solid black;
-                z-index: 1000;
-            }
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.5);
-                z-index: 999;
-            }
-        </style>
+      <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #d32f2f; /* Dark Red */
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #e0e0e0;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+    }
+
+    button {
+        background-color: #d32f2f; /* Red */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #c62828; /* Darker Red */
+    }
+
+    input[type="text"], input[type="tel"], input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    input[type="radio"] {
+        margin: 0 10px;
+    }
+
+    .message {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .success {
+        background-color: #388e3c; /* Green */
+        color: white;
+    }
+
+    .error {
+        background-color: #d32f2f; /* Red */
+        color: white;
+    }
+
+    .modal h3 {
+        color: #d32f2f; /* Red */
+    }
+
+    #addCustomerModal, #updateCustomerModal, #createInvoiceModal {
+        background-color: #fff;
+        border: 2px solid #d32f2f;
+    }
+
+    #addCustomerModal button, #updateCustomerModal button, #createInvoiceModal button {
+        background-color: #d32f2f;
+        color: white;
+    }
+
+    #addCustomerModal button:hover, #updateCustomerModal button:hover, #createInvoiceModal button:hover {
+        background-color: #c62828;
+    }
+
+    #overlay {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    a:hover {
+        color: #d32f2f; /* Red */
+    }
+
+    /* Optional: Adding a little animation to modals */
+    .modal.fadeIn {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
     </head>
     <body>
 
@@ -241,8 +351,8 @@
             }
         </script>
         <script>
-            function openCreateInvoiceModal(custId) {
-                document.getElementById("invoiceCustId").value = custId;
+            function openCreateInvoiceModal(custID) {
+                document.getElementById("invoiceCustId").value = custID;
                 document.getElementById("createInvoiceModal").style.display = "block";
                 document.getElementById("overlay").style.display = "block";
             }
@@ -270,6 +380,18 @@
                 document.getElementById("customerTableResult").style.display = "none";
             }
         </script>
+        <% 
+        String custIdParam = request.getParameter("custId");
+        if (custIdParam != null) { 
+    %>
+        <script>
+            // Mở modal Create Invoice tự động sau khi thêm khách hàng thành công
+            openCreateInvoiceModal('<%= custIdParam %>');
+        </script>
+    <% } %>
+
+    <!-- Overlay and Modals -->
+    <div id="overlay" class="overlay" onclick="closeAllModals();"></div>
         <script>
             function fetchSuggestions() {
                 let query = document.getElementById("searchInput").value;
@@ -311,6 +433,6 @@
                 document.getElementById("date").value = formattedDate;
             });
         </script>
-
+        <a href="SalePersonDashboard.jsp"><button>Back to Dashboard</button></a>
     </body>
 </html>
