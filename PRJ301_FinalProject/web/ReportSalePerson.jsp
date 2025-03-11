@@ -40,7 +40,7 @@
                 document.getElementById("BestSellingCar").style.display = "none";
                 document.getElementById("BestSellingPart").style.display = "none";
                 document.getElementById("ThreeMechanic").style.display = "none";
-            }   
+            }
             //report Car sold By Year
             function showCarSoldByYear() {
                 hideAllSections();
@@ -74,28 +74,12 @@
 
     </head>
     <body>
-        <!--        <h1>REPORT FOR SALE PERSON</h1>
-                <form action="StaticCarSoldByYear.jsp">
-                    <input type="submit" value="Report of cars sold by year">
-                </form>
-                <form action="ReportSalePersonServlet">
-                    <input type="hidden" name="reportType" value="BESTMODEL">
-                    <input type="submit" value="Report of car best-selling car models">
-                </form>
-                <form action="ReportSalePersonServlet">
-                    <input type="hidden" name="reportType" value="BESTPART">
-                    <input type="submit" value="Report Best used part">
-                </form>
-                <form action="ReportSalePersonServlet">
-                    <input type="hidden" name="reportType" value="MECHANIC">
-                    <input type="submit" value="Report 3 mechanic most repair">
-                </form>-->
 
         <button onclick="showCarSoldByYear()">Car sold by year</button>
         <a href="ReportSalePersonServlet?reportType=BESTMODEL" ><button onclick="showBestModel()">Best selling model</button></a>
         <a href="ReportSalePersonServlet?reportType=BESTPART" ><button onclick="showBestPart()">Best used part</button></a>
         <a href="ReportSalePersonServlet?reportType=MECHANIC" ><button onclick="showMechanic()">Three mechanic most repair</button></a>
-
+        <a href="SalePersonDashboard.jsp"> <input type="submit" value="Back" /> </a>
 
         <!-- Car sold by year -->
         <div id="CarSoldByYear" style="display: none;">
@@ -228,29 +212,48 @@
             <%
                 ArrayList<PartUsed> listPart = (ArrayList<PartUsed>) request.getAttribute("LIST_USEDPART");
                 if (listPart != null && !listPart.isEmpty()) {
+
             %>
 
-            <table>
+            <table border="1" id="partTable">
                 <tr>
                     <th>serviceTicketID</th>
                     <th>partID</th>
                     <th>numberUsed</th>
                     <th>price</th>
                 </tr>
-                <%
+                <%                    int index = 0;
                     for (PartUsed pu : listPart) {
-
+                        String rowClass = index < 3 ? "visible" : "hidden";
                 %>
-                <tr>
+                <tr class="<%= rowClass%>">
                     <td><%=pu.getServiceTicketID()%></td>
                     <td><%=pu.getPartID()%></td>
                     <td><%=pu.getNumberUsed()%></td>
                     <td><%=pu.getPrice()%></td>
                 </tr>
                 <%
+                        index++;
                     }
                 %>
             </table>
+            <button id="moreButton" onclick="showMore()">More</button>
+
+            <script>
+                function showMore() {
+                    var hiddenRows = document.querySelectorAll('#partTable .hidden');
+                    hiddenRows.forEach(function (row) {
+                        row.style.display = 'table-row';
+                    });
+                    document.getElementById('moreButton').style.display = 'none';
+                }
+            </script>
+
+            <style>
+                .hidden {
+                    display: none;
+                }
+            </style>
             <%
                 }
             %>
@@ -262,7 +265,7 @@
             <%
                 HashMap<Mechanic, Integer> map = (HashMap<Mechanic, Integer>) request.getAttribute("MAP_MECHANIC");
             %>
-            <table>
+            <table border="1">
                 <tr>
                     <th>Mechanic ID</th>
                     <th>Mechanic Name</th>
@@ -283,6 +286,7 @@
                         }
                     }
                 %>
+            </table>
         </div>
 
 
