@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Customer;
 
 public class ChangeProfileCustomerServlet extends HttpServlet {
@@ -59,12 +60,15 @@ response.setCharacterEncoding("UTF-8");
                 request.setAttribute("RESULT", "done");
             else request.setAttribute("RESULT", "failed");
             
+        HttpSession s = request.getSession();
+        s.removeAttribute("user");
+        s.setAttribute("user", cusDAO.getCustomer(custID));
                 
                 
         } else {
             out.print("Customer ID is missing!");
         }
-        request.getRequestDispatcher("CustomerDashboardPage.jsp?change=true").forward(request, response);
+request.getRequestDispatcher("CustomerDashboardPage.jsp").forward(request, response);
     }
 }
 

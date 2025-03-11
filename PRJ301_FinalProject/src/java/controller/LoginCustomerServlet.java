@@ -39,6 +39,7 @@ public class LoginCustomerServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+           out.print(request.getAttribute("LoginFailed"));
            request.setCharacterEncoding("utf-8");
            String name=request.getParameter("custName");
            String phone=request.getParameter("custPhone");

@@ -13,10 +13,10 @@ public class ServiceTicketDetails {
     private String serviceName;
     private String mechanicName;
     private String partName;
-    private String partPrice;
+    private long partPrice;
     private int numberUsed;
 
-    public ServiceTicketDetails(String serviceName, String partName, String partPrice, int numberUsed) {
+    public ServiceTicketDetails(String serviceName, String partName, long partPrice, int numberUsed) {
         this.serviceName = serviceName;
         this.partName = partName;
         this.partPrice = partPrice;
@@ -26,7 +26,7 @@ public class ServiceTicketDetails {
     public ServiceTicketDetails() {
     }
 
-    public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour, String serviceName, String mechanicName, String partName, String partPrice, int numberUsed) {
+    public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour, String serviceName, String mechanicName, String partName, long partPrice, int numberUsed) {
         this.ticketID = ticketID;
         this.dateReceived = dateReceived;
         this.dateReturned = dateReturned;
@@ -51,6 +51,17 @@ public class ServiceTicketDetails {
         this.carColour = carColour;
         this.mechanicName = mechanicName;
     }
+
+    public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour) {
+        this.ticketID = ticketID;
+        this.dateReceived = dateReceived;
+        this.dateReturned = dateReturned;
+        this.custName = custName;
+        this.phone = phone;
+        this.carModel = carModel;
+        this.carColour = carColour;
+    }
+    
 
     // Getters and Setters
     public String getTicketID() {
@@ -133,11 +144,11 @@ public class ServiceTicketDetails {
         this.partName = partName;
     }
 
-    public String getPartPrice() {
+    public long getPartPrice() {
         return partPrice;
     }
 
-    public void setPartPrice(String partPrice) {
+    public void setPartPrice(long partPrice) {
         this.partPrice = partPrice;
     }
 

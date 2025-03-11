@@ -1,3 +1,4 @@
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="DAO.ServiceTicketDAO"%>
 <%@page import="model.ServiceTicketDetails"%>
@@ -40,30 +41,56 @@
         <h2 style="text-align: center">SEVICE TICKET</h2>
 
         <%
+
+            if (request.getAttribute("salePersonID") != null) {
+        %>
+        <button>Create new Service Ticket</button>
+        <div>
+            <table class="create-table">
+            <tr>
+                <td><strong>Customer Name:</strong> <input type="text" name="custName"></td>
+                <td><strong>Phone:</strong><input type="text" name="custPhone"></td>
+            </tr>
+            <tr>
+                <td><strong>Car Colour:</strong> <%= ser.getCarColour()%></td>
+                <td><strong>Date Received:</strong> <%= ser.getDateReceived()%></td>
+                <td><strong>Date Returned:</strong> <%= ser.getDateReturned()%></td>
+            </tr>
+            <tr>
+                <td><strong>Car Model:</strong> <%= ser.getCarModel()%></td>
+                <td><strong>Mechanic Name:</strong> <%= ser.getMechanicName()%></td>
+                <td><strong>Service Name:</strong> <%= ser.getServiceName()%></td>
+            </tr>
+        </table>
+        </div>
+
+        <%
+            }
+            //Detail of service Ticket
             List<ServiceTicketDetails> serDetail = (List<ServiceTicketDetails>) request.getAttribute("serDetail");
 
             if (serDetail != null) {
-            for (ServiceTicketDetails ser : serDetail){
-            %>
-            <table class="info-table">
+                for (ServiceTicketDetails ser : serDetail) {
+        %>
+        <table class="info-table">
             <tr>
-                <td><strong>Ticket ID:</strong> <%= ser.getTicketID() %></td>
-                <td><strong>Customer Name:</strong> <%= ser.getCustName() %></td>
-                <td><strong>Phone:</strong> <%= ser.getPhone() %></td>
+                <td><strong>Ticket ID:</strong> <%= ser.getTicketID()%></td>
+                <td><strong>Customer Name:</strong> <%= ser.getCustName()%></td>
+                <td><strong>Phone:</strong> <%= ser.getPhone()%></td>
             </tr>
             <tr>
-                <td><strong>Car Colour:</strong> <%= ser.getCarColour() %></td>
-                <td><strong>Date Received:</strong> <%= ser.getDateReceived() %></td>
-                <td><strong>Date Returned:</strong> <%= ser.getDateReturned() %></td>
+                <td><strong>Car Color:</strong> <%= ser.getCarColour()%></td>
+                <td><strong>Date Received:</strong> <%= ser.getDateReceived()%></td>
+                <td><strong>Date Returned:</strong> <%= ser.getDateReturned()%></td>
             </tr>
             <tr>
-                <td><strong>Car Model:</strong> <%= ser.getCarModel() %></td>
-                <td><strong>Mechanic Name:</strong> <%= ser.getMechanicName() %></td>
-                <td><strong>Service Name:</strong> <%= ser.getServiceName() %></td>
+                <td><strong>Car Model:</strong> <%= ser.getCarModel()%></td>
+                <td><strong>Mechanic Name:</strong> <%= ser.getMechanicName()%></td>
+                <td><strong>Service Name:</strong> <%= ser.getServiceName()%></td>
             </tr>
         </table>
         <%
-            break;
+                break;
             }
         %>  
         <h3 style="text-align: center">DETAIL</h3>
@@ -80,18 +107,18 @@
                 <%
                     for (ServiceTicketDetails ser : serDetail) {
                 %>
-                    <tr>
-                        <td><%= ser.getServiceName() %></td>
-                        <td><%= ser.getPartName() %></td>
-                        <td><%= ser.getPartPrice() %></td>
-                        <td><%= ser.getNumberUsed() %></td>
-                    </tr>
+                <tr>
+                    <td><%= ser.getServiceName()%></td>
+                    <td><%= ser.getPartName()%></td>
+                    <td><%= NumberFormat.getNumberInstance().format(ser.getPartPrice())%></td>
+                    <td><%= ser.getNumberUsed()%></td>
+                </tr>
                 <%
                     }
                 %>
             </tbody>
         </table>
-            
+
         <% } else { %>
 
         <!-- Danh sách service tickets -->
@@ -120,35 +147,42 @@
                             }
                             displayedTicketIDs.add(ticket.getTicketID());
                 %>
-                            <tr>
-                                <td><%= ticket.getTicketID() %></td>
-                                <td><%= ticket.getDateReceived() %></td>
-                                <td><%= ticket.getDateReturned() %></td>
-                                <td><%= ticket.getCustName() %></td>
-                                <td><%= ticket.getPhone() %></td>
-                                <td><%= ticket.getCarModel() %></td>
-                                <td><%= ticket.getCarColour() %></td>
-                                <td>
-                                    <form action="ViewServiceTicket" method="POST">
-                                        <input type="hidden" name="ticketID" value="<%= ticket.getTicketID() %>">
-                                        <input type="submit" class="details-btn" value="Detail" />
-                                    </form>
-                                </td>
-                            </tr>
+                <tr>
+                    <td><%= ticket.getTicketID()%></td>
+                    <td><%= ticket.getDateReceived()%></td>
+                    <td><%= ticket.getDateReturned()%></td>
+                    <td><%= ticket.getCustName()%></td>
+                    <td><%= ticket.getPhone()%></td>
+                    <td><%= ticket.getCarModel()%></td>
+                    <td><%= ticket.getCarColour()%></td>
+                    <td>
+                        <form action="ViewServiceTicket" method="POST">
+                            <input type="hidden" name="ticketID" value="<%= ticket.getTicketID()%>">
+                            <input type="submit" class="details-btn" value="Detail" />
+                        </form>
+                    </td>
+                </tr>
                 <%
-                        }
-                    } else {
+                    }
+                } else {
                 %>
-                    <tr>
-                        <td colspan="8">No service tickets found</td>
-                    </tr>
+                <tr>
+                    <td colspan="8">No service tickets found</td>
+                </tr>
                 <%
                     }
                 %>
             </tbody>
+            
         </table>
 
-        <a href="CustomerDashboardPage.jsp"><button>Back</button></a>
-        <% } %>
+        <% }
+            if (session.getAttribute("salePerson") != null ) {
+        %>
+        <a href="SalePersonDashboard.jsp"><button>Back to Dashboard</button></a>
+        <%
+            } else {%>
+        <a href="CustomerDashboardPage.jsp"><button>Back to Dashboard</button></a>
+        <%} %>
     </body>
 </html>

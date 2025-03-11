@@ -20,8 +20,6 @@ public class ServiceTicketServlet extends HttpServlet {
         String custID = request.getParameter("custID").trim();
         String carID = request.getParameter("carID").trim();
         String dateReceived = request.getParameter("dateReceived").trim();
-
-        
         ServiceTicketDAO dao = new ServiceTicketDAO();
         List<ServiceTicket> tickets = dao.getServiceTickets(custID, carID, dateReceived);
 
