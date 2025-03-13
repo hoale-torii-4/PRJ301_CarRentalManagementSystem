@@ -219,7 +219,7 @@
                 color: #fff;
                 border-style: none;
                 border-radius: 3px;
-               
+
             }
             .searchCarSoldByyear button {
                 height: 29px;
@@ -235,23 +235,26 @@
             .moreCancelBtn {
                 margin-left: 5%;
             }
-            
+
             .moreCancelBtn button,#moreButton{
                 width: 71.5px;
                 margin: 10px 5px;
             }
-            
+
             .BackBtn input{
                 background-color: #003366;
                 color: #fff;
                 border-style: none;
                 border-radius: 4px;
             }
-            
+            .BackBtn input:hover {
+                background-color: #002244;
+            }
+
             #ThreeMechanic button{
                 margin-left: 5%;
             }
-            
+
             #moreButton {
                 margin: 20px;
                 background-color: #003366;
@@ -262,9 +265,30 @@
                 border-radius: 4px;
             }
 
-            #moreButton:hover {
+/*            #moreButton:hover {
                 background-color: #002244;
-            }
+            }*/
+            
+        .navbar {
+            background-color: #003366; /* Màu sắc phù hợp với giao diện hiện tại */
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            width: 100%;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+        }
+/*        .navbar a:hover {
+            background-color: #002050;
+            border-radius: 5px;
+        }*/
+        
 
         </style>
         <script type="text/javascript">
@@ -323,12 +347,22 @@
 
     </head>
     <body>
+        <div class="navbar">
+            <div>
+                <a href="#"><button onclick="showCarSoldByYear()">Car sold by year</button></a>
+                <a href="ReportSalePersonServlet?reportType=BESTMODEL" ><button onclick="showBestModel()">Best selling model</button></a>
+                <a href="ReportSalePersonServlet?reportType=BESTPART" ><button onclick="showBestPart()">Best used part</button></a>
+                <a href="ReportSalePersonServlet?reportType=MECHANIC" ><button onclick="showMechanic()">Three mechanic most repair</button></a>
+                <a href="SalePersonDashboard.jsp" class="BackBtn"> <input type="submit" value="Back" /> </a> 
+            </div>
+        </div>
+        
 
-        <button onclick="showCarSoldByYear()">Car sold by year</button>
+<!--        <button onclick="showCarSoldByYear()">Car sold by year</button>
         <a href="ReportSalePersonServlet?reportType=BESTMODEL" ><button onclick="showBestModel()">Best selling model</button></a>
         <a href="ReportSalePersonServlet?reportType=BESTPART" ><button onclick="showBestPart()">Best used part</button></a>
         <a href="ReportSalePersonServlet?reportType=MECHANIC" ><button onclick="showMechanic()">Three mechanic most repair</button></a>
-        <a href="SalePersonDashboard.jsp" class="BackBtn"> <input type="submit" value="Back" /> </a>
+        <a href="SalePersonDashboard.jsp" class="BackBtn"> <input type="submit" value="Back" /> </a>-->
 
         <!-- Car sold by year -->
         <div id="CarSoldByYear" style="display: none;">
@@ -441,7 +475,7 @@
                 %>
             </table>
 
-            
+
 
             <script>
                 function showMore() {
@@ -466,12 +500,12 @@
         <!-- Best used part -->
         <div id="BestSellingPart" style="display: none">
             <h1>STATICS OF BEST USED PARTS</h1>
-            
+
             <div class="moreCancelBtn">
                 <button onclick="hiddenBestPart()">Cancel</button>
                 <button id="moreButton" onclick="showMore()">More</button>
             </div>
-            
+
             <%
                 ArrayList<PartUsed> listPart = (ArrayList<PartUsed>) request.getAttribute("LIST_USEDPART");
                 if (listPart != null && !listPart.isEmpty()) {
@@ -500,7 +534,7 @@
                     }
                 %>
             </table>
-            
+
 
             <script>
                 function showMore() {
