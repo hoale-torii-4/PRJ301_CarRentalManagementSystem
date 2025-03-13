@@ -23,7 +23,7 @@ public class ViewServiceTicket extends HttpServlet {
         String ticketID = request.getParameter("ticketID"); // Lấy ticketID từ URL
         String custID = request.getParameter("id");
 //        String salePersonID = request.getParameter("salePersonID");
-        String salePersonID = s.getAttribute("salesID").toString();
+        String salePersonID =(String) s.getAttribute("salesID");
 
         ServiceTicketDAO serviceTicketDAO = new ServiceTicketDAO();
 
@@ -43,6 +43,7 @@ public class ViewServiceTicket extends HttpServlet {
             request.setAttribute("serviceTicket", serviceTickets);
             request.setAttribute("salePersonID", salePersonID);
             request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
+        
         } else  {
             response.sendRedirect("LoginCustomerPage.jsp");
         }
