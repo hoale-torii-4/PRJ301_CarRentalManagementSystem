@@ -74,7 +74,7 @@
         <!-- Update Modal -->
         <div id="updateTicketModal" style="display: none; background: white; padding: 20px; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
             <h3>Update Service Ticket</h3>
-            <form action="UpdateServiceTicketServlet?serviceTicket=UPDATE&mechanicID=<%= mechanicID %>" method="POST" accept-charset="utf8mb4">
+            <form action="UpdateServiceTicketServlet?serviceTicket=UPDATE&mechanicID=<%= mechanicID %>" method="POST" accept-charset="UTF-8">
                 <input type="hidden" name="ticketID" id="updateTicketID">
                 <label>Hours:</label>
                 <input type="text" name="hours" id="updateHours" required><br>
