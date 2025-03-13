@@ -26,7 +26,7 @@
 
         /* Navbar Styling */
         .navbar {
-            background-color: red;
+            background-color: #003366;
             color: white;
         }
 
@@ -47,7 +47,7 @@
 
         /* Hero Section */
         .hero {
-            background-image: url('https://www.peugeotthanhxuan.vn/wp-content/uploads/2025/01/bang-gia-xe-O-to-dien-mercedes-2025-moi-nhat-khuyen-mai-tra-gop-800x450.jpeg');
+            background-image: url('images/showcar.jpeg');
             background-size: cover;
             background-position: center;
             color: white;

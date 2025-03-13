@@ -50,7 +50,7 @@
 
             /* Heading style */
             .login-container h1 {
-                color: #D32F2F;  /* Red color for the heading */
+                color: #003366;  /* Red color for the heading */
                 font-size: 2.5rem;
                 margin-bottom: 20px;
             }
@@ -72,14 +72,14 @@
             /* Focus effect on inputs */
             .login-container input[type="text"]:focus,
             .login-container input[type="password"]:focus {
-                border-color: #D32F2F;
+                border-color: #003366;
                 outline: none;
             }
 
             /* Submit button */
             
             .login-container input[type="submit"] {
-                background-color: #D32F2F; /* Red color */
+                background-color: #003366; /* Red color */
                 color: white;
                 border: none;
                 cursor: pointer;
