@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -71,7 +70,7 @@ public class LoginCustomerServlet extends HttpServlet {
                        request.getRequestDispatcher("LoginCustomerPage.jsp").forward(request, response);
                    } else {
                        HttpSession s = request.getSession(true);
-                       s.setAttribute("user", kq);
+                       s.setAttribute("customer", kq);
                        String save=request.getParameter("custSave");
                        if (save!=null && save.equalsIgnoreCase("Save")) {
                            Cookie cookie = new Cookie("token",  URLEncoder.encode(kq.getCustName(), "UTF-8"));

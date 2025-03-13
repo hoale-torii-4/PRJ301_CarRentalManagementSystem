@@ -7,6 +7,8 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import model.Mechanic;
 import mylib.DBUtils;
 
@@ -48,5 +50,38 @@ public class MechanicDAO {
             }
         }
         return rs;
+    }
+     public ArrayList<Mechanic> getListAllMechanic(){
+        ArrayList<Mechanic> list = new ArrayList<>();
+        
+        Connection cn=null;
+        try{
+          cn=DBUtils.getConnection();
+          if(cn!=null){
+              String sql = "select mechanicID,mechanicName\n"
+                      + "from dbo.Mechanic\n"
+                       + "WHERE [status] = 1";
+              PreparedStatement st=cn.prepareStatement(sql);
+              ResultSet table=st.executeQuery();
+                if(table!=null){
+                  while(table.next()){
+                      String mechenicid=table.getString("mechanicID");
+                      String mechanicname=table.getString("mechanicName");
+                      list.add(new Mechanic(mechenicid, mechanicname));
+                      
+                  }
+              }
+          }
+        
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                if(cn!=null) cn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
     }
 }

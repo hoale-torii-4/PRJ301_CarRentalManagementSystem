@@ -58,6 +58,36 @@ public class ServiceMechanicDAO {
         return list;
     }
 
+    public boolean CreateServiceMechanic(ServiceMechanic newSerMec) {
+        boolean isCreated = false;
+        try {
+            Connection cn = DBUtils.getConnection();
+            String sql = "INSERT INTO [dbo].[ServiceMehanic]"
+                    + "           ([serviceTicketID]"
+                    + "           ,[serviceID]"
+                    + "           ,[mechanicID]"
+                    + "           ,[hours]"
+                    + "           ,[comment]"
+                    + "           ,[rate])"
+                    + "     VALUES"
+                    + "           (?,?,?,?,?,?)\n";
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setString(1, newSerMec.getServiceTicketID());
+            st.setString(2, newSerMec.getServiceID());
+            st.setString(3, newSerMec.getMechanicID());
+            st.setInt(4, newSerMec.getHour());
+            st.setString(5, newSerMec.getComment());
+            st.setDouble(6, newSerMec.getRate());
+            int row = st.executeUpdate();
+            if(row>0)
+                isCreated = true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isCreated;
+    }
+
     public boolean UpdateServiceMechanic(String id, int hour, String comment, double rate) {
         boolean isUpdate = false;
         Connection cn = null;
@@ -73,9 +103,10 @@ public class ServiceMechanicDAO {
                 st.setDouble(3, rate);
                 st.setString(4, id);
                 int row = st.executeUpdate();
-                if(row>0)
+                if (row > 0) {
                     isUpdate = true;
-          
+                }
+
             }
 
         } catch (Exception e) {

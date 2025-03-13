@@ -58,7 +58,6 @@ public class CRUDCustomerDAO {
 
     public int addCustomer(Customer customer) {
         int custID = 0;
-
         try (Connection cn = DBUtils.getConnection()) {
             if (cn != null) {
                 long newID = System.currentTimeMillis() % Integer.MAX_VALUE;
@@ -74,7 +73,6 @@ public class CRUDCustomerDAO {
                 if (row > 0) {
                     custID = (int) newID;
                 }
-
                 st.close();
             }
         } catch (Exception e) {
@@ -207,6 +205,7 @@ public class CRUDCustomerDAO {
         }
         return list;
     }
+     
 
     public boolean updateCustomer(Customer customer) {
         boolean isUpdated = false;

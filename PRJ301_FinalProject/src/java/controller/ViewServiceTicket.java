@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.ServiceTicket;
 import model.ServiceTicketDetails;
 
@@ -18,9 +19,11 @@ public class ViewServiceTicket extends HttpServlet {
     response.setContentType("text/html;charset=UTF-8");
 
     try {
+        HttpSession s = request.getSession();
         String ticketID = request.getParameter("ticketID"); // Lấy ticketID từ URL
         String custID = request.getParameter("id");
-        String salePersonID = request.getParameter("salePersonID");
+//        String salePersonID = request.getParameter("salePersonID");
+        String salePersonID = s.getAttribute("salesID").toString();
 
         ServiceTicketDAO serviceTicketDAO = new ServiceTicketDAO();
 

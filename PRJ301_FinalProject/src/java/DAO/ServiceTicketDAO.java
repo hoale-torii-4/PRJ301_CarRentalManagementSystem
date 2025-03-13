@@ -23,7 +23,7 @@ public class ServiceTicketDAO {
                 + "ca.model , ca.colour , "
                 + "s.serviceName, "
                 + "m.mechanicName, "
-                + "p.partName, pu.price , pu.numberUsed "
+                + "p.partName, pu.price , pu.numberUsed,sm.comment "
                 + "FROM ServiceTicket st "
                 + "JOIN Customer c ON st.custID = c.custID "
                 + "JOIN Cars ca ON st.carID = ca.carID "
@@ -49,6 +49,7 @@ public class ServiceTicketDAO {
             String partName;
             long partPrice;
             int numberUsed;
+            String comment;
             while (rs.next()) {
                 ticketID = rs.getString("serviceTicketID");
                 dateReceived = rs.getString("dateReceived");
@@ -62,7 +63,8 @@ public class ServiceTicketDAO {
                 numberUsed = rs.getInt("numberUsed");
                 partName = rs.getString("partName");
                 partPrice = rs.getLong("price");
-                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed));
+                comment = rs.getString("comment");
+                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment));
 
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -115,7 +117,7 @@ public class ServiceTicketDAO {
                 + "ca.model , ca.colour , "
                 + "s.serviceName, "
                 + "m.mechanicName, "
-                + "p.partName, pu.price , pu.numberUsed "
+                + "p.partName, pu.price , pu.numberUsed,sm.comment "
                 + "FROM ServiceTicket st "
                 + "JOIN Customer c ON st.custID = c.custID "
                 + "JOIN Cars ca ON st.carID = ca.carID "
@@ -140,6 +142,7 @@ public class ServiceTicketDAO {
             String partName;
             long partPrice;
             int numberUsed;
+            String comment;
             while (rs.next()) {
                 dateReceived = rs.getString("dateReceived");
                 dateReturned = rs.getString("dateReturned");
@@ -152,7 +155,8 @@ public class ServiceTicketDAO {
                 numberUsed = rs.getInt("numberUsed");
                 partName = rs.getString("partName");
                 partPrice = rs.getLong("price");
-                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed));
+                comment = rs.getString("comment");
+                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment));
 
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -210,13 +214,28 @@ public class ServiceTicketDAO {
         return tickets;
     }
 
-    public List<ServiceTicketDetails> createServiceTicketForSalePerson() {
+    public int createServiceTicketForSalePerson(ServiceTicket serviceTicket) {
+        int id = 0;
         Connection cn = null;
-        List<ServiceTicketDetails> list = new ArrayList<>();
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
+                id = Math.abs((int) (System.currentTimeMillis() % Integer.MAX_VALUE));
+                String sql = "INSERT INTO [dbo].[ServiceTicket] "
+                        + "([serviceTicketID], [dateReceived], [dateReturned], [custID], [carID]) "
+                        + "VALUES (?, ?, ?, ?, ?)";
 
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, id);
+                st.setDate(2, serviceTicket.getDateReceived());
+                st.setDate(3, serviceTicket.getDateReturned());
+                st.setString(4, serviceTicket.getCustID());
+                st.setString(5, serviceTicket.getCarID());
+
+                int rowsAffected = st.executeUpdate();
+                if (rowsAffected <= 0) {
+                    id = 0;
+                }
             }
 
         } catch (Exception e) {
@@ -230,7 +249,7 @@ public class ServiceTicketDAO {
                 e.printStackTrace();
             }
         }
-        return list;
+        return id;
     }
 
     public HashMap<ServiceMechanic, String> mapServiceMeGetServiceName() {
