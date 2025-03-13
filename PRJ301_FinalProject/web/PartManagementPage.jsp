@@ -5,6 +5,196 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Find Car Part</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }
+
+            h1 {
+                text-align: center;
+                color: #003366;
+                font-family: 'Arial', sans-serif;
+                margin-top: 20px;
+            }
+
+            h3 {
+                color: #003366;
+            }
+
+
+
+            input[type="text"] {
+                width: 80%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin-right: 13px;
+            }
+
+            button {
+                background-color: #003366;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                cursor: pointer;
+                border-radius: 4px;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            button:hover {
+                background-color: #002244;
+            }
+
+            table {
+                width: 90%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                background-color: #ffffff;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            table, th, td {
+                border: 1px solid #ddd;
+            }
+
+            th, td {
+                padding: 12px;
+                text-align: left;
+                font-size: 14px;
+            }
+
+            th {
+                background-color: #003366;
+                color: white;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            tr:hover {
+                background-color: #f1f1f1;
+            }
+
+            a.backBtn {
+                margin-left: 8.6%;
+            }
+
+            input[type="submit"] {
+                padding: 9px 30px;
+                border: none;
+                border-radius: 5px;
+                background-color: #003366;
+                color: #fff;
+            }
+
+            .findForm {
+                width: 80%;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+
+            .findForm form{
+                display: inline-flex;
+                width: 86%;
+            }
+            .showCreateBtn{
+                display: inline-flex;
+            }
+            .findPartBtn{
+                width: 12%;
+                height: 36px;
+                margin-top: 11px;
+                margin-left: 20px;
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                padding: 20px;
+                border: 1px solid #ddd;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                width: 80%;
+                max-width: 500px;
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .modal button {
+                background-color: #003366;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .modal button:hover {
+                background-color: #002244;
+            }
+
+            .modal form {
+                width: 100%;
+            }
+
+            .modal input[type="text"] {
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+
+            }
+
+            .cancel-btn {
+                background-color: #ff3300;
+                margin-top: 10px;
+            }
+
+            .cancel-btn:hover {
+                background-color: #cc2900;
+            }
+
+            .back-button {
+                display: block;
+                width: 150px;
+                margin: 20px auto;
+                padding: 10px 15px;
+                background-color: #003366;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            .back-button:hover {
+                background-color: #002244;
+            }
+        </style>
         <script>
             function fetchSuggestions() {
                 let query = document.getElementById("searchInput").value;
@@ -60,14 +250,18 @@
     </head>
     <body>
         <h1>Find Car Part</h1>
-        <form action="FindCarPartServlet" method="post">
-            <input type="text" name="txtname" id="searchInput" list="partSuggestions" oninput="fetchSuggestions()" placeholder="Enter part name">
-            <datalist id="partSuggestions"></datalist>
-            <button type="submit">Find Part</button>
-        </form>
-        <a href="SalePersonDashboard.jsp"> <input type="submit" value="Back" /> </a>
+        <div class="findForm">
+            <form action="FindCarPartServlet" method="post">
+                <input type="text" name="txtname" id="searchInput" list="partSuggestions" oninput="fetchSuggestions()" placeholder="Enter part name">
+                <datalist id="partSuggestions"></datalist>
+                <button type="submit" class="findPartBtn">Find Part</button>
+            </form>
+            <div class="showCreateBtn" >
+                <button onclick="showCreateForm()">Add New Part</button>
+            </div>
+        </div>
 
-        <button onclick="showCreateForm()">Add New Part</button>
+        <a href="SalePersonDashboard.jsp" class="backBtn"> <input type="submit" value="Back" > </a>
 
         <div id="createPartForm" style="display: none; background: white; padding: 20px; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
             <h3>Create New Part</h3>
