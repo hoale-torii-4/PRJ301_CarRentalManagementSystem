@@ -26,7 +26,7 @@
             function fetchSuggestions() {
                 let query = document.getElementById("searchInput").value;
                 if (query.length < 1)
-                    return; // Không gọi nếu chưa nhập gì
+                    return;
 
                 fetch("SearchCarServlet?query=" + encodeURIComponent(query))
                         .then(response => response.json())

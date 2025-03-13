@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Date;
 
 public class ServiceTicketDetails {
     private String ticketID;
@@ -15,6 +14,7 @@ public class ServiceTicketDetails {
     private String partName;
     private long partPrice;
     private int numberUsed;
+    private String commemt;
 
     public ServiceTicketDetails(String serviceName, String partName, long partPrice, int numberUsed) {
         this.serviceName = serviceName;
@@ -26,7 +26,7 @@ public class ServiceTicketDetails {
     public ServiceTicketDetails() {
     }
 
-    public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour, String serviceName, String mechanicName, String partName, long partPrice, int numberUsed) {
+    public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour, String serviceName, String mechanicName, String partName, long partPrice, int numberUsed, String comment) {
         this.ticketID = ticketID;
         this.dateReceived = dateReceived;
         this.dateReturned = dateReturned;
@@ -39,6 +39,7 @@ public class ServiceTicketDetails {
         this.partName = partName;
         this.partPrice = partPrice;
         this.numberUsed = numberUsed;
+        this.commemt = comment;
     }
 
     public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour, String mechanicName) {
@@ -130,6 +131,14 @@ public class ServiceTicketDetails {
 
     public String getMechanicName() {
         return mechanicName;
+    }
+
+    public String getCommemt() {
+        return commemt;
+    }
+
+    public void setCommemt(String commemt) {
+        this.commemt = commemt;
     }
 
     public void setMechanicName(String mechanicName) {

@@ -51,6 +51,73 @@ public class CRUDServiceDAO {
         }
         return services;
     }
+    public Service getOneServiceByName(String name) {
+        Service service = new Service();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT [serviceID],[serviceName],[hourlyRate],[status]\n"
+                        + "FROM [dbo].[Service]\n"
+                        + "WHERE [serviceName] LIKE ? AND [status] = 1";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setString(1, "%" + name + "%");
+                ResultSet table = st.executeQuery();
+                while (table.next()) {
+                    String serviceID = table.getString("serviceID");
+                    String serviceName = table.getString("serviceName");
+                    double hourlyRate = table.getDouble("hourlyRate");
+                    service  = new Service(serviceID, serviceName, hourlyRate);
+                  
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return service;
+    }
+    public ArrayList<Service> getAllService() {
+        ArrayList<Service> services = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT [serviceID],[serviceName],[hourlyRate],[status]\n"
+                        + "FROM [dbo].[Service]\n"
+                        + "WHERE [status] = 1";
+                PreparedStatement st = cn.prepareStatement(sql);
+                ResultSet table = st.executeQuery();
+                while (table.next()) {
+                    String serviceID = table.getString("serviceID");
+                    String serviceName = table.getString("serviceName");
+                    double hourlyRate = table.getDouble("hourlyRate");
+                    Service s = new Service(serviceID, serviceName, hourlyRate);
+                    services.add(s);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return services;
+    }
 
     public boolean UpdateService(String id, String name, double hourlyRate) {
         boolean isUpdate = false;
@@ -60,7 +127,7 @@ public class CRUDServiceDAO {
             if (cn != null) {
                 String sql = "UPDATE [dbo].[Service]\n"
                         + "SET [serviceName] = ?,[hourlyRate] = ?\n"
-                        + "WHERE [serviceID] LIKE ?";
+                        + "WHERE [serviceID] LIKE ? AND [status] = 1";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setString(1, name);
                 st.setDouble(2, hourlyRate);

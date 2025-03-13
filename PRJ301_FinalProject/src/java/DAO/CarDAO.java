@@ -25,7 +25,9 @@ public class CarDAO {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+
                 String carInfo = rs.getString("CarID") + " - "+rs.getString("price") + " - "+ rs.getString("colour")+ " - " + rs.getString("model") + " (" + rs.getInt("year") + ")";
+
                 suggestions.add(carInfo);
             }
         } catch (Exception e) {
@@ -72,6 +74,35 @@ public class CarDAO {
         }
         return searchResults;
     }
+    public Car searchCarByModelByColor(String model, String color) {
+        Car car = new Car();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            String sql = "SELECT carID, serialNumber, model, colour, year, price FROM Cars WHERE (model LIKE ? AND colour LIKE ?) AND status NOT LIKE 0";
+            PreparedStatement stmt = cn.prepareStatement(sql);
+            stmt.setString(1, "%" + model + "%");
+            stmt.setString(2, "%" + color + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String carID = rs.getString("carID");
+                String serialNumber = rs.getString("serialNumber");
+                int year = rs.getInt("year");
+                double price = rs.getDouble("price");
+                car = new Car(carID, serialNumber, model, color, year, price);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) cn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return car;
+    }
+
 
 
     public List<String> getCarSuggestions(String keyword) {
@@ -79,7 +110,7 @@ public class CarDAO {
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
-            String sql = "SELECT serialNumber, model, year FROM Cars WHERE (model LIKE ? OR serialNumber LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
+            String sql = "SELECT serialNumber, model, colour, year FROM Cars WHERE (model LIKE ? OR serialNumber LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
             PreparedStatement stmt = cn.prepareStatement(sql);
             stmt.setString(1, "%" + keyword + "%");
             stmt.setString(2, "%" + keyword + "%");
@@ -87,7 +118,7 @@ public class CarDAO {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String carInfo = rs.getString("serialNumber") + " - " + rs.getString("model") + " (" + rs.getInt("year") + ")";
+                String carInfo = rs.getString("serialNumber") + " - " + rs.getString("model") + " - " + rs.getString("colour")+" - " + rs.getInt("year") ;
                 suggestions.add(carInfo);
             }
         } catch (Exception e) {

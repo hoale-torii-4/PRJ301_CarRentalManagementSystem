@@ -13,33 +13,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Customer Dashboard</title>
-        <script>
-            function toggleProfileForm() {
-            <%Customer cust = (Customer) session.getAttribute("user");%>
-                var form = document.getElementById("profileForm");
-                if (form.style.display === "none" || form.style.display === "") {
-            <% if (cust != null) {%>
-                    document.getElementById("custName").value = "<%=cust.getCustName()%>";
-                    document.getElementById("custPhone").value = "<%=cust.getPhone()%>";
-                    document.getElementById("custSex").value = "<%=cust.getSex()%>";
-                    document.getElementById("custAddress").value = "<%=cust.getCustAddress()%>";
-            <%}%>
-                    form.style.display = "block";
-                    document.getElementById("overlay").style.display = "block";
-                } else {
-                    form.style.display = "none";
-                    document.getElementById("overlay").style.display = "none";
-                }
-            }
 
-        </script>
     </head>
     <body>
 
         <%
-            Customer kq = (Customer) session.getAttribute("user");
-            String token = (String) session.getAttribute("user2");
-
+            Customer kq = null;
+            String token = null;
+            if (session.getAttribute("customer") != null) {
+                kq = (Customer) session.getAttribute("customer");
+            }
+            if (session.getAttribute("user2") != null) {
+                token = (String) session.getAttribute("user2");
+            }
             if (kq == null && token == null) {
                 request.setAttribute("FailedLogin", "You must Login");
                 request.getRequestDispatcher("LoginCustomerPage.jsp").forward(request, response);
@@ -82,15 +68,15 @@
             if (result != null) {
                 if ("done".equals(result)) {
         %> <script>
-                    alert("Change Customer Information Successful!!!");
+            alert("Change Customer Information Successful!!!");
         </script>
         <%
-                    } else { %>
+        } else { %>
         <script>
             alert("Change Customer Information Successful!!!");
         </script> <%
-}
-}
+                }
+            }
         %>
         <h1>DASHBOARD</h1> 
 
@@ -104,4 +90,27 @@
              background: rgba(0,0,0,0.5); z-index: 999;" onclick="toggleProfileForm()">
         </div>
     </body>
+    <script>
+        function toggleProfileForm() {
+        <%Customer cust = null;
+                if (session.getAttribute("user") != null) {
+                    cust = (Customer) session.getAttribute("user");
+                }%>
+            var form = document.getElementById("profileForm");
+            if (form.style.display === "none" || form.style.display === "") {
+        <% if (cust != null) {%>
+                document.getElementById("custName").value = "<%=cust.getCustName()%>";
+                document.getElementById("custPhone").value = "<%=cust.getPhone()%>";
+                document.getElementById("custSex").value = "<%=cust.getSex()%>";
+                document.getElementById("custAddress").value = "<%=cust.getCustAddress()%>";
+        <%}%>
+                form.style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            } else {
+                form.style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            }
+        }
+
+    </script>
 </html>
