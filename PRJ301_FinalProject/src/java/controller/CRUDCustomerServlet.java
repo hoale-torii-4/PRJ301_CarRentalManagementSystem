@@ -50,8 +50,8 @@ public class CRUDCustomerServlet extends HttpServlet {
                     if (custID > 0) {
                         isCRUD = "Create new customer Successful!";
                         request.getSession().setAttribute("custId", custID);
-                        response.sendRedirect("CreateInvoice.jsp?success=customer_added");
-                        url = "AddCustomer.jsp";
+                        // Redirect to ListCustomer.jsp with the customer ID and success message
+                        response.sendRedirect("ListCustomer.jsp?success=customer_added&custId=" + custID);
                     } else {
                         isCRUD = "Create new customer failed! TRY AGAIN.";
                         response.sendRedirect("ListCustomer.jsp?error=add_failed");
@@ -92,7 +92,7 @@ public class CRUDCustomerServlet extends HttpServlet {
                         if (isUpdated) {
                             isCRUD = "Update customer Successful!";
                             response.sendRedirect("ListCustomer.jsp?success=update");
-                             url = "UpdateCustomer.jsp";
+                            url = "UpdateCustomer.jsp";
                         } else {
                             isCRUD = "Update customer failed! TRY AGAIN.";
                             response.sendRedirect("ListCustomer.jsp?error=update_failed");
@@ -107,7 +107,7 @@ public class CRUDCustomerServlet extends HttpServlet {
                     try {
                         int id = Integer.parseInt(request.getParameter("id"));
                         boolean isDeleted = customerDAO.deleteCustomer(id);
-                        
+
                         if (isDeleted) {
                             isCRUD = "Delete customer ID " + id + " Successful!";
                             response.sendRedirect("ListCustomer.jsp?success=1");

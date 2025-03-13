@@ -202,6 +202,7 @@
             // list ticket for SalePerson
             if (session.getAttribute("salesID") != null) {
         %>
+
         <button onclick="showCreateForm()">Create new Service Ticket</button>
 
         <div id="createForm" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -301,6 +302,7 @@
             <button onclick="hideCreateForm()">Cancel</button>
         </div>
 
+
         <%
                 out.print(request.getAttribute("isCreateServiceTicket"));
             }
@@ -324,7 +326,9 @@
             <tr>
                 <td><strong>Car Color:</strong> <%= ser.getCarColour()%></td>
                 <td><strong>Mechanic Name:</strong> <%= ser.getMechanicName()%></td>
+
                 <td><strong>Comment:</strong> <%= ser.getCommemt()%></td>
+
             </tr>
         </table>
         <%
