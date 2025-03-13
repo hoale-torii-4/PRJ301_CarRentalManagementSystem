@@ -17,7 +17,7 @@ public class CarDAO {
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
-            String sql = "SELECT carID, model,colour , year FROM Cars WHERE (model LIKE ? OR colour LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
+            String sql = "SELECT carID, price, model,colour , year FROM Cars WHERE (model LIKE ? OR colour LIKE ? OR year LIKE ?) AND status NOT LIKE 0";
             PreparedStatement stmt = cn.prepareStatement(sql);
             stmt.setString(1, "%" + keyword + "%");
             stmt.setString(2, "%" + keyword + "%");
@@ -25,7 +25,7 @@ public class CarDAO {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String carInfo = rs.getString("CarID") + " - "+ rs.getString("colour")+ " - " + rs.getString("model") + " (" + rs.getInt("year") + ")";
+                String carInfo = rs.getString("CarID") + " - "+rs.getString("price") + " - "+ rs.getString("colour")+ " - " + rs.getString("model") + " (" + rs.getInt("year") + ")";
                 suggestions.add(carInfo);
             }
         } catch (Exception e) {
