@@ -37,6 +37,7 @@ public class UpdateServiceTicketServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -65,13 +66,15 @@ public class UpdateServiceTicketServlet extends HttpServlet {
                     } catch (NumberFormatException e) {
                         request.getSession().setAttribute("updateMess", "wrong number format");
                     }
-                    if(mechanicDAO.UpdateServiceMechanic(id, hour, comment, rate)){
+                    if (mechanicDAO.UpdateServiceMechanic(id, hour, comment, rate)) {
                         request.getSession().setAttribute("updateMess", "Updated successfully!");
-                    }else request.setAttribute("updateMess", "Updated fail!");
-                    response.sendRedirect("UpdateServiceTicketServlet?serviceTicket=VIEW&mechanicID="+mechanicID);
+                    } else {
+                        request.setAttribute("updateMess", "Updated fail!");
+                    }
+                    response.sendRedirect("UpdateServiceTicketServlet?serviceTicket=VIEW&mechanicID=" + mechanicID);
                     break;
             }
-            
+
         }
     }
 

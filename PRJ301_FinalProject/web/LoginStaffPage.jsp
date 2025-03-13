@@ -8,8 +8,8 @@
             /* General Styling */
             body {
                 font-family: 'Arial', sans-serif;
-                background-color: #ffffff; /* Nền trắng */
-                color: #003366; /* Chữ màu xanh da trời */
+                background-color: #ffffff; 
+                color: #003366; 
                 margin: 0;
                 padding: 0;
                 display: flex;

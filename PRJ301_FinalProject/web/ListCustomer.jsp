@@ -1,3 +1,4 @@
+<%@page import="model.Car"%>
 <%@page import="DAO.CRUDCustomerDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
@@ -209,7 +210,7 @@
             input[type="submit"] {
                 width: 10%;
             }
-    
+
             #searchform {
                 width: 90%;
                 margin-left: 5%;
@@ -221,11 +222,11 @@
 
         <!-- Form tìm kiếm khách hàng -->
         <form  action="ListCustomer.jsp" method="get" id="searchform">
-                <label for="search">Enter Customer's Name:</label>
-                <input type="text" name="search" id="search" placeholder="Enter name" />
-                <input type="submit" value="Search" />
-            </form>
-     
+            <label for="search">Enter Customer's Name:</label>
+            <input type="text" name="search" id="search" placeholder="Enter name" />
+            <input type="submit" value="Search" />
+        </form>
+
 
         <!-- Button mở pop-up thêm khách hàng -->
         <button type="button" onclick="openAddCustomerModal()">Add Customer</button>
@@ -280,7 +281,7 @@
             </tr>
             <% } %>
         </table>
-        
+
         <% } else { %>
         <p>No customers found matching your search.</p>
         <% } %>
@@ -381,6 +382,7 @@
             </form>
             <button type="button" onclick="closeUpdateCustomerModal()">Cancel</button>
         </div>
+
         <div id="createInvoiceModal" class="modal">
             <h3>Create Invoice</h3>
             <form action="CreateInvoiceServlet" method="post">
@@ -395,7 +397,7 @@
                 <input type="date" name="date" id="date" required><br>
 
                 <label for="price">Price:</label>
-                <input type="text" name="price" id="price" required/><br>
+                <input type="text" name="price" id="price"  readonly/><br>
 
                 <input type="hidden" name="carId" id="carId">
 
@@ -497,11 +499,14 @@
             function autoSubmit() {
                 let inputField = document.getElementById("searchInput");
                 let selectedValue = inputField.value;
-
                 if (selectedValue.includes(" - ")) {
-                    let carID = selectedValue.split(" - ")[0].trim();
+                    let cars = selectedValue.split(" - ");
+
+                    let carID = cars[0].trim();
+                    let price = cars[1].trim();
+
+                    document.getElementById("price").value = price;
                     document.getElementById("carId").value = carID;
-                    inputField.value = carID;
                 }
             }
 
