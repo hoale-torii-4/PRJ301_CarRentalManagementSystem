@@ -24,7 +24,7 @@ public class UpdateServiceTicketServlet extends HttpServlet {
 
     final String VIEW = "VIEW";
     final String UPDATE = "UPDATE";
-    String url = "ServiceTicketPage.jsp";
+    String url = "ViewServiceTicket.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
