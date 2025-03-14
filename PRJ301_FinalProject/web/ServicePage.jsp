@@ -67,6 +67,115 @@
             }
         </script>
     </head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #003366;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffffff;
+            background-color: #003366;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 0;
+        }
+
+        button {
+            background-color: #00509e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #002244;
+        }
+
+        form {
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            width: 65%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #003366;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #003366;
+        }
+        
+        th {
+            border: 1px solid #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #003366;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fff;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+        
+        tr:hover {
+            background-color: #ccc;
+        }
+
+        /* Modal styling */
+        #updateTicketModal, #deleteConfirmModal, #createServiceModal {
+            background: white;
+            padding: 20px;
+            border: 2px solid #003366;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #overlay, #deleteOverlay, #createOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 51, 102, 0.5);
+            z-index: 999;
+        }
+
+    </style>
+
     <body>
         <h1>SERVICE PAGE</h1>
 
