@@ -23,38 +23,58 @@
             background-color: #f4f4f4;
         }
 
-        /* Navbar */
         .navbar {
-            background-color: #003366;
-            color: white;
+            background: #003366; /* Màu xanh đậm */
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
+            justify-content: space-between;
         }
 
+        /* Chào mừng người dùng */
         .navbar .welcome-text {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
+            color: white;
         }
 
+        /* Căn chỉnh menu bên phải */
         .navbar .menu {
             display: flex;
+            align-items: center;
             gap: 20px;
+            margin-right: 1%;
         }
 
-        .navbar a {
+        /* Các nút trong menu */
+        .navbar a,
+        .navbar button {
             color: white;
             text-decoration: none;
-            font-size: 16px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border: none;
+            background: none;
+            cursor: pointer;
             font-weight: bold;
-            transition: color 0.3s ease;
+            transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .navbar button {
+            font-size: 16px;
         }
 
-        .navbar a:hover {
-            color: #FFD700;
+        /* Hover cho các nút */
+        .navbar a:hover,
+        .navbar button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transform: scale(1.05);
         }
-
         /* Hero Section */
         .hero {
             background-image: url('images/garacar.jpg');
@@ -86,16 +106,71 @@
             transform: translateY(-5px);
             color: #FFD700;
         }
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
+        .logout-btn img {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .logout-btn:hover img {
+            transform: scale(1.2);
+        }
+        @media (max-width: 480px) {
+    .hero {
+        padding: 60px 10px;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .navbar .menu {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+        @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .navbar .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .navbar a, 
+    .navbar button {
+        width: 100%;
+        padding: 10px;
+    }
+}
 
         
         /* Footer */
         footer {
-            background-color: #2c3e50;
+            background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 15px 0;
             text-align: center;
-            margin-top: auto;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
 
     </style>
@@ -104,7 +179,7 @@
 
     <!-- Navbar -->
     <div class="navbar">
-        <div class="welcome-text">Welcome, ${sessionScope.user}!</div>
+        <div class="welcome-text">Welcome, ${sessionScope.user}</div>
         <div class="menu">
             <a href="ViewServiceTicket">Search & View Service Tickets</a>
 
@@ -114,7 +189,9 @@
             <a href="UpdateServiceTicketServlet?mechanicID=<%=mechanicId%>&serviceTicket=VIEW">Update Service Ticket</a>
 
             <a href="ServicePage.jsp">Manage Service</a>
-            <a href="LogoutServlet">LOG OUT</a>
+            <a href="LogoutServlet" class="logout-btn">
+                    <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
+                </a>
         </div>
     </div>
 

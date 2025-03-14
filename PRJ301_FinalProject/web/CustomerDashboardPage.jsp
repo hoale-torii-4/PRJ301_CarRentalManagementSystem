@@ -15,6 +15,214 @@
         <title>Customer Dashboard</title>
 
     </head>
+    <style>
+        /* Toàn bộ trang */
+        /* Toàn bộ trang */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url("images/xe2.jpg") no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            color: white;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #003366; /* Màu xanh đậm */
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Chào mừng người dùng */
+        .navbar .welcome-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Căn chỉnh menu bên phải */
+        .navbar .menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-right: 3%;
+        }
+
+        /* Các nút trong menu */
+        .navbar a,
+        .navbar button {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .navbar button {
+            font-size: 16px;
+        }
+
+        /* Hover cho các nút */
+        .navbar a:hover,
+        .navbar button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transform: scale(1.05);
+        }
+
+        /* Logout button */
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logout-btn img {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .logout-btn:hover img {
+            transform: scale(1.2);
+        }
+
+
+        /* Nội dung chính */
+        .content {
+            padding-top: 80px; /* Để tránh header che nội dung */
+        }
+
+        
+        /* Overlay nền mờ */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Form cập nhật */
+        #profileForm {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            width: 350px;
+            border-radius: 10px;
+            border: 2px solid #003366;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: left;
+        }
+
+        /* Tiêu đề */
+        #profileForm h3 {
+            color: #003366;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Nhãn và input */
+        #profileForm p {
+            margin: 10px 0;
+            font-weight: bold;
+            color: #003366;
+        }
+
+        #profileForm input,
+        #profileForm select {
+            width: 95%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #003366;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        select#custSex {
+    width: 100%;
+}
+        /* Các nút */
+        #profileForm input[type="submit"],
+        #profileForm button {
+            width: 49%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Nút Đổi thông tin */
+        #profileForm input[type="submit"] {
+            background: #003366;
+            color: white;
+            transition: 0.3s;
+        }
+
+        #profileForm input[type="submit"]:hover {
+            background: #002244;
+        }
+
+        /* Nút Hủy */
+        #profileForm button {
+            background: #ccc;
+            color: black;
+            transition: 0.3s;
+        }
+
+        #profileForm button:hover {
+            background: #999;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px 0;
+            }
+
+            .navbar .menu {
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+            }
+        }
+
+
+    </style>
     <body>
 
         <%
@@ -32,10 +240,20 @@
             } else {
         %>
 
-        <h2>Welcome <%= (kq == null) ? token : kq.getCustName()%></h2>
 
-        <!-- Nút Change Profile -->
-        <button onclick="toggleProfileForm()">Change Profile</button>
+
+        <!-- Navbar  -->
+        <div class="navbar">
+            <div class="welcome-text">Welcome <%= (kq == null) ? token : kq.getCustName()%></div>
+            <div class="menu">
+                <a href="ViewServiceTicket?id=<%=kq.getCustID()%>">View My Service Ticket</a>
+                <a href="CustomerInvoiceServlet?id=<%=kq.getCustID()%>">View Invoice</a>
+                <button onclick="toggleProfileForm()">Change Profile</button>
+                <a href="LogoutServlet" class="logout-btn">
+                    <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
+                </a>
+            </div>
+        </div>
 
         <!-- Form Update Profile (Mặc định ẩn) -->
         <div id="profileForm"  style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -59,9 +277,6 @@
 
 
         <!-- Logout Form -->
-        <form action="LogoutServlet" method="POST">
-            <input type="submit" value="LOGOUT">
-        </form>
 
         <%
             String result = (String) request.getAttribute("RESULT");
@@ -78,10 +293,8 @@
                 }
             }
         %>
-        <h1>DASHBOARD</h1> 
 
-        <a href="ViewServiceTicket?id=<%=kq.getCustID()%>"><button>View My Service Ticket</button></a>
-        <a href="CustomerInvoiceServlet?id=<%=kq.getCustID()%>"><button>View Invoice</button></a>  
+
 
         <%
             }
@@ -89,13 +302,17 @@
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
              background: rgba(0,0,0,0.5); z-index: 999;" onclick="toggleProfileForm()">
         </div>
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Your Garage. All rights reserved.</p>
+        </footer>
     </body>
     <script>
         function toggleProfileForm() {
         <%Customer cust = null;
-                if (session.getAttribute("user") != null) {
-                    cust = (Customer) session.getAttribute("user");
-                }%>
+            if (session.getAttribute("user") != null) {
+                cust = (Customer) session.getAttribute("user");
+            }%>
             var form = document.getElementById("profileForm");
             if (form.style.display === "none" || form.style.display === "") {
         <% if (cust != null) {%>

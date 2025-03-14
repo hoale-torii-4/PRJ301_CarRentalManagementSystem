@@ -15,32 +15,105 @@
     <head>
         <title>SERVICE TICKET</title>
         <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #ffffff;
+                color: #003366;
+                margin: 20px;
+            }
+
+            h2, h3 {
+                text-align: center;
+                color: #003366;
+            }
+
             table {
                 width: 100%;
                 border-collapse: collapse;
-            }
-
-            table, th, td {
-                border: 1px solid black;
+                background: white;
+                box-shadow: 0 0 10px rgba(0, 51, 102, 0.2);
+                border-radius: 5px;
+                overflow: hidden;
             }
 
             th, td {
-                padding: 8px;
+                border: 1px solid #003366;
+                padding: 10px;
                 text-align: left;
             }
 
-            .details-section {
-                display: none; /* Ban đầu ẩn phần chi tiết */
-                margin-top: 20px;
+            th {
+                background-color: #003366;
+                color: white;
+                border: 1px solid #fff;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            
+            tr:hover {
+                background-color: #ddd;
+            }
+
+            button {
+                background-color: #003366;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+            button:hover {
+                background-color: #002244;
             }
 
             .details-btn {
-                background-color: blue;
+                background-color: #003366;
                 color: white;
-                padding: 5px;
+                padding: 5px 10px;
                 border: none;
                 cursor: pointer;
+                border-radius: 3px;
             }
+
+            .details-btn:hover {
+                background-color: #002244;
+            }
+            
+            .createBtn {
+                margin: 12px 0;
+            }
+            
+            .BackBtn {
+                margin-top: 12px;
+            }
+
+            #createForm {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 0 15px rgba(0, 51, 102, 0.3);
+            }
+
+            input, select {
+                padding: 8px;
+                border: 1px solid #003366;
+                border-radius: 4px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            input:focus, select:focus {
+                outline: none;
+                border-color: #002244;
+                box-shadow: 0 0 5px rgba(0, 51, 102, 0.5);
+            }
+
+            label {
+                font-weight: bold;
+            }
+
 
         </style>
         <script>
@@ -224,7 +297,7 @@
                 if (session.getAttribute("salesID") != null) {
         %>
 
-        <button onclick="showCreateForm()">Create new Service Ticket</button>
+        <button onclick="showCreateForm()" class="createBtn">Create new Service Ticket</button>
 
         <div id="createForm" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
              background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
@@ -497,15 +570,17 @@
         <%
             if (session != null && session.getAttribute("salePerson") != null) {
         %>
-        <a href="SalePersonDashboard.jsp"><button>Back to Dashboard</button></a>
+        <a href="SalePersonDashboard.jsp" ><button class="backBtn">Back to Dashboard </button></a>
         <% }
             if (session != null && session.getAttribute("customer") != null) {
         %>
+
         <a href="CustomerDashboardPage.jsp"><button>Back to Dashboard</button></a>
         <% }
             if (session != null && session.getAttribute("mechanic") != null) {
         %>
         <a href="MechanicDashboard.jsp"><button>Back to Dashboard</button></a>
+
         <% }%>
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
              background: rgba(0,0,0,0.5); z-index: 999;" onclick="hideCreateForm();">

@@ -1,5 +1,8 @@
+<%@page import="java.util.List"%>
 <%@page import="model.CarParts"%>
 <%@page import="java.util.ArrayList"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -194,6 +197,18 @@
             .back-button:hover {
                 background-color: #002244;
             }
+
+            .message {
+                margin-left: 8.5%;
+                color: #003366;
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            .updateMessage {
+                margin-left: 8.5%;
+                color: #003366;
+            }
         </style>
         <script>
             function fetchSuggestions() {
@@ -213,6 +228,15 @@
                             });
                         })
                         .catch(error => console.error("Error fetching suggestions:", error));
+            }
+
+            function autoSubmit() {
+                let inputField = document.getElementById("searchInput");
+                let selectedValue = inputField.value;
+
+                let partName = selectedValue.split(" - ")[1].trim();
+                inputField.value = partName;
+                document.getElementById("findForm").submit();
             }
 
             function showCreateForm() {
@@ -251,8 +275,9 @@
     <body>
         <h1>Find Car Part</h1>
         <div class="findForm">
-            <form action="FindCarPartServlet" method="post">
-                <input type="text" name="txtname" id="searchInput" list="partSuggestions" oninput="fetchSuggestions()" placeholder="Enter part name">
+            <form action="FindCarPartServlet" method="POST" accept-charset="UTF-8">
+                <input type="text" name="query" id="searchInput" list="partSuggestions" 
+                       oninput="fetchSuggestions()" onchange="autoSubmit()" placeholder="Enter part name">
                 <datalist id="partSuggestions"></datalist>
                 <button type="submit" class="findPartBtn">Find Part</button>
             </form>
@@ -281,11 +306,12 @@
 
         <% String updateStatus = (String) request.getAttribute("updateMess"); %>
         <% if (updateStatus != null && !updateStatus.isEmpty()) {%>
-        <h2><%= updateStatus%></h2>
+        <h2 class="updateMessage"><%= updateStatus%></h2>
         <% } %>
-
-        <% ArrayList<CarParts> list = (ArrayList<CarParts>) request.getAttribute("LIST_PART"); %>
-        <% if (list != null && !list.isEmpty()) { %>
+        <%
+            List<CarParts> partList = (List<CarParts>) request.getAttribute("searchResult");
+        %>
+        <% if (partList != null && !partList.isEmpty()) { %>
         <table border="1">
             <tr>
                 <th>Part ID</th>
@@ -294,7 +320,7 @@
                 <th>Retail Price</th>
                 <th>Actions</th>
             </tr>
-            <% for (CarParts carP : list) {%>
+            <% for (CarParts carP : partList) {%>
             <tr>
                 <td><%= carP.getPartID()%></td>
                 <td><%= carP.getPartName()%></td>
@@ -308,7 +334,7 @@
             <% } %>
         </table>
         <% } else { %>
-        <p>No parts found.</p>
+        <p class="message">No parts found.</p>
         <% }%>
 
         <div id="updatePartModal" style="display: none; background: white; padding: 20px; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">

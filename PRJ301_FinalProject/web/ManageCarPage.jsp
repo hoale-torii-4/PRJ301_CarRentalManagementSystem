@@ -17,12 +17,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Car</title>
         <script>
-            window.onload = function () {
-                let searchResults = <%= (request.getAttribute("searchResults") != null) ? "true" : "false"%>;
-                if (searchResults) {
-                    document.getElementById("searchDiv").style.display = "block";
-                }
-            };
             function fetchSuggestions() {
                 let query = document.getElementById("searchInput").value;
                 if (query.length < 1)
@@ -97,15 +91,257 @@
 
 
         </script>
+        <style>
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }
+
+            h1, h3 {
+                text-align: center;
+                color: #003366;
+            }
+
+            input, select, button {
+                padding: 10px;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+
+            input[type="text"], select {
+                width: 92%;
+                border: 1px solid #003366;
+                margin-bottom: 12px;
+            }
+
+            button {
+                background-color: #003366;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #002244;
+            }
+
+            table {
+                width: 90%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                background: white;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            th, td {
+                padding: 12px;
+                border: 1px solid #ddd;
+            }
+
+            th {
+                background-color: #003366;
+                color: white;
+            }
+            label {
+                color: #003366;
+                font-weight: 600 ;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            tr:hover {
+                background-color: #f1f1f1;
+            }
+
+            .findForm {
+                width: 80%;
+                margin: 20px auto;
+                background: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .modal {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                max-width: 500px;
+                width: 90%;
+            }
+
+            .modal form input {
+                width: 100%;
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .cancel-btn {
+                background-color: #ff3300;
+            }
+
+            .cancel-btn:hover {
+                background-color: #cc2900;
+            }
+
+            .back-button {
+                display: block;
+                width: 150px;
+                margin: 20px auto;
+                text-align: center;
+                background: #003366;
+                color: white;
+                text-decoration: none;
+            }
+
+            .back-button:hover {
+                background: #002244;
+            }
+            
+            .twoBtn {
+                margin-left: 6%;
+            }
+            
+            .message {
+                margin-left: 6%;
+                color: #003366;
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            #searchDiv {
+                width: 100%;
+                display: flex;
+                margin-bottom: 20px;
+            }
+
+
+
+            #searchForm {
+                width: 90%;
+                display: inline-flex;
+                margin: 12px 0;
+                justify-content: center;
+            }
+
+            #searchForm input {
+                width:  70%;
+                margin: 0 20px;
+            }
+
+            button.createBtn {
+                width: 10%;
+                height: 36.4px;
+                margin: 12px;
+                margin-left: -100px;
+                margin-right: 75px;
+            }
+
+            button.submitBtn {
+                width: 8%;
+                height: 36.4px;
+            }
+            
+            h4 {
+                text-align: center;
+                font-size: 18px;
+                color: #003366;
+            }
+
+        </style>
 
     </head>
     <body>
-        
-        
-        <a href="SalePersonDashboard.jsp"><button>Back to DashBoard</button></a>
-        <button type="submit" onclick="autoSubmit()">View List ALL CAR</button>
-        <button type="button" onclick="showCreateForm()">Add new Car</button><br>
-        <button type="button" onclick="showSearchDiv()">Search Car by Serial Number, Model, or Year </button>
+
+        <h4>Search Car by Serial Number, Model, or Year</h4>
+
+        <div id="searchDiv">
+            <form id="searchForm"  action="SearchCarServlet" method="POST">
+                <input type="text" name="query" id="searchInput" list="carSuggestions" 
+                       oninput="fetchSuggestions()" onchange="autoSubmit()">
+
+                <datalist id="carSuggestions"></datalist>
+
+                <button type="submit" class="submitBtn">Search</button>
+            </form>
+            <button type="button" onclick="showCreateForm()" class="createBtn">Add new Car</button><br>
+        </div>
+        <div class="twoBtn">
+            <button type="submit" onclick="autoSubmit()">View List ALL CAR</button>
+            <a href="SalePersonDashboard.jsp"><button>Back to DashBoard</button></a>
+        </div>
+
+        <h3>Search Results:</h3>
+
+        <%
+            //format price
+            DecimalFormat df = new DecimalFormat("#,###");
+            List<Car> searchResults = (List<Car>) request.getAttribute("searchResults");
+            if (searchResults != null && !searchResults.isEmpty()) {
+        %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Car ID</th>
+                    <th>Serial Number</th>
+                    <th>Model</th>
+                    <th>Color</th>
+                    <th>Year</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (Car car : searchResults) {%>
+                <tr>
+                    <td><%= car.getCarId()%></td>
+                    <td><%= car.getSerialNumber()%></td>
+                    <td><%= car.getModel()%></td>
+                    <td><%= car.getColor()%></td>
+                    <td><%= car.getYear()%></td>
+                    <td><%= df.format(car.getPrice())%></td>
+                    <td>
+                        <button type="button" onclick="openUpdateModal('<%= car.getCarId()%>', '<%= car.getSerialNumber()%>',
+                                        '<%= car.getModel()%>', '<%= car.getColor()%>', '<%= car.getYear()%>', '<%=car.getPrice()%>')">
+                            Update
+                        </button>
+                        <button type="button" onclick="confirmDelete('<%= car.getCarId()%>')">
+                            Delete
+                        </button> 
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <%
+        } else {
+        %>
+        <p class="message">No results found.</p>
+        <% }%>
+
+
+
         <!-- In thông báo sau khi thực hiện CRUD -->
         <%
             if (request.getAttribute("isCRUD") != null) {
@@ -143,66 +379,7 @@
                 <button type="button" onclick="hideCreateForm()">Cancel</button>
             </form>
         </div>
-        <div id="searchDiv"style="display: none">
-            <h4>Search Car by Serial Number, Model, or Year</h4>
-            <form id="searchForm"  action="SearchCarServlet" method="POST">
-                <input type="text" name="query" id="searchInput" list="carSuggestions" 
-                       oninput="fetchSuggestions()" onchange="autoSubmit()">
 
-                <datalist id="carSuggestions"></datalist>
-
-                <button type="submit">Search</button>
-                <button type="button" onclick="hideSearchDiv()">Cancel Search</button>
-            </form>
-            <h3>Search Results:</h3>
-
-            <%
-                //format price
-                DecimalFormat df = new DecimalFormat("#,###");
-                List<Car> searchResults = (List<Car>) request.getAttribute("searchResults");
-                if (searchResults != null && !searchResults.isEmpty()) {
-            %>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Car ID</th>
-                        <th>Serial Number</th>
-                        <th>Model</th>
-                        <th>Color</th>
-                        <th>Year</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (Car car : searchResults) {%>
-                    <tr>
-                        <td><%= car.getCarId()%></td>
-                        <td><%= car.getSerialNumber()%></td>
-                        <td><%= car.getModel()%></td>
-                        <td><%= car.getColor()%></td>
-                        <td><%= car.getYear()%></td>
-                        <td><%= df.format(car.getPrice())%></td>
-                        <td>
-                            <button type="button" onclick="openUpdateModal('<%= car.getCarId()%>', '<%= car.getSerialNumber()%>',
-                                            '<%= car.getModel()%>', '<%= car.getColor()%>', '<%= car.getYear()%>', '<%=car.getPrice() %>')">
-                                Update
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" onclick="confirmDelete('<%= car.getCarId()%>')">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    <% } %>
-                </tbody>
-            </table>
-            <%
-            } else {
-            %>
-            <p>No results found.</p>
-            <% }%>
-        </div>
         <!-- Modal cập nhật xe (ẩn mặc định) -->
         <div id="updateCarModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
              background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
