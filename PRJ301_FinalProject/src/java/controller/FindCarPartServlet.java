@@ -4,10 +4,13 @@
  */
 package controller;
 
+import DAO.CRUDPartCarDAO;
 import DAO.FindCarPartDAO;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,26 +32,6 @@ public class FindCarPartServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-//            String partId = request.getParameter("carPartID");
-//            String action = request.getParameter("action");
-            FindCarPartDAO findCar = new FindCarPartDAO();
-            String partName = request.getParameter("txtname");
-            if (partName == null) {
-                partName = "";
-            }
-
-            ArrayList<CarParts> list = findCar.getPartCar(partName);
-            request.setAttribute("LIST_PART", list);
-            request.getRequestDispatcher("PartManagementPage.jsp").forward(request, response);
-        }
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -61,24 +44,33 @@ public class FindCarPartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String keyword = request.getParameter("query");
+        response.setContentType("application/json; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        CRUDPartCarDAO dAO = new CRUDPartCarDAO();
+        List<String> suggestions = dAO.getCarPartSuggestion(keyword);
+        PrintWriter out = response.getWriter();
+        out.print(new Gson().toJson(suggestions)); // Chuyển danh sách thành JSON
+        out.flush();    
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        processRequest(request, response);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
         
+        String keyword = request.getParameter("query");
+        CRUDPartCarDAO dao = new CRUDPartCarDAO();
+        List<CarParts> parts = dao.searchCarPart(keyword);
+        
+
+        request.setAttribute("searchQuery", keyword);
+        request.setAttribute("searchResult", parts);
+
+        request.getRequestDispatcher("PartManagementPage.jsp").forward(request, response);
+
     }
 
     /**
