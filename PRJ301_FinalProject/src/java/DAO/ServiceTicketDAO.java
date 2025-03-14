@@ -23,7 +23,7 @@ public class ServiceTicketDAO {
                 + "ca.model , ca.colour , "
                 + "s.serviceName, "
                 + "m.mechanicName, "
-                + "p.partName, pu.price , pu.numberUsed,sm.comment "
+                + "p.partName, pu.price , pu.numberUsed,sm.comment,  sm.hours, sm.rate, "
                 + "FROM ServiceTicket st "
                 + "JOIN Customer c ON st.custID = c.custID "
                 + "JOIN Cars ca ON st.carID = ca.carID "
@@ -47,9 +47,10 @@ public class ServiceTicketDAO {
             String serviceName;
             String mechanicName;
             String partName;
-            long partPrice;
+            long partPrice, rate;
             int numberUsed;
             String comment;
+            String hour;
             while (rs.next()) {
                 ticketID = rs.getString("serviceTicketID");
                 dateReceived = rs.getString("dateReceived");
@@ -64,7 +65,9 @@ public class ServiceTicketDAO {
                 partName = rs.getString("partName");
                 partPrice = rs.getLong("price");
                 comment = rs.getString("comment");
-                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment));
+                rate = rs.getLong("rate");
+                hour = rs.getString("hours");
+                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment, hour, rate));
 
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -76,32 +79,55 @@ public class ServiceTicketDAO {
     public List<ServiceTicketDetails> getAllServiceTicketForSalePerson() {
         List<ServiceTicketDetails> serviceTickets = new ArrayList<>();
 
-        String sql = "SELECT st.serviceTicketID, st.dateReceived, st.dateReturned, "
+        String sql = "SELECT st.dateReceived, st.dateReturned, "
                 + "c.custName, c.phone, "
-                + "ca.model , ca.colour "
+                + "ca.model , ca.colour , "
+                + "s.serviceName, "
+                + "m.mechanicName,  sm.hours, sm.rate, "
+                + "p.partName, pu.price , pu.numberUsed,sm.comment, st.serviceTicketID "
                 + "FROM ServiceTicket st "
                 + "JOIN Customer c ON st.custID = c.custID "
-                + "JOIN Cars ca ON st.carID = ca.carID ";
+                + "JOIN Cars ca ON st.carID = ca.carID "
+                + "JOIN ServiceMehanic sm ON st.serviceTicketID = sm.serviceTicketID "
+                + "JOIN Mechanic m ON sm.mechanicID = m.mechanicID "
+                + "JOIN Service s ON sm.serviceID = s.serviceID "
+                + "JOIN PartsUsed pu ON st.serviceTicketID = pu.serviceTicketID "
+                + "JOIN Parts p ON pu.partID = p.partID ";
 
         try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
-            String ticketID;
+            String serviceTicketID;
             String dateReceived;
             String dateReturned;
             String custName;
             String phone;
             String carModel;
             String carColour;
-
+            String serviceName;
+            String mechanicName;
+            String partName;
+            long partPrice, rate;
+            int numberUsed;
+            String comment;
+            String hour;
             while (rs.next()) {
-                ticketID = rs.getString("serviceTicketID");
+                serviceTicketID = rs.getString("serviceTicketID");
                 dateReceived = rs.getString("dateReceived");
                 dateReturned = rs.getString("dateReturned");
                 custName = rs.getString("custName");
                 phone = rs.getString("phone");
                 carModel = rs.getString("model");
                 carColour = rs.getString("colour");
-                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour));
+                serviceName = rs.getString("serviceName");
+                mechanicName = rs.getString("mechanicName");
+                numberUsed = rs.getInt("numberUsed");
+                partName = rs.getString("partName");
+                partPrice = rs.getLong("price");
+                comment = rs.getString("comment");
+                rate = rs.getLong("rate");
+                hour = rs.getString("hours");
+                serviceTickets.add(new ServiceTicketDetails(serviceTicketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment, hour, rate));
+
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -109,15 +135,15 @@ public class ServiceTicketDAO {
         return serviceTickets;
     }
 
-    public List<ServiceTicketDetails> getServiceTicketForCustomerTiketID(String ticketID) {
+    public List<ServiceTicketDetails> getServiceTicketByTicketIDByCarIDByDate(String custID, String date, String carID) {
         List<ServiceTicketDetails> serviceTickets = new ArrayList<>();
 
         String sql = "SELECT st.dateReceived, st.dateReturned, "
                 + "c.custName, c.phone, "
                 + "ca.model , ca.colour , "
                 + "s.serviceName, "
-                + "m.mechanicName, "
-                + "p.partName, pu.price , pu.numberUsed,sm.comment "
+                + "m.mechanicName,  sm.hours, sm.rate, "
+                + "p.partName, pu.price , pu.numberUsed,sm.comment, st.serviceTicketID "
                 + "FROM ServiceTicket st "
                 + "JOIN Customer c ON st.custID = c.custID "
                 + "JOIN Cars ca ON st.carID = ca.carID "
@@ -126,7 +152,70 @@ public class ServiceTicketDAO {
                 + "JOIN Service s ON sm.serviceID = s.serviceID "
                 + "JOIN PartsUsed pu ON st.serviceTicketID = pu.serviceTicketID "
                 + "JOIN Parts p ON pu.partID = p.partID "
-                + "WHERE st.serviceTicketID LIKE ?";
+                + "WHERE (st.custID = ? OR st.carID = ? OR st.dateReceived = ?) AND st.status = 1";
+
+        try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, custID);
+            ps.setString(2, carID);
+            ps.setString(3, date);
+            ResultSet rs = ps.executeQuery();
+            String serviceTicketID;
+            String dateReceived;
+            String dateReturned;
+            String custName;
+            String phone;
+            String carModel;
+            String carColour;
+            String serviceName;
+            String mechanicName;
+            String partName;
+            long partPrice, rate;
+            int numberUsed;
+            String comment;
+            String hour;
+            while (rs.next()) {
+                serviceTicketID = rs.getString("serviceTicketID");
+                dateReceived = rs.getString("dateReceived");
+                dateReturned = rs.getString("dateReturned");
+                custName = rs.getString("custName");
+                phone = rs.getString("phone");
+                carModel = rs.getString("model");
+                carColour = rs.getString("colour");
+                serviceName = rs.getString("serviceName");
+                mechanicName = rs.getString("mechanicName");
+                numberUsed = rs.getInt("numberUsed");
+                partName = rs.getString("partName");
+                partPrice = rs.getLong("price");
+                comment = rs.getString("comment");
+                rate = rs.getLong("rate");
+                hour = rs.getString("hours");
+                serviceTickets.add(new ServiceTicketDetails(serviceTicketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment, hour, rate));
+
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return serviceTickets;
+    }
+
+    public List<ServiceTicketDetails> getServiceTicketForCustomerTiketID    (String ticketID) {
+        List<ServiceTicketDetails> serviceTickets = new ArrayList<>();
+
+        String sql = "SELECT st.dateReceived, st.dateReturned, "
+                + "c.custName, c.phone, "
+                + "ca.model , ca.colour , "
+                + "s.serviceName, "
+                + "m.mechanicName, "
+                + "p.partName, pu.price , pu.numberUsed,sm.comment,  sm.hours, sm.rate "
+                + "FROM ServiceTicket st "
+                + "JOIN Customer c ON st.custID = c.custID "
+                + "JOIN Cars ca ON st.carID = ca.carID "
+                + "JOIN ServiceMehanic sm ON st.serviceTicketID = sm.serviceTicketID "
+                + "JOIN Mechanic m ON sm.mechanicID = m.mechanicID "
+                + "JOIN Service s ON sm.serviceID = s.serviceID "
+                + "JOIN PartsUsed pu ON st.serviceTicketID = pu.serviceTicketID "
+                + "JOIN Parts p ON pu.partID = p.partID "
+                + "WHERE st.serviceTicketID = ?";
 
         try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, ticketID);
@@ -140,9 +229,10 @@ public class ServiceTicketDAO {
             String serviceName;
             String mechanicName;
             String partName;
-            long partPrice;
+            long partPrice, rate;
             int numberUsed;
             String comment;
+            String hour;
             while (rs.next()) {
                 dateReceived = rs.getString("dateReceived");
                 dateReturned = rs.getString("dateReturned");
@@ -156,7 +246,9 @@ public class ServiceTicketDAO {
                 partName = rs.getString("partName");
                 partPrice = rs.getLong("price");
                 comment = rs.getString("comment");
-                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment));
+                rate = rs.getLong("rate");
+                hour = rs.getString("hours");
+                serviceTickets.add(new ServiceTicketDetails(ticketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment, hour, rate));
 
             }
         } catch (SQLException | ClassNotFoundException e) {

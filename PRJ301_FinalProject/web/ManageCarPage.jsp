@@ -15,7 +15,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Manage Car</title>
         <script>
             window.onload = function () {
                 let searchResults = <%= (request.getAttribute("searchResults") != null) ? "true" : "false"%>;

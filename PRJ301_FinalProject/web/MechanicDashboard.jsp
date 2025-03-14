@@ -106,7 +106,7 @@
     <div class="navbar">
         <div class="welcome-text">Welcome, ${sessionScope.user}!</div>
         <div class="menu">
-            <a href="ServiceTicket.jsp">Search & View Service Tickets</a>
+            <a href="ViewServiceTicket">Search & View Service Tickets</a>
 
             <%
                 String mechanicId = (String) session.getAttribute("mechanicID");

@@ -15,6 +15,8 @@ public class ServiceTicketDetails {
     private long partPrice;
     private int numberUsed;
     private String commemt;
+    private String hour;
+    private long rate;
 
     public ServiceTicketDetails(String serviceName, String partName, long partPrice, int numberUsed) {
         this.serviceName = serviceName;
@@ -26,7 +28,7 @@ public class ServiceTicketDetails {
     public ServiceTicketDetails() {
     }
 
-    public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour, String serviceName, String mechanicName, String partName, long partPrice, int numberUsed, String comment) {
+    public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour, String serviceName, String mechanicName, String partName, long partPrice, int numberUsed, String comment, String hour, long rate) {
         this.ticketID = ticketID;
         this.dateReceived = dateReceived;
         this.dateReturned = dateReturned;
@@ -40,6 +42,8 @@ public class ServiceTicketDetails {
         this.partPrice = partPrice;
         this.numberUsed = numberUsed;
         this.commemt = comment;
+        this.rate = rate;
+        this.hour = hour;
     }
 
     public ServiceTicketDetails(String ticketID, String dateReceived, String dateReturned, String custName, String phone, String carModel, String carColour, String mechanicName) {
@@ -71,6 +75,22 @@ public class ServiceTicketDetails {
 
     public void setTicketID(String ticketID) {
         this.ticketID = ticketID;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public long getRate() {
+        return rate;
+    }
+
+    public void setRate(long rate) {
+        this.rate = rate;
     }
 
     public String getDateReceived() {

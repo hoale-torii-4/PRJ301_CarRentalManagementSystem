@@ -44,6 +44,12 @@
 
         </style>
         <script>
+            window.onload = function () {
+                let searchResults = <%= (session.getAttribute("mechanicID") != null) ? "true" : "false"%>;
+                if (Boolean(searchResults)) {
+                    document.getElementById("updateButton").style.display = "block";
+                }
+            };
             function fetchCustSuggestions() {
                 let query = document.getElementById("nameInput").value;
                 if (query.length < 1)
@@ -191,16 +197,31 @@
                 document.getElementById("overlay").style.display = "none";
             }
 
+            function openUpdateModal(ticketID, hours, comment, rate) {
+                document.getElementById("updateTicketID").value = ticketID;
+                document.getElementById("updateHours").value = hours;
+                document.getElementById("updateComment").value = comment;
+                document.getElementById("updateRate").value = rate;
+                document.getElementById("updateTicketModal").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
 
+            function closeUpdateModal() {
+                document.getElementById("updateTicketModal").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            }
         </script>
     </head>
 
     <body>
-        <h2 style="text-align: center">SEVICE TICKET</h2>
+        <h2 style="text-align: center">SERVICE TICKET</h2>
+
 
         <%
-            // list ticket for SalePerson
-            if (session.getAttribute("salesID") != null) {
+            // list ticket for staff
+            if (session.getAttribute("salesID") != null || session.getAttribute("mechanicID") != null) {
+                //role sale person
+                if (session.getAttribute("salesID") != null) {
         %>
 
         <button onclick="showCreateForm()">Create new Service Ticket</button>
@@ -300,13 +321,50 @@
                 <button type="button" onclick="addRow()">+</button>
             </form>
             <button onclick="hideCreateForm()">Cancel</button>
-        </div>
-
-
+        </div> <!--end create FORM-->
         <%
-                out.print(request.getAttribute("isCreateServiceTicket"));
             }
-            //Detail of service Ticket for customer
+            // update service ticket for mechanic form 
+            if (session.getAttribute("mechanicID") != null) {
+            String mechanicID =(String) session.getAttribute("mechanicID");
+        %>                        
+        <div id="updateTicketModal" style="display: none; background: white; padding: 20px; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
+            <h3>Update Service Ticket</h3>
+            <form action="UpdateServiceTicketServlet?serviceTicket=UPDATE&mechanicID=<%=mechanicID%>" method="POST" accept-charset="UTF-8">
+                <input type="hidden" name="ticketID" id="updateTicketID">
+                <label>Hours:</label>
+                <input type="text" name="hours" id="updateHours" required><br>
+                <label>Comment:</label>
+                <input type="text" name="comment" id="updateComment" required><br>
+                <label>Rate:</label>
+                <input type="text" name="rate" id="updateRate" required><br>
+                <input type="hidden" name="serviceTicketID" id="serviceTicketID">
+                <input type="hidden" name="serviceName" id="serviceName">
+                <button type="submit">Update</button>
+                <button type="button" onclick="closeUpdateModal()">Cancel</button>
+            </form>
+        </div>
+        <%}%>
+        <!--Search form-->
+        <form method="get" action="ViewServiceTicket">
+            <label for="custID">Customer ID:</label>
+            <input type="text" id="custID" name="custID" /><br/>
+
+            <label for="carID">Car ID:</label>
+            <input type="text" id="carID" name="carID" /><br/>
+
+            <label for="dateReceived">Date Received:</label>
+            <input type="date" id="dateReceived" name="dateReceived" /><br/>
+
+            <input type="submit" name="SEARCH" value="Search" /><br/><br/>
+            <button type="submit"> <p>Service Tickets</p> </button><br/><br/>
+        </form>
+        <!--end search form-->
+        <%
+           
+            out.print(request.getAttribute("isCreateServiceTicket"));
+ }
+            //Detail of service Ticket 
             List<ServiceTicketDetails> serDetail = (List<ServiceTicketDetails>) request.getAttribute("serDetail");
 
             if (serDetail != null) {
@@ -327,14 +385,15 @@
                 <td><strong>Car Color:</strong> <%= ser.getCarColour()%></td>
                 <td><strong>Mechanic Name:</strong> <%= ser.getMechanicName()%></td>
 
-                <td><strong>Comment:</strong> <%= ser.getCommemt()%></td>
 
             </tr>
         </table>
+        
         <%
                 break;
             }
         %>  
+
         <h3 style="text-align: center">DETAIL</h3>
         <table>
             <thead>
@@ -343,6 +402,11 @@
                     <th>Part Name</th>
                     <th>Price</th>
                     <th>Number of Used</th>
+                    <th>Hours</th>
+                    <th>Rate</th>
+                    <th>Comment</th>
+                    
+                    <th id="updateButton" style="display: none">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -354,6 +418,10 @@
                     <td><%= ser.getPartName()%></td>
                     <td><%= NumberFormat.getNumberInstance().format(ser.getPartPrice())%></td>
                     <td><%= ser.getNumberUsed()%></td>
+                    <td><%= ser.getHour()%></td>
+                    <td><%= ser.getRate()%></td>
+                    <td><%= ser.getCommemt()%></td>
+                    <td><button type="button" id="updateButton" style="display: none" onclick="openUpdateModal('<%= ser.getTicketID()%>', '<%= ser.getHour()%>', '<%= ser.getCommemt()%>', '<%=ser.getRate()%>',  '<%=ser.getServiceName()%>')">Update</button></td>
                 </tr>
                 <%
                     }
@@ -361,10 +429,10 @@
             </tbody>
         </table>
 
-        <%
+        <% // end Detail service ticket
         } else { %>
 
-        <!-- Danh sách service tickets -->
+        <!-- List service tickets -->
         <table id="ticketList">
             <thead>
                 <tr>
@@ -407,6 +475,7 @@
                             <input type="hidden" name="ticketID" value="<%= ticket.getTicketID()%>">
                             <input type="submit" class="details-btn" value="Detail" />
                         </form>
+
                     </td>
                 </tr>
                 <%
@@ -433,6 +502,10 @@
             if (session != null && session.getAttribute("customer") != null) {
         %>
         <a href="CustomerDashboardPage.jsp"><button>Back to Dashboard</button></a>
+        <% }
+            if (session != null && session.getAttribute("mechanic") != null) {
+        %>
+        <a href="MechanicDashboard.jsp"><button>Back to Dashboard</button></a>
         <% }%>
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
              background: rgba(0,0,0,0.5); z-index: 999;" onclick="hideCreateForm();">
