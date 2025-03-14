@@ -20,13 +20,14 @@
 
             /* Container Styling */
             .login-container {
-                background-color: #f4f4f4; /* Nền sáng cho container */
-                padding: 30px;
-                border-radius: 15px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                background-color: #fff;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
                 width: 100%;
-                max-width: 500px;
+                max-width: 420px;
                 text-align: center;
+                box-sizing: border-box;
             }
 
             /* Title Styling */
@@ -63,7 +64,7 @@
                 font-size: 16px;
                 background-color: #e8e8e8;
                 color: #333;
-                width: 80%; /* Adjust to make them side by side with space between */
+                width: 70%; /* Adjust to make them side by side with space between */
             }
 
             input[type="text"]:invalid {
@@ -79,7 +80,7 @@
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
-                width: 20%;
+                width: 25%;
                 transition: background-color 0.3s ease;
             }
 
@@ -95,7 +96,7 @@
                 font-size: 16px;
             }
             select#role {
-                width: 85%;
+                width: 78.5%;
             }
             /* Responsive Design for smaller screens */
             @media (max-width: 600px) {

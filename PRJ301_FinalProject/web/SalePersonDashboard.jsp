@@ -9,118 +9,168 @@
     <!-- Liên kết Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Ensure the entire page takes up 100% height */
-        html, body {
-            height: 100%;  /* Make sure the page takes 100% of the viewport height */
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;  /* Align the elements vertically */
-        }
+        /* Thiết lập chung */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+}
 
-        /* Ensure body uses Arial font */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: white;
-        }
+/* Navbar */
+.navbar {
+    background: #003366;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-        /* Navbar Styling */
-        .navbar {
-            background-color: #003366;
-            color: white;
-        }
+/* Chào mừng người dùng */
+.navbar .welcome-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
 
-        .navbar a {
-            color: white !important;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
+/* Căn chỉnh menu */
+.navbar .menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-right: 1%;
+}
 
-        .navbar a:hover {
-            transform: translateY(-5px); /* Nổi lên */
-            color: #FFD700; /* Change text color on hover */
-        }
+/* Các nút */
+.navbar a,
+.navbar button {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
 
-        .navbar .navbar-brand {
-            font-size: 28px;
-            font-weight: bold;
-        }
+.navbar button {
+    font-size: 16px;
+}
 
-        /* Hero Section */
-        .hero {
-            background-image: url('images/showcar.jpeg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-            flex-grow: 1;  /* Ensures this section grows to fill remaining space */
-        }
+/* Hover */
+.navbar a:hover,
+.navbar button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    transform: scale(1.05);
+}
 
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
+/* Hero Section */
+.hero {
+    background-image: url('images/showcar.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+    flex-grow: 1;
+}
 
-        .hero h1:hover {
-            transform: translateY(-10px);
-            color: #FFD700;
-        }
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
 
-        .hero p {
-            font-size: 1.5rem;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
+.hero h1:hover {
+    transform: translateY(-10px);
+    color: #FFD700;
+}
 
-        .hero p:hover {
-            transform: translateY(-5px);
-            color: #FFD700;
-        }
+.hero p {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
 
-        /* Custom button */
-        .btn-custom {
-            background-color: #000;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
+.hero p:hover {
+    transform: translateY(-5px);
+    color: #FFD700;
+}
 
-        .btn-custom:hover {
-            background-color: #3e3e3e;
-        }
 
-        /* Footer Styling */
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-top: auto;  /* Ensures footer is at the bottom */
-        }
 
-        .button-container {
-            margin-top: 40px;
-        }
 
-        .button-container a {
-            margin: 10px;
-        }
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 10px;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .navbar .menu {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .navbar .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .navbar a, 
+    .navbar button {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+/* Footer */
+footer {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
 
     </style>
 </head>
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#">Welcome, 
-            <%= session.getAttribute("user") != null ? session.getAttribute("user") : "User" %>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
+    <div class="navbar">
+    <div class="welcome-text">
+        Welcome, <%= session.getAttribute("user") != null ? session.getAttribute("user") : "User" %>
+    </div>
+    <div class="menu">
         <!-- Xử lý salesID -->
         <%
             String salesID = (String) session.getAttribute("salesID");
@@ -128,31 +178,19 @@
                 salesID = ""; // Default value if salesID is not found in the session
             }
         %>
+        <a href="ListCustomer.jsp">Manage Customer</a>
+        <a href="PartManagementPage.jsp">Manage Part</a>
+        <a href="ViewServiceTicket?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Service Ticket</a>
+        <a href="ManageCarPage.jsp?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Car</a>
+        <a href="ReportSalePerson.jsp">Report</a>
+        <a href="LogoutServlet" class="logout-btn">
+            <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
+        </a>
+    </div>
+</div>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="ListCustomer.jsp">Manage Customer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="PartManagementPage.jsp">Manage Part</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ViewServiceTicket?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Service Ticket</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ManageCarPage.jsp?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Car</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ReportSalePerson.jsp">Report</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="LogoutServlet">LOG OUT</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
+    
     <!-- Hero Section -->
     <div class="hero">
         <h1>Welcome to Hòa Nghẹo!!!</h1>
