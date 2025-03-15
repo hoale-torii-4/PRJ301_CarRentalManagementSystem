@@ -23,7 +23,7 @@ public class ServiceTicketDAO {
                 + "ca.model , ca.colour , "
                 + "s.serviceName, "
                 + "m.mechanicName, "
-                + "p.partName, pu.price , pu.numberUsed,sm.comment,  sm.hours, sm.rate, "
+                + "p.partName, pu.price , pu.numberUsed,sm.comment,  sm.hours, sm.rate "
                 + "FROM ServiceTicket st "
                 + "JOIN Customer c ON st.custID = c.custID "
                 + "JOIN Cars ca ON st.carID = ca.carID "

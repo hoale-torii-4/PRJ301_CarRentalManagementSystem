@@ -71,6 +71,7 @@ public class LoginCustomerServlet extends HttpServlet {
                    } else {
                        HttpSession s = request.getSession(true);
                        s.setAttribute("customer", kq);
+                       s.setAttribute("customerID", kq.getCustID());
                        String save=request.getParameter("custSave");
                        if (save!=null && save.equalsIgnoreCase("Save")) {
                            Cookie cookie = new Cookie("token",  URLEncoder.encode(kq.getCustName(), "UTF-8"));
