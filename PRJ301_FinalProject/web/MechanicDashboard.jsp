@@ -181,13 +181,11 @@
     <div class="navbar">
         <div class="welcome-text">Welcome, ${sessionScope.user}</div>
         <div class="menu">
-            <a href="ViewServiceTicket">Search & View Service Tickets</a>
+            <a href="ViewServiceTicket?action=STAFF">Manage Service Ticket</a>
 
             <%
                 String mechanicId = (String) session.getAttribute("mechanicID");
             %>
-            <a href="UpdateServiceTicketServlet?mechanicID=<%=mechanicId%>&serviceTicket=VIEW">Update Service Ticket</a>
-
             <a href="ServicePage.jsp">Manage Service</a>
             <a href="LogoutServlet" class="logout-btn">
                     <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
@@ -197,7 +195,7 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <h1>Welcome to Hòa Nghèo!!!</h1>
+        <h1>Welcome to Hoàng Mõm!!!</h1>
         <p>Your journey towards excellence begins here</p>
     </div>
 

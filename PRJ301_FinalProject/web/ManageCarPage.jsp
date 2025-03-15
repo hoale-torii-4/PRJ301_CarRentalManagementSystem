@@ -81,14 +81,34 @@
             function confirmDelete(carID) {
                 document.getElementById("deleteCarID").value = carID; // Gán ID xe vào form xóa
                 document.getElementById("deleteConfirmModal").style.display = "block";
-                document.getElementById("deleteOverlay").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
             }
 
             function closeDeleteModal() {
                 document.getElementById("deleteConfirmModal").style.display = "none";
-                document.getElementById("deleteOverlay").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
             }
+            document.addEventListener("DOMContentLoaded", function () {
+        var message = "<%= request.getAttribute("responseMessage") %>";
+        if (message && message !== "null") {
+            var popup = document.createElement("div");
+            popup.textContent = message;
+            popup.style.position = "fixed";
+            popup.style.top = "20px";
+            popup.style.right = "20px";
+            popup.style.padding = "15px";
+            popup.style.backgroundColor = "#4CAF50";
+            popup.style.color = "white";
+            popup.style.borderRadius = "5px";
+            popup.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)";
+            document.body.appendChild(popup);
 
+            setTimeout(function () {
+                popup.style.opacity = "0";
+                setTimeout(() => popup.remove(), 500);
+            }, 5000);
+        }
+    });
 
         </script>
         <style>
@@ -418,7 +438,7 @@
 
         <!-- Overlay để che nền -->
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-             background: rgba(0,0,0,0.5); z-index: 999;" onclick="hideCreateForm(); closeUpdateModal();">
+             background: rgba(0,0,0,0.5); z-index: 999;" onclick="hideCreateForm(); closeUpdateModal();closeDeleteModal();">
         </div>
 
 
@@ -432,11 +452,6 @@
                 <button type="button" onclick="closeDeleteModal()">No</button>
             </form>
         </div>
-
-        <!-- Overlay để che nền -->
-        <div id="deleteOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-             background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeDeleteModal()"></div>
-
 
     </body>
 </html>

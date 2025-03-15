@@ -88,7 +88,7 @@ public class ServiceMechanicDAO {
         return isCreated;
     }
 
-    public boolean UpdateServiceMechanic(String id, int hour, String comment, double rate) {
+    public boolean UpdateServiceMechanic(String serviceTicketID, String serviceID , int hour, String comment, double rate) {
         boolean isUpdate = false;
         Connection cn = null;
         try {
@@ -96,12 +96,13 @@ public class ServiceMechanicDAO {
             if (cn != null) {
                 String sql = "UPDATE [dbo].[ServiceMehanic]\n"
                         + "SET [hours]=?,[comment]=?,[rate]=?\n"
-                        + "WHERE [serviceTicketID] LIKE ?";
+                        + "WHERE [serviceTicketID] LIKE ? AND serviceID = ?";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, hour);
                 st.setString(2, comment);
                 st.setDouble(3, rate);
-                st.setString(4, id);
+                st.setString(4, serviceTicketID);
+                st.setString(5, serviceID);
                 int row = st.executeUpdate();
                 if (row > 0) {
                     isUpdate = true;

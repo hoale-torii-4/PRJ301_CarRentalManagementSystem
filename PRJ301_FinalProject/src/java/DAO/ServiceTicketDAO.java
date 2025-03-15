@@ -152,8 +152,8 @@ public class ServiceTicketDAO {
                 + "JOIN Service s ON sm.serviceID = s.serviceID "
                 + "JOIN PartsUsed pu ON st.serviceTicketID = pu.serviceTicketID "
                 + "JOIN Parts p ON pu.partID = p.partID "
-                + "WHERE (st.custID = ? OR st.carID = ? OR st.dateReceived = ?) AND st.status = 1";
-
+                + "WHERE (st.custID = ? OR st.carID = ? OR st.dateReceived = ?) "
+                + "AND st.status = 1";
         try (Connection conn = DBUtils.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, custID);
             ps.setString(2, carID);
@@ -189,6 +189,11 @@ public class ServiceTicketDAO {
                 comment = rs.getString("comment");
                 rate = rs.getLong("rate");
                 hour = rs.getString("hours");
+                if (rs.wasNull()) {
+                    partPrice = 0;
+                    numberUsed = 0;
+                    rate = 0;
+                }
                 serviceTickets.add(new ServiceTicketDetails(serviceTicketID, dateReceived, dateReturned, custName, phone, carModel, carColour, serviceName, mechanicName, partName, partPrice, numberUsed, comment, hour, rate));
 
             }
@@ -198,7 +203,7 @@ public class ServiceTicketDAO {
         return serviceTickets;
     }
 
-    public List<ServiceTicketDetails> getServiceTicketForCustomerTiketID    (String ticketID) {
+    public List<ServiceTicketDetails> getServiceTicketForCustomerTiketID(String ticketID) {
         List<ServiceTicketDetails> serviceTickets = new ArrayList<>();
 
         String sql = "SELECT st.dateReceived, st.dateReturned, "

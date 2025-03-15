@@ -17,7 +17,7 @@ public class ChangeProfileCustomerServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         try (PrintWriter out = response.getWriter()) {
-            
+
         }
     }
 
@@ -28,50 +28,41 @@ public class ChangeProfileCustomerServlet extends HttpServlet {
     }
 
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-    request.setCharacterEncoding("UTF-8");
-response.setCharacterEncoding("UTF-8");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
+        try (PrintWriter out = response.getWriter()) {
+            // Lấy custID từ request parameter
+            String custIDStr = request.getParameter("cusID");
+            Customer customer = new Customer();
+            CustomerDAO cusDAO = new CustomerDAO();
 
-    try (PrintWriter out = response.getWriter()) {
-        // Lấy custID từ request parameter
-        String custIDStr = request.getParameter("cusID");
-        Customer customer = new Customer();
-        CustomerDAO cusDAO  =new CustomerDAO();
+            if (custIDStr != null && !custIDStr.isEmpty()) {
+                int custID = Integer.parseInt(custIDStr);
+                customer = cusDAO.getCustomer(custID);
+                String newName = request.getParameter("newName").trim();
+                String newPhone = request.getParameter("newPhone").trim();
+                String newSex = request.getParameter("newSex").trim();
+                String newAddress = request.getParameter("newAddress").trim();
+                if (cusDAO.isUpdateCustomerInformation(custID, newName, newPhone, newSex, newAddress) == true) {
+                    request.setAttribute("responseMessage", "Change information profile successful!");
+                } else {
+                    request.setAttribute("responseMessage", "Change information profile Failed!");
+                }
 
-        if (custIDStr != null && !custIDStr.isEmpty()) {
-            int custID = Integer.parseInt(custIDStr);
-            customer = cusDAO.getCustomer(custID);
-            String newName = request.getParameter("newName").trim();
-            String newPhone = request.getParameter("newPhone").trim();
-            String newSex = request.getParameter("newSex").trim();
-            String newAddress = request.getParameter("newAddress").trim();
-            if(newName.length()==0)
-                newName = customer.getCustName();
-            if( newPhone.length()==0)
-                newPhone = customer.getPhone();
-            if( newSex.length()==0)
-                newSex = customer.getSex();
-            if( newAddress.length()==0)
-                newAddress = customer.getCustAddress();
-            if(cusDAO.isUpdateCustomerInformation(custID, newName, newPhone, newSex, newAddress)==true)
-                request.setAttribute("RESULT", "done");
-            else request.setAttribute("RESULT", "failed");
-            
-        HttpSession s = request.getSession();
-        s.removeAttribute("user");
-        s.setAttribute("user", cusDAO.getCustomer(custID));
-                
-                
-        } else {
-            out.print("Customer ID is missing!");
+                HttpSession s = request.getSession();
+                s.removeAttribute("user");
+                s.setAttribute("user", cusDAO.getCustomer(custID));
+
+            } else {
+                out.print("Customer ID is missing!");
+            }
+            request.getRequestDispatcher("CustomerDashboardPage.jsp").forward(request, response);
         }
-request.getRequestDispatcher("CustomerDashboardPage.jsp").forward(request, response);
     }
-}
-
 
     @Override
     public String getServletInfo() {

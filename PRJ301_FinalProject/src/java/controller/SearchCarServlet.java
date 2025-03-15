@@ -33,7 +33,6 @@ public class SearchCarServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String keyword = request.getParameter("query");
-
         CarDAO carDAO = new CarDAO();
         List<Car> searchResults = carDAO.searchCars(keyword);
 

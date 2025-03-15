@@ -9,7 +9,6 @@ import DAO.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -38,51 +37,24 @@ public class LoginCustomerServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           out.print(request.getAttribute("LoginFailed"));
-           request.setCharacterEncoding("utf-8");
-           String name=request.getParameter("custName");
-           String phone=request.getParameter("custPhone");
-           if(name!=null && phone!=null){
-               //check token trong requst cua client truoc
-               Cookie[] cookies=request.getCookies();
-               boolean found=false;
-               String token="";
-               if(cookies!=null){
-                   for (Cookie c : cookies) {
-                       if(c.getName().equals("token")){
-                          found=true;
-                          token=c.getValue();
-                     }
-                   }
-               }
-               if(found){
-                   HttpSession s=request.getSession(true);
-                   s.setAttribute("user2",token);                   
-                   response.sendRedirect("CustomerDashboardPage.jsp");
-               }
-               else{
-               //neu ko co token thi moi check trong DB
-                   CustomerDAO d = new CustomerDAO();
-                   Customer kq = d.checkLogin(name, phone);
-                   if (kq == null) {
-                       //response.sendRedirect("error.html");
-                       request.setAttribute("FailedLogin", "Login Failed!!! Try again!");
-                       request.getRequestDispatcher("LoginCustomerPage.jsp").forward(request, response);
-                   } else {
-                       HttpSession s = request.getSession(true);
-                       s.setAttribute("customer", kq);
-                       s.setAttribute("customerID", kq.getCustID());
-                       String save=request.getParameter("custSave");
-                       if (save!=null && save.equalsIgnoreCase("Save")) {
-                           Cookie cookie = new Cookie("token",  URLEncoder.encode(kq.getCustName(), "UTF-8"));
-                           cookie.setMaxAge(3000); 
-                           response.addCookie(cookie);
-                       }
-                       response.sendRedirect("CustomerDashboardPage.jsp");
-                       
-                   }
-               }
-           }
+            out.print(request.getAttribute("LoginFailed"));
+            request.setCharacterEncoding("utf-8");
+            String name = request.getParameter("custName");
+            String phone = request.getParameter("custPhone");
+
+            CustomerDAO d = new CustomerDAO();
+            Customer kq = d.checkLogin(name, phone);
+            if (kq == null) {
+                //response.sendRedirect("error.html");
+                request.setAttribute("FailedLogin", "Login Failed!!! Try again!");
+                request.getRequestDispatcher("LoginCustomerPage.jsp").forward(request, response);
+            } else {
+                HttpSession s = request.getSession(true);
+                s.setAttribute("customer", kq);
+                s.setAttribute("customerID", kq.getCustID());
+                response.sendRedirect("CustomerDashboardPage.jsp");
+
+            }
         }
     }
 

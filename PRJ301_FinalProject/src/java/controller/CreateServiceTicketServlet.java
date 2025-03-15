@@ -69,12 +69,10 @@ public class CreateServiceTicketServlet extends HttpServlet {
             String address = request.getParameter("custAddress");
             String carModel = request.getParameter("carModel");
             String carColor = request.getParameter("carColor");
-            String dateReceivedStr = request.getParameter("dateRecived");
+            String dateReceivedStr = request.getParameter("dateReceived");
             String dateReturnedStr = request.getParameter("dateReturned");
-            String comment = request.getParameter("comment");
             Date dateReceived = (dateReceivedStr != null && !dateReceivedStr.isEmpty()) ? Date.valueOf(dateReceivedStr) : null;
             Date dateReturned = (dateReturnedStr != null && !dateReturnedStr.isEmpty()) ? Date.valueOf(dateReturnedStr) : null;
-            String mechanicName = request.getParameter("mechanicName");
             //create new customer if not found
             int cusID;
             if (!custDAO.isAlreadyCustomer(new Customer(0, customerName, phone, sex, address))) {
@@ -91,31 +89,30 @@ public class CreateServiceTicketServlet extends HttpServlet {
             String[] partPrices = request.getParameterValues("partPrice");
             String[] numOfUsed = request.getParameterValues("numOfUsed");
             String[] hours = request.getParameterValues("hours");
+            String[] commentSTR = request.getParameterValues("comment");
+            String[] mechanicNameSTR = request.getParameterValues("mechanicName");
+            String mechanicName;
+            String comment;
             String serviceName;
             String partName;
             String partPrice;
             String numUsed;
             String hour;
             int numberOfRow = Integer.parseInt(request.getParameter("count"));
-            String check="";
-            if (serviceNames != null && partNames != null && partPrices != null && numOfUsed != null && hours != null) {
+            if (serviceNames != null && partNames != null && partPrices != null && numOfUsed != null && hours != null && commentSTR != null && mechanicNameSTR != null) {
                 for (int i = 0; i < numberOfRow; i++) {
                     serviceName = serviceNames[i];
                     partName = partNames[i];
                     partPrice = partPrices[i];
                     numUsed = numOfUsed[i];
                     hour = hours[i];
-                    check = check + "Dòng " + (i + 1) + " - Service: " + serviceName+ 
-                       ", Part: " + partName + 
-                       ", Price: " + partPrice + 
-                       ", Num Used: " + numUsed + 
-                       ", Hours: " + hour;
+                    comment = commentSTR[i];
+                    mechanicName = mechanicNameSTR[i];
                     // Kiểm tra giá trị null hoặc rỗng để tránh lỗi khi insert
-                    if (serviceName.isEmpty() || partName.isEmpty() || partPrice.isEmpty() || numUsed.isEmpty() || hour.isEmpty()) {
+                    if (serviceName.isEmpty() || partName.isEmpty() || partPrice.isEmpty() || numUsed.isEmpty() || hour.isEmpty() || comment.isEmpty() || mechanicName.isEmpty()) {
                         continue; // Bỏ qua dòng nếu thiếu dữ liệu
                     }
                     try {
-                        // Chuyển đổi kiểu dữ liệu nếu cần thiết
                         double price = Double.parseDouble(partPrice);
                         int workHours = Integer.parseInt(hour);
                         service = serviceDAO.getOneServiceByName(serviceName);
@@ -128,11 +125,11 @@ public class CreateServiceTicketServlet extends HttpServlet {
                         System.err.println("Lỗi định dạng số: " + e.getMessage());
                     }
                 }
-                request.setAttribute("isCreateServiceTicket", "Create new service ticket successful"+ check);
+                request.setAttribute("responseMessage", "Create new service ticket successful");
             } else {
-                request.setAttribute("isCreateServiceTicket", "Create new service ticket failed! Try Again!!");
+                request.setAttribute("responseMessage", "Create new service ticket failed! Try Again!!");
             }
-            request.getRequestDispatcher("ViewServiceTicket").forward(request, response);
+            request.getRequestDispatcher("ViewServiceTicket?action=DETAIL&ticketID="+ serTicketID).forward(request, response);
         }
     }
 

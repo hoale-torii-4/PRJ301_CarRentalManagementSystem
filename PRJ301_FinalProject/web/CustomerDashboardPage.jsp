@@ -105,7 +105,7 @@
             padding-top: 80px; /* Để tránh header che nội dung */
         }
 
-        
+
         /* Overlay nền mờ */
         #overlay {
             display: none;
@@ -169,8 +169,8 @@
             font-size: 14px;
         }
         select#custSex {
-    width: 100%;
-}
+            width: 100%;
+        }
         /* Các nút */
         #profileForm input[type="submit"],
         #profileForm button {
@@ -227,14 +227,11 @@
 
         <%
             Customer kq = null;
-            String token = null;
             if (session.getAttribute("customer") != null) {
                 kq = (Customer) session.getAttribute("customer");
             }
-            if (session.getAttribute("user2") != null) {
-                token = (String) session.getAttribute("user2");
-            }
-            if (kq == null && token == null) {
+
+            if (kq == null) {
                 request.setAttribute("FailedLogin", "You must Login");
                 request.getRequestDispatcher("LoginCustomerPage.jsp").forward(request, response);
             } else {
@@ -244,11 +241,13 @@
 
         <!-- Navbar  -->
         <div class="navbar">
-            <div class="welcome-text">Welcome <%= (kq == null) ? token : kq.getCustName()%></div>
+            <div class="welcome-text">Welcome <%= kq.getCustName()%></div>
             <div class="menu">
-                <a href="ViewServiceTicket?id=<%=kq.getCustID()%>">View My Service Ticket</a>
+                <a href="ViewServiceTicket?&action=CUSTOMER">View My Service Ticket</a>
                 <a href="CustomerInvoiceServlet?id=<%=kq.getCustID()%>">View Invoice</a>
-                <button onclick="toggleProfileForm()">Change Profile</button>
+                <button onclick="toggleProfileForm('<%=kq.getCustName()%>', '<%=kq.getPhone()%>', '<%=kq.getSex()%>', '<%=kq.getCustAddress()%>')">
+                    Change Profile
+                </button>
                 <a href="LogoutServlet" class="logout-btn">
                     <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
                 </a>
@@ -261,15 +260,15 @@
             <h3>Update Profile</h3>
             <form action="ChangeProfileCustomerServlet" method="POST" accept-charset="UTF-8">
                 <input type="hidden" name="cusID" value="<%= (kq != null) ? kq.getCustID() : ""%>">
-                <p>New Name: <input type="text" id="custName" name="newName"></p>
-                <p>New Phone: <input type="number" id="custPhone" name="newPhone"></p>
+                <p>New Name: <input type="text" id="custName" name="newName" required=""></p>
+                <p>New Phone: <input type="number" id="custPhone" name="newPhone" required=""></p>
                 <p>New Sex: 
-                    <select id="custSex" name="newSex">
+                    <select id="custSex" name="newSex" required="">
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </select>
                 </p>
-                <p>New Address: <input type="text" id="custAddress" name="newAddress"></p>
+                <p>New Address: <input type="text" id="custAddress" name="newAddress" required=""></p>
                 <input type="submit" value="Change">
                 <button type="button" onclick="toggleProfileForm()">Cancel</button>
             </form>
@@ -278,21 +277,6 @@
 
         <!-- Logout Form -->
 
-        <%
-            String result = (String) request.getAttribute("RESULT");
-            if (result != null) {
-                if ("done".equals(result)) {
-        %> <script>
-            alert("Change Customer Information Successful!!!");
-        </script>
-        <%
-        } else { %>
-        <script>
-            alert("Change Customer Information Successful!!!");
-        </script> <%
-                }
-            }
-        %>
 
 
 
@@ -308,26 +292,50 @@
         </footer>
     </body>
     <script>
-        function toggleProfileForm() {
-        <%Customer cust = null;
-            if (session.getAttribute("user") != null) {
-                cust = (Customer) session.getAttribute("user");
-            }%>
+        function toggleProfileForm(custName, phone, sex, address) {
             var form = document.getElementById("profileForm");
+            var overlay = document.getElementById("overlay");
+
             if (form.style.display === "none" || form.style.display === "") {
-        <% if (cust != null) {%>
-                document.getElementById("custName").value = "<%=cust.getCustName()%>";
-                document.getElementById("custPhone").value = "<%=cust.getPhone()%>";
-                document.getElementById("custSex").value = "<%=cust.getSex()%>";
-                document.getElementById("custAddress").value = "<%=cust.getCustAddress()%>";
-        <%}%>
+                // Gán giá trị vào input
+                document.getElementById("custName").value = custName || "";
+                document.getElementById("custPhone").value = phone || "";
+                document.getElementById("custAddress").value = address || "";
+
+                // Gán giá trị mặc định cho select giới tính
+                var sexDropdown = document.getElementById("custSex");
+                if (sexDropdown) {
+                    sexDropdown.value = sex || "M"; // Nếu sex không có giá trị, chọn mặc định là "M"
+                }
+
                 form.style.display = "block";
-                document.getElementById("overlay").style.display = "block";
+                overlay.style.display = "block";
             } else {
                 form.style.display = "none";
-                document.getElementById("overlay").style.display = "none";
+                overlay.style.display = "none";
             }
         }
+        document.addEventListener("DOMContentLoaded", function () {
+            var message = "<%= request.getAttribute("responseMessage")%>";
+            if (message && message !== "null") {
+                var popup = document.createElement("div");
+                popup.textContent = message;
+                popup.style.position = "fixed";
+                popup.style.top = "20px";
+                popup.style.right = "20px";
+                popup.style.padding = "15px";
+                popup.style.backgroundColor = "#4CAF50";
+                popup.style.color = "white";
+                popup.style.borderRadius = "5px";
+                popup.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)";
+                document.body.appendChild(popup);
+
+                setTimeout(function () {
+                    popup.style.opacity = "0";
+                    setTimeout(() => popup.remove(), 500);
+                }, 5000);
+            }
+        });
 
     </script>
 </html>
