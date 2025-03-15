@@ -13,14 +13,13 @@ import model.ServiceTicketDetails;
 public class ViewServiceTicket extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
             HttpSession s = request.getSession();
-            String ticketID = request.getParameter("ticketID"); // Lấy ticketID từ URL
-            String custID = request.getParameter("id");
+            String ticketID = request.getParameter("ticketID");
+            String custID = String.valueOf( s.getAttribute("customerID"));
             String search = request.getParameter("SEARCH");
             String salePersonID = (String) s.getAttribute("salesID");
             String mechanicID = (String) s.getAttribute("mechanicID");
@@ -33,12 +32,13 @@ public class ViewServiceTicket extends HttpServlet {
                 List<ServiceTicketDetails> serDetail = serviceTicketDAO.getServiceTicketForCustomerTiketID(ticketID);
                 request.setAttribute("serDetail", serDetail);
                 request.setAttribute("RESULT", ticketID); // Lưu ticketID vào request để hiển thị trong JSP
-               // request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
-            } else if (custID != null && !custID.isEmpty()) {
+                // request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
+            }
+            if (custID != null && !custID.isEmpty()) {
                 // Lấy danh sách service tickets của khách hàng theo custID
                 List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getServiceTicketForCustomer(custID);
                 request.setAttribute("serviceTicket", serviceTickets);
-               // request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
+                // request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
             }
             if (salePersonID != null && !salePersonID.isEmpty()) {
                 List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getAllServiceTicketForSalePerson();
@@ -54,10 +54,8 @@ public class ViewServiceTicket extends HttpServlet {
                     List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getAllServiceTicketForSalePerson();
                     request.setAttribute("serviceTicket", serviceTickets);
                 }
-            } else {
-                response.sendRedirect("LoginCustomerPage.jsp");
             }
-                request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
+            request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("LoginCustomerPage.jsp");
