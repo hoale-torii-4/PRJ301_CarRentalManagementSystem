@@ -180,7 +180,7 @@ footer {
         %>
         <a href="ListCustomer.jsp">Manage Customer</a>
         <a href="PartManagementPage.jsp">Manage Part</a>
-        <a href="ViewServiceTicket?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Service Ticket</a>
+        <a href="ViewServiceTicket?action=STAFF">Manage Service Ticket</a>
         <a href="ManageCarPage.jsp?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Car</a>
         <a href="ReportSalePerson.jsp">Report</a>
         <a href="LogoutServlet" class="logout-btn">

@@ -96,7 +96,7 @@ public class CRUDCarServlet extends HttpServlet {
 
             }
             
-            request.setAttribute("isCRUD", isCRUD);
+            request.setAttribute("responseMessage", isCRUD);
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

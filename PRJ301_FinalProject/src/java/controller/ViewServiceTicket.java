@@ -1,5 +1,7 @@
 package controller;
 
+import DAO.CRUDServiceDAO;
+import DAO.ServiceMechanicDAO;
 import DAO.ServiceTicketDAO;
 import java.io.IOException;
 import java.util.List;
@@ -15,49 +17,76 @@ public class ViewServiceTicket extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        request.setCharacterEncoding("UTF-8");
         try {
             HttpSession s = request.getSession();
-            String ticketID = request.getParameter("ticketID");
-            String custID = String.valueOf( s.getAttribute("customerID"));
-            String search = request.getParameter("SEARCH");
-            String salePersonID = (String) s.getAttribute("salesID");
-            String mechanicID = (String) s.getAttribute("mechanicID");
-            String carIDSearch = request.getParameter("carID");
-            String custIDSearch = request.getParameter("custID");
-            String dateSearch = (String) request.getParameter("dateReceived");
+            String action = request.getParameter("action");
+            List<ServiceTicketDetails> serviceTickets;
             ServiceTicketDAO serviceTicketDAO = new ServiceTicketDAO();
-            if (ticketID != null && !ticketID.isEmpty()) {
-                // Lấy chi tiết của Service Ticket theo ticketID
-                List<ServiceTicketDetails> serDetail = serviceTicketDAO.getServiceTicketForCustomerTiketID(ticketID);
-                request.setAttribute("serDetail", serDetail);
-                request.setAttribute("RESULT", ticketID); // Lưu ticketID vào request để hiển thị trong JSP
-                // request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
+            ServiceMechanicDAO serMecDAO = new ServiceMechanicDAO();
+            CRUDServiceDAO serviceDAO = new CRUDServiceDAO();
+            if (action == null) {
+                response.sendRedirect("LoginCustomerPage.jsp");
+                return;
             }
-            if (custID != null && !custID.isEmpty()) {
-                // Lấy danh sách service tickets của khách hàng theo custID
-                List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getServiceTicketForCustomer(custID);
-                request.setAttribute("serviceTicket", serviceTickets);
-                // request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
-            }
-            if (salePersonID != null && !salePersonID.isEmpty()) {
-                List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getAllServiceTicketForSalePerson();
-                request.setAttribute("serviceTicket", serviceTickets);
-                request.setAttribute("salePersonID", salePersonID);
-                //request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
-            }
-            if (mechanicID != null && !mechanicID.isEmpty()) {
-                if (search != null && !search.isEmpty()) {
-                    List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getServiceTicketByTicketIDByCarIDByDate(custIDSearch, dateSearch, carIDSearch);
+            switch (action) {
+                case "SEARCH":
+                    String carIDSearch = request.getParameter("carID");
+                    String custIDSearch = request.getParameter("custID");
+                    String dateSearch = (String) request.getParameter("dateReceived");
+                    carIDSearch = (carIDSearch == null || carIDSearch.isEmpty()) ? null : carIDSearch;
+                    custIDSearch = (custIDSearch == null || custIDSearch.isEmpty()) ? null : custIDSearch;
+                    dateSearch = (dateSearch == null || dateSearch.isEmpty()) ? null : dateSearch;
+                    serviceTickets = serviceTicketDAO.getServiceTicketByTicketIDByCarIDByDate(custIDSearch, dateSearch, carIDSearch);
                     request.setAttribute("serviceTicket", serviceTickets);
-                } else {
-                    List<ServiceTicketDetails> serviceTickets = serviceTicketDAO.getAllServiceTicketForSalePerson();
+                    request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
+                    return;
+                    
+                case "UPDATE":
+                    String serviceTicketID = request.getParameter("serviceTicketID");
+                    String comment = request.getParameter("comment");
+                    String serviceName = request.getParameter("serviceName");
+                    int hour = 0;
+                    double rate = 0;
+                    String serviceID = serviceDAO.getOneServiceByName(serviceName).getServiceID();
+                    try {
+                        hour = Integer.parseInt(request.getParameter("hours"));
+                        rate = Double.parseDouble(request.getParameter("rate"));
+                    } catch (NumberFormatException e) {
+                        log("Error in ViewServiceTicket: " + e.getMessage());
+                        request.getSession().setAttribute("updateMess", "wrong number format");
+                    }
+                    boolean isUpdate = serMecDAO.UpdateServiceMechanic(serviceTicketID, serviceID, hour, comment, rate);
+                    if (isUpdate) {
+                        request.setAttribute("responseMessage", "Update service Ticket ID: " + serviceTicketID + " successful!");
+                    } else {
+                        request.setAttribute("responseMessage", "Update service Ticket ID: " + serviceTicketID + " Failed!!");
+                    }
+                    request.getRequestDispatcher("ViewServiceTicket?action=DETAIL&ticketID=" + serviceTicketID).forward(request, response);
+                    return;
+                    
+                case "STAFF":
+                    serviceTickets = serviceTicketDAO.getAllServiceTicketForSalePerson();
                     request.setAttribute("serviceTicket", serviceTickets);
-                }
+                    break;
+                case "CUSTOMER":
+                    String custID = String.valueOf(s.getAttribute("customerID"));
+                    serviceTickets = serviceTicketDAO.getServiceTicketForCustomer(custID);
+                    request.setAttribute("serviceTicket", serviceTickets);
+                    break;
+                case "DETAIL":
+                    String ticketID = request.getParameter("ticketID");
+                    List<ServiceTicketDetails> serDetail = serviceTicketDAO.getServiceTicketForCustomerTiketID(ticketID);
+                    request.setAttribute("serDetail", serDetail);
+                    request.setAttribute("RESULT", ticketID);
+                    break;
+
             }
+
             request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
+            return;
         } catch (Exception e) {
-            e.printStackTrace();
+            log("Error in ViewServiceTicket: " + e.getMessage());
             response.sendRedirect("LoginCustomerPage.jsp");
         }
     }
