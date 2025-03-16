@@ -54,7 +54,7 @@ public class LoginStaffServlet extends HttpServlet {
                 }
             }
             
-            request.setAttribute("errorMessage", "Login failed: Invalid credentials or role selection");
+            request.setAttribute("errorMessage", "Login failed: Invalid credentials or role selection!!!");
             request.getRequestDispatcher("LoginStaffPage.jsp").forward(request, response);
         }
     }

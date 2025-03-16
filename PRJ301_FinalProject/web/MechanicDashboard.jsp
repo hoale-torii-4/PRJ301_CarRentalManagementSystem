@@ -73,7 +73,8 @@
         .navbar button:hover {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 5px;
-            transform: scale(1.05);
+            transform: scale(1.05);            
+            color: #FFD700;
         }
         /* Hero Section */
         .hero {

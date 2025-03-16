@@ -97,22 +97,15 @@
             div#checkboxlogin {
                 text-align: left;
             }
+            input[type="text"]:invalid {
+                border-color: #1565C0; 
+            }
             /* Error message styling */
-            .message {
-                padding: 10px;
-                margin-top: 20px;
-                font-size: 16px;
-                border-radius: 5px;
-                color: white;
+            #login-fail {
+                color: #FF3B3B; /* Màu đỏ cho thông báo lỗi */
+                font-weight: bold;
                 text-align: center;
-            }
-
-            .error {
-                background-color: #f44336;
-            }
-
-            .success {
-                background-color: #4CAF50;
+                font-size: 16px;
             }
 
             .form-group {
@@ -160,11 +153,10 @@
                 <p><input type="text" name="custPhone" id="custPhone" placeholder="Enter your Phone number" required></p>
                 <div id="checkboxlogin"><p><input type="checkbox" name="custSave" value="Save"> Save Login</p></div>
                 <input type="submit" value="LOGIN">
-            </form>
-
-            <!-- Display failed login message -->
-            <div id="error-message" class="message error" style="display: none;">You must Login</div>
-
+            </form>      
+             <% if (request.getAttribute("FailedLogin") != null) {%>
+             <p id="login-fail"><%= request.getAttribute("FailedLogin")%></p>
+            <% }%>
             <p>Already a staff member? <a href="LoginStaffPage.jsp">Login as Staff</a></p>
         </div>
 

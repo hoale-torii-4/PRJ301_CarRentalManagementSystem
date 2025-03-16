@@ -5,10 +5,9 @@
 package controller;
 
 import DAO.ServiceMechanicDAO;
-import DAO.UpdateServiceTicketDAO;
+import DAO.ServiceTicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,7 +41,7 @@ public class UpdateServiceTicketServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            UpdateServiceTicketDAO updateServiceTicketDAO = new UpdateServiceTicketDAO();
+            ServiceTicketDAO updateServiceTicketDAO = new ServiceTicketDAO();
             ServiceMechanicDAO mechanicDAO = new ServiceMechanicDAO();
             String serviceTicket = request.getParameter("serviceTicket");
             String mechanicID = request.getParameter("mechanicID");

@@ -79,7 +79,8 @@
         .navbar button:hover {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 5px;
-            transform: scale(1.05);
+            transform: scale(1.05);            
+            color: #FFD700;
         }
 
         /* Logout button */
@@ -205,6 +206,37 @@
         #profileForm button:hover {
             background: #999;
         }
+        /* Hero Section */
+        .hero {
+            
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            flex-grow: 1;  /* Ensures this section grows to fill remaining space */
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .hero h1:hover {
+            transform: translateY(-10px);
+            color: #FFD700;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .hero p:hover {
+            transform: translateY(-5px);
+            color: #FFD700;
+        }
 
         /* Responsive */
         @media screen and (max-width: 768px) {
@@ -299,9 +331,14 @@
         <%
             }
         %>
+        <div class="hero">
+        <h1>Welcome to Hòa Nghèo!!!</h1>
+        <p>Your journey towards excellence begins here</p>
+    </div>
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
              background: rgba(0,0,0,0.5); z-index: 999;" onclick="toggleProfileForm()">
         </div>
+        
         <!-- Footer -->
         <footer>
             <p>&copy; 2025 Your Garage. All rights reserved.</p>
