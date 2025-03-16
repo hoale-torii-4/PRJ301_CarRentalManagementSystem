@@ -68,7 +68,7 @@
             }
 
             input[type="text"]:invalid {
-                border-color: #FF3B3B; /* Red border for invalid input */
+                border-color: #1565C0; 
             }
 
             /* Submit Button Styling */
@@ -80,7 +80,7 @@
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
-                width: 25%;
+                width: 40%;
                 transition: background-color 0.3s ease;
             }
 
@@ -142,7 +142,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <input type="submit" value="Login">
+                <input type="submit" value="LOGIN">
             </form>
 
             <!-- Error Message Display -->

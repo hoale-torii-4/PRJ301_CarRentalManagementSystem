@@ -8,16 +8,11 @@ import DAO.CustomerInvoiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Car;
 import model.SaleInvoiceDetail;
-import model.SalesInvoice;
-import model.ServiceTicketDetails;
-
 /**
  *
  * @author LENOVO
