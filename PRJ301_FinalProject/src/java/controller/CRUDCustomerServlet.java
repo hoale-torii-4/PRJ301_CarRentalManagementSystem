@@ -61,9 +61,9 @@ public class CRUDCustomerServlet extends HttpServlet {
                 case UPDATE:
                     try {
                         int id = Integer.parseInt(request.getParameter("id"));
-                        Customer oldCustomer = customerDAO.getCustomerById(id);
+                        Customer Customer = customerDAO.getCustomerById(id);
 
-                        if (oldCustomer == null) {
+                        if (Customer == null) {
                             response.sendRedirect("ListCustomer.jsp?error=customer_not_found");
                             return;
                         }
@@ -74,16 +74,16 @@ public class CRUDCustomerServlet extends HttpServlet {
                         address = request.getParameter("address");
 
                         if (name == null || name.trim().isEmpty()) {
-                            name = oldCustomer.getCustName();
+                            name = Customer.getCustName();
                         }
                         if (phone == null || phone.trim().isEmpty()) {
-                            phone = oldCustomer.getPhone();
+                            phone = Customer.getPhone();
                         }
                         if (sex == null || sex.trim().isEmpty()) {
-                            sex = oldCustomer.getSex();
+                            sex = Customer.getSex();
                         }
                         if (address == null || address.trim().isEmpty()) {
-                            address = oldCustomer.getCustAddress();
+                            address = Customer.getCustAddress();
                         }
 
                         Customer updatedCustomer = new Customer(id, name, phone, sex, address);
@@ -126,7 +126,7 @@ public class CRUDCustomerServlet extends HttpServlet {
                     break;
             }
 
-            // Set the CRUD message
+
             request.setAttribute("isCRUD", isCRUD);
         }
     }

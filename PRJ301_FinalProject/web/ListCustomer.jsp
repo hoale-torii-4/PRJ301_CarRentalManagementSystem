@@ -101,17 +101,19 @@
 
             /* Modal */
             .modal {
-                display: none;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: #fff; /* Nền modal trắng */
-                padding: 30px;
-                border-radius: 8px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-                width: 50%;
+                 display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            width: 350px;
+            border-radius: 10px;
+            border: 2px solid #003366;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: left;
             }
 
             .overlay {
@@ -130,6 +132,7 @@
                 padding: 10px;
                 margin: 10px 0;
                 border-radius: 5px;
+                width: 19%;
             }
 
             .message.success {
@@ -298,18 +301,14 @@
         <div class="message success">Customer deleted successfully!</div>
         <% } else if ("1".equals(error)) { %>
         <div class="message error">Customer deletion failed!</div>
-        <% } else if ("invalid_id".equals(error)) { %>
-        <div class="message error">ID is invalid!</div>
-        <% } %>
+        <% }%>
 
         <!-- Customer updated -->
         <% if ("update".equals(success)) { %>
         <div class="message success">Customer updated successfully!</div>
         <% } else if ("update_failed".equals(error)) { %>
         <div class="message error">Customer update failed!</div>
-        <% } else if ("invalid_id".equals(error)) { %>
-        <div class="message error">ID is invalid!</div>
-        <% } %>
+        <% }%>
 
         <!-- Customer added -->
         <% if ("customer_added".equals(success)) { %>
@@ -379,8 +378,9 @@
                 <label>Address:</label>
                 <input type="text" name="address" id="updateCustomerAddress" required/><br/>
                 <button type="submit">Update</button>
+                <button type="button" onclick="closeUpdateCustomerModal()">Cancel</button>
             </form>
-            <button type="button" onclick="closeUpdateCustomerModal()">Cancel</button>
+            
         </div>
 
         <div id="createInvoiceModal" class="modal">
@@ -396,8 +396,6 @@
                 <label for="date">Date:</label>
                 <input type="date" name="date" id="date" required><br>
 
-                <label for="price">Price:</label>
-                <input type="text" name="price" id="price"  readonly/><br>
 
                 <input type="hidden" name="carId" id="carId">
 
@@ -405,6 +403,8 @@
                 <label for="searchInput">Search Car:</label>
                 <input type="text" name="query" id="searchInput" list="carSuggestions1" oninput="fetchSuggestions()" onchange="autoSubmit()">
                 <datalist id="carSuggestions1"></datalist><br>
+                <label for="price">Price:</label>
+                <input type="text" name="price" id="price"  readonly/><br>
 
                 <button type="submit">Create Invoice</button>
             </form>

@@ -43,7 +43,7 @@
                 padding: 10px;
                 text-align: left;
             }
-
+            
             th {
                 background-color: #003366;
                 color: white;
@@ -83,7 +83,9 @@
             .details-btn:hover {
                 background-color: #002244;
             }
-
+            #search-form{
+                width: 80%;
+            }
             .createBtn {
                 margin: 12px 0;
             }
@@ -99,6 +101,7 @@
                 border-radius: 4px;
                 width: 100%;
                 box-sizing: border-box;
+                margin: 1%;              
             }
 
             input:focus, select:focus {
@@ -449,7 +452,7 @@
         </div>
         <%}%>
         <!--Search form-->
-        <form method="get" action="ViewServiceTicket">
+        <form   id = search-form method="get" action="ViewServiceTicket">
             <label for="custID">Customer ID:</label>
             <input type="text" id="custID" name="custID" /><br/>
 
