@@ -107,7 +107,7 @@ public class CreateServiceTicketServlet extends HttpServlet {
                     hour = hours[i];
                     comment = commentSTR[i];
                     mechanicName = mechanicNameSTR[i];
-                    // Kiểm tra giá trị null hoặc rỗng để tránh lỗi khi insert
+                    //check null after create
                     if (serviceName.isEmpty() || partName.isEmpty() || partPrice.isEmpty() || numUsed.isEmpty() || hour.isEmpty() || comment.isEmpty() || mechanicName.isEmpty()) {
                         continue; // Bỏ qua dòng nếu thiếu dữ liệu
                     }
@@ -119,9 +119,9 @@ public class CreateServiceTicketServlet extends HttpServlet {
                         //create service machanic
                         serMecDAO.CreateServiceMechanic(new ServiceMechanic(String.valueOf(serTicketID), service.getServiceID(), mechanic.getId(), workHours, comment, service.getHourlyRate()));
                         //create part used
-                        partDAO.CreateCarPartUsed(new PartUsed(String.valueOf(serTicketID), partDAO.getCarPartByName(partName).getPartID(), numUsed, price));
+                        partDAO.CreateCarPartUsed(new PartUsed(String.valueOf(serTicketID), partDAO.getCarPartByName(partName).getPartID(), numUsed, price, service.getServiceID()));
                     } catch (NumberFormatException e) {
-                        System.err.println("Lỗi định dạng số: " + e.getMessage());
+                        System.err.println("Numberic ERROR: " + e.getMessage());
                     }
                 }
                 request.setAttribute("responseMessage", "Create new service ticket successful");

@@ -194,13 +194,14 @@ public class CRUDPartCarDAO {
         boolean isCreated = false;
         try {
             Connection cn = DBUtils.getConnection();
-            String sql = "INSERT INTO [dbo].[PartsUsed] ([serviceTicketID],[partID],[numberUsed],[price])\n"
-                    + "VALUES (?,?,?,?)";
+            String sql = "INSERT INTO [dbo].[PartsUsed] ([serviceTicketID],[partID],[numberUsed],[price], [serviceID])\n"
+                    + "VALUES (?,?,?,?,?)";
             PreparedStatement st = cn.prepareStatement(sql);
             st.setString(1, newPartUsed.getServiceTicketID());
             st.setString(2, newPartUsed.getPartID());
             st.setString(3, newPartUsed.getNumberUsed());
             st.setDouble(4, newPartUsed.getPrice());
+            st.setString(5, newPartUsed.getServiceID());
             int row = st.executeUpdate();
             isCreated = row > 0;
 
