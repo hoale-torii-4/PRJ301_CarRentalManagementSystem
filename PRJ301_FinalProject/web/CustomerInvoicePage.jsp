@@ -84,6 +84,12 @@
         </style>
     </head>
     <body>
+        <%
+            if (session.getAttribute("customer") == null) {
+                response.sendRedirect("LoginCustomerPage.jsp");
+            }
+        %>
+
         <h1>CUSTOMER INVOICE PAGE</h1>
         <%
             ArrayList<SaleInvoiceDetail> saleInvoices = (ArrayList<SaleInvoiceDetail>) request.getAttribute("LIST_INVOICE");
@@ -158,7 +164,5 @@
             <a href="CustomerDashboardPage.jsp"><button class="back-button">Back to dashboard</button></a>
         </div>
         <% }%>
-
-
     </body>
 </html>

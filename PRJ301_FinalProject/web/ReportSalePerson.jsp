@@ -20,7 +20,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Report </title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -28,6 +28,7 @@
                 color: #333;
                 margin: 0;
                 padding: 0;
+                
             }
 
             h1 {
@@ -323,6 +324,11 @@
 
     </head>
     <body>
+        <%
+                    if (session.getAttribute("salePerson") == null) {
+                        response.sendRedirect("LoginCustomerPage.jsp");
+                    }
+                %>
         <div class="navbar">
             <div>
                 <a href="#"><button onclick="showCarSoldByYear()">Car sold by year</button></a>

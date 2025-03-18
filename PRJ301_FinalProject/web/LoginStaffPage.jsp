@@ -129,7 +129,7 @@
                 <!-- Name Input Field -->
                 <div class="form-group">
                     <label for="name">Full Name:</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your Name" pattern=".{3,}" title="Name should have at least 3 characters"><br>
+                    <input type="text" id="name" name="name" required placeholder="Enter your Name" ><br>
                 </div>
 
                 <!-- Role Selection Dropdown -->

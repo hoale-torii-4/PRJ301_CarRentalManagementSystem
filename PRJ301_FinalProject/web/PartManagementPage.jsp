@@ -295,6 +295,11 @@
         </script>
     </head>
     <body>
+        <%
+                    if (session.getAttribute("salePerson") == null) {
+                        response.sendRedirect("LoginCustomerPage.jsp");
+                    }
+                %>
         <h1>Find Car Part</h1>
         <div class="findForm">
             <form action="CRUDPartCarServlet" accept-charset="UTF-8">

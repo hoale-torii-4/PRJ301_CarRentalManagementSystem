@@ -16,8 +16,6 @@
 
     </head>
     <style>
-        /* Toàn bộ trang */
-        /* Toàn bộ trang */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -30,7 +28,7 @@
 
         /* Navbar */
         .navbar {
-            background: #003366; /* Màu xanh đậm */
+            background: #003366;
             padding: 10px 20px;
             position: fixed;
             top: 0;
@@ -48,7 +46,6 @@
             color: white;
         }
 
-        /* Căn chỉnh menu bên phải */
         .navbar .menu {
             display: flex;
             align-items: center;
@@ -309,14 +306,11 @@
 
         <!-- Logout Form -->
 
-
-
-
         <%
             }
         %>
         <div class="hero">
-        <h1>Welcome to Hòa Nghèo!!!</h1>
+        <h1>Welcome to Khoa Gâu Gâu!!!</h1>
         <p>Your journey towards excellence begins here</p>
     </div>
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -373,6 +367,5 @@
                 }, 5000);
             }
         });
-
     </script>
 </html>
