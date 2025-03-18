@@ -16,8 +16,6 @@
 
     </head>
     <style>
-        /* Toàn bộ trang */
-        /* Toàn bộ trang */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -30,7 +28,7 @@
 
         /* Navbar */
         .navbar {
-            background: #003366; /* Màu xanh đậm */
+            background: #003366;
             padding: 10px 20px;
             position: fixed;
             top: 0;
@@ -48,7 +46,6 @@
             color: white;
         }
 
-        /* Căn chỉnh menu bên phải */
         .navbar .menu {
             display: flex;
             align-items: center;
@@ -309,9 +306,6 @@
 
         <!-- Logout Form -->
 
-
-
-
         <%
             }
         %>
@@ -373,6 +367,5 @@
                 }, 5000);
             }
         });
-
     </script>
 </html>
