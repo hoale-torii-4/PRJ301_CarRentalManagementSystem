@@ -200,7 +200,7 @@
                         salesID = ""; // Default value if salesID is not found in the session
                     }
                 %>
-                <a href="ListCustomer.jsp">Manage Customer</a>
+          <     a href="CRUDCustomerServlet?cRUDAction=SEARCH&name=""">Manage Customer</a>
                 <a href="PartManagementPage.jsp">Manage Part</a>
                 <a href="ViewServiceTicket?action=STAFF">Manage Service Ticket</a>
                 <a href="CRUDCarServlet?cRUDAction=SEARCH">Manage Car</a>
@@ -230,4 +230,3 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     </body>
-</html>

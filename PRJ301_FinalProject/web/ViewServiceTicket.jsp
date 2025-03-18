@@ -65,6 +65,7 @@
                 padding: 10px 15px;
                 cursor: pointer;
                 border-radius: 5px;
+                margin-bottom: 10px;
             }
 
             button:hover {
@@ -93,6 +94,7 @@
                 background: white;
                 border-radius: 8px;
                 box-shadow: 0 0 15px rgba(0, 51, 102, 0.3);
+                width: 90%;
             }
 
             input, select {
@@ -171,9 +173,9 @@
                         let sex = parts[2].trim();
                         let address = parts[3].trim();
 
-                        inputField.value = name;         // Gán tên vào ô input tên
-                        phoneField.value = phone;         // Gán số điện thoại vào ô input phone
-                        addressField.value = address;     // Gán địa chỉ vào ô input address
+                        inputField.value = name;         
+                        phoneField.value = phone;        
+                        addressField.value = address;   
                         // Kiểm tra giới tính
                         if (sex.toUpperCase() === "F") {
                             sexField.value = "Female";
@@ -207,10 +209,10 @@
             }
             function autoCompletePartPrice(selectElement) {
                 let selectedOption = selectElement.options[selectElement.selectedIndex];
-                let price = selectedOption.getAttribute("data-price"); // Lấy giá từ data-price
-                let row = selectElement.closest("tr"); // Tìm hàng cha của select
-                let priceInput = row.querySelector("input[name='partPrice']"); // Chỉ lấy input trong cùng hàng
-                priceInput.value = price; // Gán giá vào đúng hàng
+                let price = selectedOption.getAttribute("data-price"); 
+                let row = selectElement.closest("tr"); 
+                let priceInput = row.querySelector("input[name='partPrice']"); 
+                priceInput.value = price; 
             }
 
             function addRow() {
@@ -340,6 +342,7 @@
                 partList = partDAO.getAllCarPart();
             %>
             <form action="CreateServiceTicketServlet" method="GET" accept-charset="UTF-8">
+                <h2>CREATE SERVICE TICKET</h2>
                 <table class="create-table">
                     <tr>
                         <td><strong>Customer Name: </strong> <input type="text" name="custName" id="nameInput" list="listCustSuggestion" oninput="fetchCustSuggestions()" onchange="autoCompleteCustInfo()" required>

@@ -119,6 +119,7 @@
                 color: #333;
                 margin: 0;
                 padding: 0;
+                
             }
 
             h1, h3 {
@@ -153,22 +154,24 @@
                 width: 90%;
                 margin: 20px auto;
                 border-collapse: collapse;
-                background: white;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                background-color: #ffffff;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            table, th, td {
+                border: 1px solid #ddd;
             }
 
             th, td {
                 padding: 12px;
-                border: 1px solid #ddd;
+                text-align: left;
+                font-size: 14px;
+                height: 36px;
             }
 
             th {
                 background-color: #003366;
                 color: white;
-            }
-            label {
-                color: #003366;
-                font-weight: 600 ;
             }
 
             tr:nth-child(even) {

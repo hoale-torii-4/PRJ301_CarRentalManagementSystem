@@ -4,7 +4,6 @@
  */
 package controller;
 
-import DAO.CRUDCustomerDAO;
 import DAO.CRUDPartCarDAO;
 import DAO.CRUDServiceDAO;
 import DAO.CarDAO;
@@ -54,7 +53,7 @@ public class CreateServiceTicketServlet extends HttpServlet {
             CRUDPartCarDAO partDAO = new CRUDPartCarDAO();
             ServiceMechanicDAO serMecDAO = new ServiceMechanicDAO();
             CustomerDAO custDAO = new CustomerDAO();
-            CRUDCustomerDAO cRUDCustDAO = new CRUDCustomerDAO();
+            CustomerDAO cRUDCustDAO = new CustomerDAO();
             ServiceTicketDAO serTicketDAO = new ServiceTicketDAO();
             CRUDServiceDAO serviceDAO = new CRUDServiceDAO();
             CarDAO carDAO = new CarDAO();

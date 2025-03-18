@@ -4,9 +4,10 @@
  */
 package controller;
 
-import DAO.CRUDCustomerDAO;
+import DAO.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,7 @@ public class CRUDCustomerServlet extends HttpServlet {
     final String CREATE = "CREATE";
     final String UPDATE = "UPDATE";
     final String DELETE = "DELETE";
+    final String SEARCH = "SEARCH";
     String url = "ListCustomer.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -32,7 +34,7 @@ public class CRUDCustomerServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String cRUDAction = request.getParameter("cRUDAction");
-            CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
             String isCRUD = "Failed to ";
             String customerID = "";
 
@@ -42,20 +44,20 @@ public class CRUDCustomerServlet extends HttpServlet {
                     String phone = request.getParameter("phone");
                     String sex = request.getParameter("sex");
                     String address = request.getParameter("address");
-
-                    // Create new customer object
                     Customer newCustomer = new Customer(0, name, phone, sex, address);
                     int custID = customerDAO.addCustomer(newCustomer);
 
                     if (custID > 0) {
-                        isCRUD = "Create new customer Successful!";
+                        isCRUD = "Create new customer successful!";
                         request.getSession().setAttribute("custId", custID);
-                        // Redirect to ListCustomer.jsp with the customer ID and success message
-                        response.sendRedirect("ListCustomer.jsp?success=customer_added&custId=" + custID);
                     } else {
                         isCRUD = "Create new customer failed! TRY AGAIN.";
-                        response.sendRedirect("ListCustomer.jsp?error=add_failed");
                     }
+
+                    request.setAttribute("isCRUD", isCRUD);
+                    ArrayList<Customer> customerList = customerDAO.getCustomers();
+                    request.setAttribute("customer", customerList);
+                    request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
                     break;
 
                 case UPDATE:
@@ -91,10 +93,11 @@ public class CRUDCustomerServlet extends HttpServlet {
 
                         if (isUpdated) {
                             isCRUD = "Update customer Successful!";
-                            response.sendRedirect("ListCustomer.jsp?success=update");
-                            url = "UpdateCustomer.jsp";
+                            request.setAttribute("isCRUD", isCRUD);
+                            request.getRequestDispatcher("CRUDCustomerServlet?cRUDAction=SEARCH&name=" + name).forward(request, response);
                         } else {
                             isCRUD = "Update customer failed! TRY AGAIN.";
+                            request.setAttribute("isCRUD", isCRUD);
                             response.sendRedirect("ListCustomer.jsp?error=update_failed");
                         }
                     } catch (NumberFormatException e) {
@@ -105,19 +108,39 @@ public class CRUDCustomerServlet extends HttpServlet {
 
                 case DELETE:
                     try {
-                        int id = Integer.parseInt(request.getParameter("id"));
+                        int id = Integer.parseInt(request.getParameter("CustId"));
                         boolean isDeleted = customerDAO.deleteCustomer(id);
 
                         if (isDeleted) {
-                            isCRUD = "Delete customer ID " + id + " Successful!";
-                            response.sendRedirect("ListCustomer.jsp?success=1");
+                            isCRUD = "Delete customer successful!";
                         } else {
                             isCRUD = "Delete customer ID " + id + " failed! TRY AGAIN.";
-                            response.sendRedirect("ListCustomer.jsp?error=1");
                         }
+
+                        request.setAttribute("isCRUD", isCRUD);
+
+                        ArrayList<Customer> newList = customerDAO.getCustomers();
+                        request.setAttribute("customer", newList);
+                        request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
+
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
-                        response.sendRedirect("ListCustomer.jsp?error=invalid_id");
+                        request.setAttribute("isCRUD", "Invalid customer ID!");
+                        request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
+                    }
+                    break;
+                case SEARCH:
+                    try {
+                        name = request.getParameter("name");
+                        CustomerDAO Fincust = new CustomerDAO();
+                        ArrayList<Customer> customer = Fincust.searchCustomersByName(name);
+                        request.setAttribute("customer", customer);
+
+                        request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        response.sendRedirect("ListCustomer.jsp?error=search_failed");
                     }
                     break;
 
@@ -126,8 +149,6 @@ public class CRUDCustomerServlet extends HttpServlet {
                     break;
             }
 
-
-            request.setAttribute("isCRUD", isCRUD);
         }
     }
 
