@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -59,7 +60,7 @@ public class ReportSalePersonServlet extends HttpServlet {
                     request.setAttribute("REVENUE", revenue);
                     break;
                 case BESTMODEL:
-                    HashMap<Car, Integer> cars = reportDAO.bestSellingCarModel();
+                    List<Car> cars = reportDAO.bestSellingCarModel();
                     request.setAttribute("BSCAR_MAP", cars);
                     break;
                 case BESTPART:
@@ -68,8 +69,9 @@ public class ReportSalePersonServlet extends HttpServlet {
              
                     break;
                 case MECHANIC:
-                    HashMap<Mechanic, Integer> mapMechanic = reportDAO.ThreeMechanicID();
-                    request.setAttribute("MAP_MECHANIC", mapMechanic);                    break;
+                    ArrayList<Mechanic> mechanics = reportDAO.ThreeMechanicID();
+                    request.setAttribute("LIST_MECHANIC", mechanics);
+                    break;
                 default:
                     updateMess = "Somethings wrong!";
             }

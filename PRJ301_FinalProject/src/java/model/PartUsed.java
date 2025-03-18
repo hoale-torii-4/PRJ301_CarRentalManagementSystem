@@ -13,10 +13,26 @@ public class PartUsed {
     private String partID;
     private String numberUsed;
     private Double price;
-
+    private int total;
+    
     public PartUsed() {
     }
 
+    public PartUsed(String partID,int total,Double price) {
+        this.partID = partID;
+        this.total = total;
+        this.price = price;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+    
+    
     public PartUsed(String serviceTicketID, String partID, String numberUsed, Double price) {
         this.serviceTicketID = serviceTicketID;
         this.partID = partID;

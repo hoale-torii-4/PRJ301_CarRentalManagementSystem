@@ -182,6 +182,7 @@
         </style>
     </head>
     <body>
+
         <div class="navbar">
             <div class="welcome-text">
                 <%
@@ -204,7 +205,7 @@
                 <a href="PartManagementPage.jsp">Manage Part</a>
                 <a href="ViewServiceTicket?action=STAFF">Manage Service Ticket</a>
                 <a href="CRUDCarServlet?cRUDAction=SEARCH">Manage Car</a>
-                <a href="ReportSalePerson.jsp">Report</a>
+                <a href="ReportSalePersonServlet?reportType=MECHANIC">Report</a>
                 <a href="LogoutServlet" class="logout-btn">
                     <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
                 </a>
@@ -230,3 +231,4 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     </body>
+

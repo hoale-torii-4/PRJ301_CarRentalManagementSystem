@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import model.Service;
 import mylib.DBUtils;
 
@@ -51,6 +52,7 @@ public class CRUDServiceDAO {
         }
         return services;
     }
+
     public Service getOneServiceByName(String name) {
         Service service = new Service();
         Connection cn = null;
@@ -67,8 +69,8 @@ public class CRUDServiceDAO {
                     String serviceID = table.getString("serviceID");
                     String serviceName = table.getString("serviceName");
                     double hourlyRate = table.getDouble("hourlyRate");
-                    service  = new Service(serviceID, serviceName, hourlyRate);
-                  
+                    service = new Service(serviceID, serviceName, hourlyRate);
+
                 }
             }
 
@@ -85,6 +87,7 @@ public class CRUDServiceDAO {
         }
         return service;
     }
+
     public ArrayList<Service> getAllService() {
         ArrayList<Service> services = new ArrayList<>();
         Connection cn = null;
@@ -192,7 +195,7 @@ public class CRUDServiceDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-               String sql = "INSERT INTO Service (serviceID, serviceName, hourlyRate) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO Service (serviceID, serviceName, hourlyRate) VALUES (?, ?, ?)";
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setLong(1, newID);
                 st.setString(2, name);
@@ -213,5 +216,37 @@ public class CRUDServiceDAO {
         }
 
         return isCreated;
+    }
+
+    public List<String> getSuggestService(String keyword) {
+        List<String> suggestion = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT [serviceID],[serviceName],[hourlyRate],[status]\n"
+                        + "FROM [dbo].[Service]\n"
+                        + "WHERE [serviceName] LIKE ? AND [status] = 1";
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setString(1, "%" + keyword + "%");
+                ResultSet table = st.executeQuery();
+                while (table.next()) {
+                    String partInfo = table.getString("serviceID") + " - " + table.getString("serviceName") + " - " + table.getString("hourlyRate");
+                    suggestion.add(partInfo);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return suggestion;
     }
 }
