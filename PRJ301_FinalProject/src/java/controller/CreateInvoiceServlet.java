@@ -23,7 +23,7 @@ public class CreateInvoiceServlet extends HttpServlet {
         // Kiểm tra custId có tồn tại không
         if (custIdParam == null || custIdParam.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Không tìm thấy ID khách hàng!");
-            request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
             return;
         }
 
@@ -31,28 +31,28 @@ public class CreateInvoiceServlet extends HttpServlet {
             custId = Integer.parseInt(custIdParam);
         } catch (NumberFormatException e) {
             request.setAttribute("errorMessage", "ID khách hàng không hợp lệ!");
-            request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
             return;
         }
 
         // Lấy thông tin khách hàng từ Database
-       CustomerDAO customerDAO = new CustomerDAO();
+        CustomerDAO customerDAO = new CustomerDAO();
         Customer customer = customerDAO.getCustomerById(custId);
 
         if (customer == null) {
             request.setAttribute("errorMessage", "Không tìm thấy khách hàng trong hệ thống!");
-            request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
             return;
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute("custId", customer.getCustID());  
+        session.setAttribute("custId", customer.getCustID());
         String saleId = (String) session.getAttribute("salesID");
 
         // Kiểm tra saleId hợp lệ
         if (saleId == null || saleId.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Không tìm thấy ID nhân viên!");
-            request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
             return;
         }
 
@@ -63,13 +63,13 @@ public class CreateInvoiceServlet extends HttpServlet {
 
         if (date == null || date.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Ngày không được để trống!");
-            request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
             return;
         }
 
         if (carId == null || carId.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Không tìm thấy ID xe!");
-            request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
             return;
         }
 
@@ -78,7 +78,7 @@ public class CreateInvoiceServlet extends HttpServlet {
             price = Double.parseDouble(priceParam.trim());
         } catch (NumberFormatException e) {
             request.setAttribute("errorMessage", "Giá không hợp lệ!");
-            request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
             return;
         }
 
@@ -95,13 +95,13 @@ public class CreateInvoiceServlet extends HttpServlet {
         boolean success = invoiceDAO.addInvoice(invoice);
 
         if (success) {
-            System.out.println("✅ Hóa đơn đã được tạo thành công!");
-            response.sendRedirect("ListCustomer.jsp?success=create_invoice");
+            request.setAttribute("isCRUD", "✅ Invoice created successfully!");
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
         } else {
-            System.out.println("❌ Lỗi khi tạo hóa đơn!");
-            request.setAttribute("errorMessage", "Lỗi khi tạo hóa đơn. Vui lòng thử lại.");
-            request.getRequestDispatcher("CreateInvoice.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "❌ Error creating invoice. Please try again.");
+            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
         }
+
     }
 
     @Override

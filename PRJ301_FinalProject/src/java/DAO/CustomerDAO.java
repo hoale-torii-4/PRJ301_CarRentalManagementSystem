@@ -264,7 +264,7 @@ public class CustomerDAO {
         }
         return cust;
     }
-
+//
     public ArrayList<Customer> getCustomers() {
         ArrayList<Customer> list = new ArrayList();
         Connection cn = null;

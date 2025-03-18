@@ -16,7 +16,7 @@
                 color: #333; /* Văn bản màu tối */
                 margin: 0;
                 padding: 20px;
-                width: auto;              
+                width: auto;
             }
 
             h3 {
@@ -321,17 +321,17 @@
                 </form>
 
             </div>
-             <!-- Modal xác nhận xóa -->
+            <!-- Modal xác nhận xóa -->
             <div id="deleteConfirmModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-             background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
-            <h3>Are you sure you want to delete this customer?</h3>
-            <form id="deleteCustForm" action="CRUDCustomerServlet" >
-                <input type="hidden" name="cRUDAction" value="DELETE">
-                <input type="hidden" name="CustId" id="deleteCusID">
-                <button type="submit">Yes</button>
-                <button type="button" onclick="closeDeleteModal()">No</button>
-            </form>
-        </div>
+                 background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
+                <h3>Are you sure you want to delete this customer?</h3>
+                <form id="deleteCustForm" action="CRUDCustomerServlet" >
+                    <input type="hidden" name="cRUDAction" value="DELETE">
+                    <input type="hidden" name="CustId" id="deleteCusID">
+                    <button type="submit">Yes</button>
+                    <button type="button" onclick="closeDeleteModal()">No</button>
+                </form>
+            </div>
 
             <div id="createInvoiceModal" class="modal">
                 <h3>Create Invoice</h3>
@@ -414,15 +414,15 @@
                     document.getElementById("customerTableResult").style.display = "none";
                 }
                 function confirmDelete(CustId) {
-                document.getElementById("deleteCusID").value = CustId;
-                document.getElementById("deleteConfirmModal").style.display = "block";
-                document.getElementById("overlay").style.display = "block";
-            }
+                    document.getElementById("deleteCusID").value = CustId;
+                    document.getElementById("deleteConfirmModal").style.display = "block";
+                    document.getElementById("overlay").style.display = "block";
+                }
 
-            function closeDeleteModal() {
-                document.getElementById("deleteConfirmModal").style.display = "none";
-                document.getElementById("overlay").style.display = "none";
-            }
+                function closeDeleteModal() {
+                    document.getElementById("deleteConfirmModal").style.display = "none";
+                    document.getElementById("overlay").style.display = "none";
+                }
             </script>
 
 
@@ -485,8 +485,8 @@
                         popup.style.color = "white";
                         popup.style.borderRadius = "5px";
                         popup.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)";
+                        popup.style.transition = "opacity 0.5s ease";
                         document.body.appendChild(popup);
-
                         setTimeout(function () {
                             popup.style.opacity = "0";
                             setTimeout(() => popup.remove(), 500);
@@ -494,6 +494,9 @@
                     }
                 });
             </script>
+            <%
+                session.removeAttribute("isCRUD"); // Xóa sau khi hiển thị để tránh hiện lại khi load trang
+            %>
             <a href="SalePersonDashboard.jsp"><button>Back to Dashboard</button></a>
     </body>
 </html>
