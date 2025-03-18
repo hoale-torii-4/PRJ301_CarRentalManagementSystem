@@ -293,7 +293,11 @@
 
     </head>
     <body>
-
+<%
+                    if (session.getAttribute("salePerson") == null) {
+                        response.sendRedirect("LoginCustomerPage.jsp");
+                    }
+                %>
         <h4>Search Car by Serial Number, Model, or Year</h4>
 
         <div id="searchDiv">
@@ -308,7 +312,6 @@
             <button type="button" onclick="showCreateForm()" class="createBtn">Add new Car</button><br>
         </div>
         <div class="twoBtn">
-            <button type="submit" onclick="autoSubmit()">View List ALL CAR</button>
             <a href="SalePersonDashboard.jsp"><button>Back to DashBoard</button></a>
         </div>
 
@@ -360,20 +363,10 @@
         <p class="message">No results found.</p>
         <% }%>
 
-
-
-        <!-- In thông báo sau khi thực hiện CRUD -->
-        <%
-            if (request.getAttribute("isCRUD") != null) {
-        %>
-        <h4><%= request.getAttribute("isCRUD")%></h4>
-        <%
-            }
-        %>
         <div id="createCarForm" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
              background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
             <h3>Create New Car</h3>
-            <form id="newCarForm" action="CRUDCarServlet?cRUDAction=CREATE" method="POST">
+            <form id="newCarForm" action="CRUDCarServlet?cRUDAction=CREATE" method="POST" accept-charset="UTF-8">
                 <label>Serial Number:</label>
                 <input type="text" name="carSerialNumber" required><br>
 
@@ -404,9 +397,9 @@
         <div id="updateCarModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
              background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
             <h3>Update Car Information</h3>
-            <form id="updateCarForm" action="CRUDCarServlet?cRUDAction=UPDATE" method="POST">
+            <form id="updateCarForm" action="CRUDCarServlet" method="POST" accept-charset="UTF-8">
                 <input type="hidden" name="carID" id="updateCarID"> <!-- Ẩn ID xe -->
-
+                <input type="hidden" name="cRUDAction" value="UPDATE">
                 <label>Serial Number:</label>
                 <input type="text" name="carSerialNumber" id="updateSerialNumber" required><br>
 

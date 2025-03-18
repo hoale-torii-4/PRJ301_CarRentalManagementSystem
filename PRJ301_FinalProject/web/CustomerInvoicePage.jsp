@@ -84,12 +84,18 @@
         </style>
     </head>
     <body>
+        <%
+            if (session.getAttribute("customer") == null) {
+                response.sendRedirect("LoginCustomerPage.jsp");
+            }
+        %>
+
         <h1>CUSTOMER INVOICE PAGE</h1>
         <%
             ArrayList<SaleInvoiceDetail> saleInvoices = (ArrayList<SaleInvoiceDetail>) request.getAttribute("LIST_INVOICE");
             ArrayList<SaleInvoiceDetail> detaiInvoices = (ArrayList<SaleInvoiceDetail>) request.getAttribute("LIST_DETAIL");
 
-            boolean isDetailView = (detaiInvoices != null && !detaiInvoices.isEmpty()); 
+            boolean isDetailView = (detaiInvoices != null && !detaiInvoices.isEmpty());
         %>
         <% if (isDetailView) { %>
         <h2>Detail</h2>
@@ -99,7 +105,7 @@
                 <td><strong>Invoice ID:</strong> <%= si.getInvoiceID()%></td>
                 <td><strong>Invoice Date:</strong> <%= si.getInvoiceDate()%></td>
                 <td><strong>Sale Name:</strong> <%= si.getSalesName()%></td>
-                <td><strong>Price:</strong> <%= NumberFormat.getInstance().format(si.getInvoicePrice()) %></td>
+                <td><strong>Price:</strong> <%= NumberFormat.getInstance().format(si.getInvoicePrice())%></td>
             </tr>
             <tr>
                 <td><strong>Cust Name:</strong> <%= si.getCustName()%></td>
@@ -129,7 +135,7 @@
                 <th>Action</th>
             </tr>
             <% if (saleInvoices != null && !saleInvoices.isEmpty()) {
-                for (SaleInvoiceDetail si : saleInvoices) {%>
+                    for (SaleInvoiceDetail si : saleInvoices) {%>
             <tr>
                 <td><%= si.getInvoiceID()%></td>
                 <td><%= si.getInvoiceDate()%></td>
@@ -144,7 +150,7 @@
                 </td>
             </tr>
             <% }
-        } else { %>
+            } else { %>
             <tr>
                 <td colspan="6" style="text-align: center; color: red;">No invoices available.</td>
             </tr>
@@ -152,7 +158,7 @@
         </table>
         <% }%>
 
-        
+
         <a href="CustomerDashboardPage.jsp"><button class="back-button">Back to dashboard</button></a>
     </body>
 </html>

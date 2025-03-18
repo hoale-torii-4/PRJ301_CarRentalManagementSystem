@@ -123,7 +123,7 @@
         table, th, td {
             border: 1px solid #003366;
         }
-        
+
         th {
             border: 1px solid #fff;
         }
@@ -145,7 +145,7 @@
         tr:nth-child(odd) {
             background-color: #f1f1f1;
         }
-        
+
         tr:hover {
             background-color: #ccc;
         }
@@ -178,6 +178,11 @@
 
     <body>
         <h1>SERVICE PAGE</h1>
+        <%
+            if (session.getAttribute("mechanic") == null) {
+                response.sendRedirect("LoginCustomerPage.jsp");
+            }
+        %>
 
         <form id="searchForm" action="SearchServiceByNameServlet" method="POST" accept-charset="UTF-8">
             <input type="text" name="query" id="searchInput" list="serviceSuggestions" oninput="fetchSuggestions()" onchange="autoSubmit()">
