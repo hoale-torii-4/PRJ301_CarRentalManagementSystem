@@ -93,6 +93,7 @@
                 background: white;
                 border-radius: 8px;
                 box-shadow: 0 0 15px rgba(0, 51, 102, 0.3);
+                width: 90%;
             }
 
             input, select {
@@ -340,6 +341,7 @@
                 partList = partDAO.getAllCarPart();
             %>
             <form action="CreateServiceTicketServlet" method="GET" accept-charset="UTF-8">
+                <h2>CREATE SERVICE TICKET</h2>
                 <table class="create-table">
                     <tr>
                         <td><strong>Customer Name: </strong> <input type="text" name="custName" id="nameInput" list="listCustSuggestion" oninput="fetchCustSuggestions()" onchange="autoCompleteCustInfo()" required>
