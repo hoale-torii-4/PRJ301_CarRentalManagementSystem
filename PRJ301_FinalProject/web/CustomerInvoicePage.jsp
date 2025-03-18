@@ -43,7 +43,7 @@
                 background-color: #f1f1f1;
             }
             .details-btn {
-                background-color: #FF6600;
+                background-color: #003366;
                 color: white;
                 padding: 8px 12px;
                 border: none;
@@ -53,7 +53,7 @@
                 text-decoration: none;
             }
             .details-btn:hover {
-                background-color: #ff3300;
+                background-color: #002244;
             }
             .back-button {
                 display: block;
@@ -121,6 +121,9 @@
             </tr>
         </table>
         <% } %>
+        <div class="back-container">
+            <a href="CustomerInvoiceServlet?id=<%=session.getAttribute("customerID") %>" ><button class="back-button">Back</button></a>
+        </div>
 
         <% } else { %>
         <!-- Display list of invoices if no details available -->
@@ -156,9 +159,10 @@
             </tr>
             <% } %>
         </table>
+
+        <div class="back-container">
+            <a href="CustomerDashboardPage.jsp"><button class="back-button">Back to dashboard</button></a>
+        </div>
         <% }%>
-
-
-        <a href="CustomerDashboardPage.jsp"><button class="back-button">Back to dashboard</button></a>
     </body>
 </html>

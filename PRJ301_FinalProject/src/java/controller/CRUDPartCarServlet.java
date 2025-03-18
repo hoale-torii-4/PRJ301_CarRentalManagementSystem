@@ -7,6 +7,7 @@ package controller;
 import DAO.CRUDPartCarDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,7 @@ public class CRUDPartCarServlet extends HttpServlet {
     final String CREATE = "CREATE";
     final String UPDATE = "UPDATE";
     final String DELETE = "DELETE";
+    final String SEARCH = "SEARCH";
     String url = "PartManagementPage.jsp";
 
     /**
@@ -44,27 +46,35 @@ public class CRUDPartCarServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String cRUDAction = request.getParameter("cRUDAction");
             CRUDPartCarDAO partCarDAO = new CRUDPartCarDAO();
-            CarParts cp = new CarParts();
-            String isCRUD = "Failed to ";
+            CarParts cp = null;
+            String isCRUD = "";
             String partID = "";
             String partName;
             double purchasePrice;
             double retailPrice;
             switch (cRUDAction) {
+                case SEARCH:
+                    String keyword = request.getParameter("query");
+                    CRUDPartCarDAO dao = new CRUDPartCarDAO();
+                    List<CarParts> parts = dao.searchCarPart(keyword);
+                    request.setAttribute("searchQuery", keyword);
+                    request.setAttribute("searchResult", parts);
+                    break;
                 case CREATE:
                     partName = request.getParameter("partName");
                     purchasePrice = Double.parseDouble(request.getParameter("purchasePrice").trim());
                     retailPrice = Double.parseDouble(request.getParameter("retailPrice").trim());
-                    cp = new CarParts(partID, partName, purchasePrice, retailPrice);
-                    if(partCarDAO.CreateCarPart(cp))
-                        isCRUD = "Created new car part Successfully!!";
-                    else isCRUD = "Created new car part Fail!";
-                    break;
+                    cp = partCarDAO.CreateCarPart(new CarParts(partID, partName, purchasePrice, retailPrice));
+                    request.setAttribute("responseMessage", "Added successfully!");
+                    request.getRequestDispatcher("CRUDPartCarServlet?cRUDAction=SEARCH&query=" + cp.getPartName()).forward(request, response);
+                    return;
                 case DELETE:
                     partID = request.getParameter("partID");
-                    if(partCarDAO.DeleteCarPart(partID))
-                        isCRUD = "Deleted new car part sucessfully!";
-                    else isCRUD = "Deleted new car part fail!";
+                    if (partCarDAO.DeleteCarPart(partID)) {
+                        request.setAttribute("responseMessage", "Deleted " + partID + " successfully!");
+                    } else {
+                        request.setAttribute("responseMessage", "Deleted Fail!");
+                    }
                     break;
                 case UPDATE:
                     partID = (String) request.getParameter("partID");
@@ -72,13 +82,16 @@ public class CRUDPartCarServlet extends HttpServlet {
                     purchasePrice = Double.parseDouble(request.getParameter("purchasePrice").trim());
                     retailPrice = Double.parseDouble(request.getParameter("retailPrice").trim());
                     cp = new CarParts(partID, partName, purchasePrice, retailPrice);
-                    if(partCarDAO.updateCarPart(cp))
-                       isCRUD = "Updated new car part Successfully!!";
-                    else isCRUD = "Updated new car part Fail!"; 
+
+                    if (partCarDAO.updateCarPart(cp)) {
+                        request.setAttribute("responseMessage", "Updated " + cp.getPartID() + " successfully!");
+                        request.getRequestDispatcher("CRUDPartCarServlet?cRUDAction=SEARCH&query=" + cp.getPartName()).forward(request, response);
+                    } else {
+                        request.setAttribute("responseMessage", "Updated fail!");
+                    }
                     break;
-                
+
             }
-            request.setAttribute("updateMess", isCRUD);
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

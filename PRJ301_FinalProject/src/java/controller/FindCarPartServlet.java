@@ -53,25 +53,6 @@ public class FindCarPartServlet extends HttpServlet {
         out.flush();    
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
-        
-        String keyword = request.getParameter("query");
-        CRUDPartCarDAO dao = new CRUDPartCarDAO();
-        List<CarParts> parts = dao.searchCarPart(keyword);
-        
-
-        request.setAttribute("searchQuery", keyword);
-        request.setAttribute("searchResult", parts);
-
-        request.getRequestDispatcher("PartManagementPage.jsp").forward(request, response);
-
-    }
-
     /**
      * Returns a short description of the servlet.
      *

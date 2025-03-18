@@ -17,8 +17,25 @@ public class Car {
     private String color;
     private int year;
     private double price;
+    private int total;
 
-   
+    public Car(String carId, String serialNumber, String model, String color, int year, double price, int total) {
+        this.carId = carId;
+        this.serialNumber = serialNumber;
+        this.model = model;
+        this.color = color;
+        this.year = year;
+        this.price = price;
+        this.total = total;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
 
     public Car(String carId, String serialNumber, String model, String color, int year, double price) {
 

@@ -7,6 +7,7 @@ package controller;
 import DAO.CRUDServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ public class CRUDServiceServlet extends HttpServlet {
     final String CREATE = "CREATE";
     final String UPDATE = "UPDATE";
     final String DELETE = "DELETE";
+    final String SEARCH = "SEARCH";
     String url = "ServicePage.jsp";
 
     /**
@@ -41,31 +43,38 @@ public class CRUDServiceServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String cRUDAction = request.getParameter("cRUDAction");
             CRUDServiceDAO serviceDAO = new CRUDServiceDAO();
-            String isCRUD = "Failed to";
+            String isCRUD = "";
             Service s = new Service();
             String serviceName = "";
             double hourlyRate = 0;
             String serviceID = "";
             switch (cRUDAction) {
+                case SEARCH:
+                    String keyword = request.getParameter("query");
+                    CRUDServiceDAO dao = new CRUDServiceDAO();
+                    List<Service> services = dao.getServiceByName(keyword);
+                    request.setAttribute("SERVICE_LIST", services);
+                    break;
                 case CREATE:
                     serviceName = request.getParameter("serviceName");
                     hourlyRate = 0;
                     try {
                         hourlyRate = Double.parseDouble(request.getParameter("hourlyRate"));
                         if (serviceDAO.isCreated(serviceName, hourlyRate)) {
-                            isCRUD = "Created new service successfully!";
+                            request.setAttribute("responseMessage", "Added successfully!");
+                            request.getRequestDispatcher("CRUDServiceServlet?cRUDAction=SEARCH&query="+serviceName).forward(request, response);
                         } else {
-                            isCRUD = "Created new service fail!";
+                            request.setAttribute("responseMessage", "Added failed!");
                         }
                     } catch (NumberFormatException e) {
                     }
-                    break;
+                    return;
                 case DELETE:
                     serviceID = request.getParameter("serviceID");
                     if (serviceDAO.DeleteServlet(serviceID)) {
-                        isCRUD = "Deleted service successfully!";
+                        request.setAttribute("responseMessage", "Deleted "+ serviceID +" successfully!");
                     } else {
-                        isCRUD = "Deleted service fail!";
+                        request.setAttribute("responseMessage", "Deleted failed!");
                     }
                     break;
                 case UPDATE:
@@ -75,16 +84,16 @@ public class CRUDServiceServlet extends HttpServlet {
                     try {
                         hourlyRate = Double.parseDouble(request.getParameter("hourlyRate").trim());
                     } catch (NumberFormatException e) {
-                        request.setAttribute("updateMess", "Wrong format number!");
+                        request.setAttribute("responseMessage", "Wrong format number!");
                     }
                     if (serviceDAO.UpdateService(serviceID, serviceName, hourlyRate)) {
-                        isCRUD = "Updated service successfully!";
+                        request.setAttribute("responseMessage", "Updated " + serviceID + " successfully!");
+                        request.getRequestDispatcher("CRUDServiceServlet?cRUDAction=SEARCH&query=" + serviceName).forward(request, response);
                     } else {
-                        isCRUD = "Updated service fail!";
+                        request.setAttribute("responseMessage", "Updated failed!");
                     }
-                    break;
+                    return;
             }
-            request.setAttribute("updateMess", isCRUD);
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

@@ -270,6 +270,28 @@
                 document.getElementById("deleteConfirmModal").style.display = "none";
                 document.getElementById("deleteOverlay").style.display = "none";
             }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var message = "<%= request.getAttribute("responseMessage")%>";
+                if (message && message !== "null") {
+                    var popup = document.createElement("div");
+                    popup.textContent = message;
+                    popup.style.position = "fixed";
+                    popup.style.top = "20px";
+                    popup.style.right = "20px";
+                    popup.style.padding = "15px";
+                    popup.style.backgroundColor = "#4CAF50";
+                    popup.style.color = "white";
+                    popup.style.borderRadius = "5px";
+                    popup.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)";
+                    document.body.appendChild(popup);
+
+                    setTimeout(function () {
+                        popup.style.opacity = "0";
+                        setTimeout(() => popup.remove(), 500);
+                    }, 5000);
+                }
+            });
         </script>
     </head>
     <body>
@@ -280,7 +302,8 @@
                 %>
         <h1>Find Car Part</h1>
         <div class="findForm">
-            <form action="FindCarPartServlet" method="POST" accept-charset="UTF-8">
+            <form action="CRUDPartCarServlet" accept-charset="UTF-8">
+                <input type="hidden" name="cRUDAction" value="SEARCH" />
                 <input type="text" name="query" id="searchInput" list="partSuggestions" 
                        oninput="fetchSuggestions()" onchange="autoSubmit()" placeholder="Enter part name">
                 <datalist id="partSuggestions"></datalist>
@@ -309,10 +332,7 @@
 
         <div id="createOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="hideCreateForm()"></div>
 
-        <% String updateStatus = (String) request.getAttribute("updateMess"); %>
-        <% if (updateStatus != null && !updateStatus.isEmpty()) {%>
-        <h2 class="updateMessage"><%= updateStatus%></h2>
-        <% } %>
+
         <%
             List<CarParts> partList = (List<CarParts>) request.getAttribute("searchResult");
         %>
@@ -338,9 +358,8 @@
             </tr>
             <% } %>
         </table>
-        <% } else { %>
-        <p class="message">No parts found.</p>
         <% }%>
+
 
         <div id="updatePartModal" style="display: none; background: white; padding: 20px; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
             <h3>Update Part</h3>
@@ -367,5 +386,7 @@
             </form>
         </div>
         <div id="deleteOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeDeleteModal()"></div>
+
+
     </body>
 </html>
