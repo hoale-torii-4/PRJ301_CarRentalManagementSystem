@@ -228,7 +228,11 @@
         </style>
     </head>
     <body>
-
+<%
+                    if (session.getAttribute("salePerson") == null) {
+                        response.sendRedirect("LoginCustomerPage.jsp");
+                    }
+                %>
         <!-- Form tìm kiếm khách hàng -->
         <form action="CRUDCustomerServlet" method="get" id="searchform">
             <label for="search">Enter Customer's Name:</label>

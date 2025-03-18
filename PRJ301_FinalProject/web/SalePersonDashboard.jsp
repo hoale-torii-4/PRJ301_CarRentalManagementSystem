@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mercedes-Benz Dashboard</title>
+        <title>Sale person Dashboard</title>
         <!-- Liên kết Bootstrap CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <style>
@@ -182,46 +182,51 @@
         </style>
     </head>
     <body>
-    <div class="navbar">
-    <div class="welcome-text">
-        Welcome, <%= session.getAttribute("user") != null ? session.getAttribute("user") : "User" %>
-    </div>
-    <div class="menu">
-        <!-- Xử lý salesID -->
-        <%
-            String salesID = (String) session.getAttribute("salesID");
-            if (salesID == null) {
-                salesID = ""; // Default value if salesID is not found in the session
-            }
-        %>
-        <a href="CRUDCustomerServlet?cRUDAction=SEARCH&name=""">Manage Customer</a>
-        <a href="PartManagementPage.jsp">Manage Part</a>
-        <a href="ViewServiceTicket?action=STAFF">Manage Service Ticket</a>
-        <a href="ManageCarPage.jsp?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Car</a>
-        <a href="ReportSalePerson.jsp">Report</a>
-        <a href="LogoutServlet" class="logout-btn">
-            <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
-        </a>
-    </div>
-</div>
+        <div class="navbar">
+            <div class="welcome-text">
+                <%
+                    if (session.getAttribute("user") == null) {
+                        response.sendRedirect("LoginCustomerPage.jsp");
+                    }
+                %>
+                Welcome, <%= session.getAttribute("user")%>
+
+            </div>
+            <div class="menu">
+                <!-- Xử lý salesID -->
+                <%
+                    String salesID = (String) session.getAttribute("salesID");
+                    if (salesID == null) {
+                        salesID = ""; // Default value if salesID is not found in the session
+                    }
+                %>
+          <     a href="CRUDCustomerServlet?cRUDAction=SEARCH&name=""">Manage Customer</a>
+                <a href="PartManagementPage.jsp">Manage Part</a>
+                <a href="ViewServiceTicket?action=STAFF">Manage Service Ticket</a>
+                <a href="CRUDCarServlet?cRUDAction=SEARCH">Manage Car</a>
+                <a href="ReportSalePerson.jsp">Report</a>
+                <a href="LogoutServlet" class="logout-btn">
+                    <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
+                </a>
+            </div>
+        </div>
 
 
-    
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1>Welcome to Hòa Nghẹo!!!</h1>
-        <p>Your journey towards excellence begins here</p>
-    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Hòa Nghẹo!!!. All Rights Reserved.</p>
-    </footer>
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Welcome to Hòa Nghẹo!!!</h1>
+            <p>Your journey towards excellence begins here</p>
+        </div>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Hòa Nghẹo!!!. All Rights Reserved.</p>
+        </footer>
 
-</body>
-</html>
+        <!-- Bootstrap JS and Popper.js -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    </body>
