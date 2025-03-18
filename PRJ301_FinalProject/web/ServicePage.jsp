@@ -251,7 +251,7 @@
                 <td><%= s.getName()%></td>
                 <td><%= NumberFormat.getInstance().format(s.getHourlyRate())%></td>
                 <td>
-                    <button type="button" onclick="openUpdateModal('<%= s.getServiceID()%>', '<%= s.getName()%>', '<%= NumberFormat.getNumberInstance().format(s.getHourlyRate()) %>')">Update</button>
+                    <button type="button" onclick="openUpdateModal('<%= s.getServiceID()%>', '<%= s.getName()%>', '<%= s.getHourlyRate() %>')">Update</button>
                     <button type="button" onclick="confirmDelete('<%= s.getServiceID()%>')">Delete</button>
                 </td>
             </tr>
