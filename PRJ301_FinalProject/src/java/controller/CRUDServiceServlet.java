@@ -90,9 +90,9 @@ public class CRUDServiceServlet extends HttpServlet {
                         request.setAttribute("responseMessage", "Updated " + serviceID + " successfully!");
                         request.getRequestDispatcher("CRUDServiceServlet?cRUDAction=SEARCH&query=" + serviceName).forward(request, response);
                     } else {
-                        request.setAttribute("resposeMessage", "Updated failed!");
+                        request.setAttribute("responseMessage", "Updated failed!");
                     }
-                    break;
+                    return;
             }
             request.getRequestDispatcher(url).forward(request, response);
         }
