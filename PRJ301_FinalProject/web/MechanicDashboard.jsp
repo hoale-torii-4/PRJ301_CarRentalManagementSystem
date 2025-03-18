@@ -187,7 +187,7 @@
             <%
                 String mechanicId = (String) session.getAttribute("mechanicID");
             %>
-            <a href="ServicePage.jsp">Manage Service</a>
+            <a href="CRUDServiceServlet?cRUDAction=SEARCH&query=">Manage Service</a>
             <a href="LogoutServlet" class="logout-btn">
                     <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
                 </a>

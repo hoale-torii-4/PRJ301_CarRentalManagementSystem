@@ -4,6 +4,9 @@
     Author     : LENOVO
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="model.CarParts"%>
+<%@page import="DAO.CRUDPartCarDAO"%>
 <%@page import="java.util.Map"%>
 <%@page import="model.Mechanic"%>
 <%@page import="model.PartUsed"%>
@@ -54,6 +57,7 @@
                 text-align: center;
                 text-decoration: none;
                 margin: 10px 5px;
+                font-size: 16px;
             }
 
             button:hover {
@@ -109,6 +113,7 @@
                 padding: 12px;
                 text-align: left;
                 font-size: 14px;
+                height: 36px;
             }
 
             th {
@@ -184,23 +189,6 @@
                 background-color: #cc2900;
             }
 
-            .back-button {
-                display: block;
-                width: 150px;
-                margin: 20px auto;
-                padding: 10px 15px;
-                background-color: #003366;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                text-align: center;
-                text-decoration: none;
-            }
-
-            .back-button:hover {
-                background-color: #002244;
-            }
-
             .hidden {
                 display: none;
             }
@@ -239,6 +227,7 @@
             .moreCancelBtn button,#moreButton{
                 width: 71.5px;
                 margin: 10px 5px;
+                padding: 12px 0;
             }
 
             .BackBtn input{
@@ -246,6 +235,7 @@
                 color: #fff;
                 border-style: none;
                 border-radius: 4px;
+                font-size: 16px;
             }
             .BackBtn input:hover {
                 background-color: #002244;
@@ -255,40 +245,26 @@
                 margin-left: 5%;
             }
 
-            #moreButton {
-                margin: 20px;
-                background-color: #003366;
+            .navbar {
+                background-color: #003366; /* Màu sắc phù hợp với giao diện hiện tại */
+                padding: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 color: white;
-                padding: 10px 15px;
-                border: none;
-                cursor: pointer;
-                border-radius: 4px;
+                text-align: center;
+                width: 100%;
             }
+            .navbar a {
+                color: white;
+                text-decoration: none;
+                padding: 10px 15px;
+            }
+            /*        .navbar a:hover {
+                        background-color: #002050;
+                        border-radius: 5px;
+                    }*/
 
-/*            #moreButton:hover {
-                background-color: #002244;
-            }*/
-            
-        .navbar {
-            background-color: #003366; /* Màu sắc phù hợp với giao diện hiện tại */
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            width: 100%;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-        }
-/*        .navbar a:hover {
-            background-color: #002050;
-            border-radius: 5px;
-        }*/
-        
 
         </style>
         <script type="text/javascript">
@@ -296,7 +272,7 @@
                 let carSold = <%= (request.getAttribute("LIST_YEAR") != null) ? "true" : "false"%>;
                 let bestModel = <%= (request.getAttribute("BSCAR_MAP") != null) ? "true" : "false"%>;
                 let bestPart = <%= (request.getAttribute("LIST_USEDPART") != null) ? "true" : "false"%>;
-                let ThreeMechanic = <%= (request.getAttribute("MAP_MECHANIC") != null) ? "true" : "false"%>;
+                let ThreeMechanic = <%= (request.getAttribute("LIST_MECHANIC") != null) ? "true" : "false"%>;
                 if (carSold) {
                     document.getElementById("CarSoldByYear").style.display = "block";
                 } else if (bestModel) {
@@ -356,13 +332,6 @@
                 <a href="SalePersonDashboard.jsp" class="BackBtn"> <input type="submit" value="Back" /> </a> 
             </div>
         </div>
-        
-
-<!--        <button onclick="showCarSoldByYear()">Car sold by year</button>
-        <a href="ReportSalePersonServlet?reportType=BESTMODEL" ><button onclick="showBestModel()">Best selling model</button></a>
-        <a href="ReportSalePersonServlet?reportType=BESTPART" ><button onclick="showBestPart()">Best used part</button></a>
-        <a href="ReportSalePersonServlet?reportType=MECHANIC" ><button onclick="showMechanic()">Three mechanic most repair</button></a>
-        <a href="SalePersonDashboard.jsp" class="BackBtn"> <input type="submit" value="Back" /> </a>-->
 
         <!-- Car sold by year -->
         <div id="CarSoldByYear" style="display: none;">
@@ -437,11 +406,10 @@
             <h1>STATISTICS OF BEST-SELLING CAR MODEL</h1>
             <div class="moreCancelBtn">
                 <button onclick="hiddenBestModel()">Cancel</button>
-                <button id="moreButton" onclick="showMore()">More</button>
             </div>
             <%
-                HashMap<Car, Integer> carMap = (HashMap<Car, Integer>) request.getAttribute("BSCAR_MAP");
-                if (carMap != null && !carMap.isEmpty()) {
+                List<Car> cars = (List<Car>) request.getAttribute("BSCAR_MAP");
+                if (cars != null && !cars.isEmpty()) {
             %>
 
             <table border="1" id="carTable">
@@ -453,21 +421,21 @@
                     <th>Year</th>
                     <th>Price</th>
                     <th>Number of cars sold</th>
+                    <th>Total of price</th>
                 </tr>
                 <%
                     int index = 0;
-                    for (Car car : carMap.keySet()) {
-                        int numberCar = carMap.get(car);
-                        String rowClass = index < 3 ? "visible" : "hidden";
+                    for (Car car : cars) {
                 %>
-                <tr class="<%= rowClass%>">
+                <tr >
                     <td><%= car.getCarId()%></td>
                     <td><%= car.getSerialNumber()%></td>
                     <td><%= car.getModel()%></td>
                     <td><%= car.getColor()%></td>
                     <td><%= car.getYear()%></td>
                     <td><%= NumberFormat.getInstance().format(car.getPrice())%></td>
-                    <td><%= numberCar%></td>
+                    <td><%= car.getTotal() %></td>
+                    <td><%= NumberFormat.getNumberInstance().format(car.getTotal() * car.getPrice()) %></td>
                 </tr>
                 <%
                         index++;
@@ -475,17 +443,6 @@
                 %>
             </table>
 
-
-
-            <script>
-                function showMore() {
-                    var hiddenRows = document.querySelectorAll('#carTable .hidden');
-                    hiddenRows.forEach(function (row) {
-                        row.style.display = 'table-row';
-                    });
-                    document.getElementById('moreButton').style.display = 'none';
-                }
-            </script>
 
             <style>
                 .hidden {
@@ -503,48 +460,39 @@
 
             <div class="moreCancelBtn">
                 <button onclick="hiddenBestPart()">Cancel</button>
-                <button id="moreButton" onclick="showMore()">More</button>
             </div>
 
             <%
                 ArrayList<PartUsed> listPart = (ArrayList<PartUsed>) request.getAttribute("LIST_USEDPART");
+                CRUDPartCarDAO partDAO = new CRUDPartCarDAO();
                 if (listPart != null && !listPart.isEmpty()) {
-
             %>
 
             <table border="1" id="partTable">
                 <tr>
-                    <th>serviceTicketID</th>
-                    <th>partID</th>
-                    <th>numberUsed</th>
-                    <th>price</th>
+                    <th>PartID</th>
+                    <th>PartName</th>
+                    <th>TotalNumberOfUsed</th>
+                    <th>Price</th>
+                    <th>TotalPrice</th>
                 </tr>
-                <%                    int index = 0;
+                <%                    
                     for (PartUsed pu : listPart) {
-                        String rowClass = index < 3 ? "visible" : "hidden";
                 %>
-                <tr class="<%= rowClass%>">
-                    <td><%=pu.getServiceTicketID()%></td>
+                <tr>
                     <td><%=pu.getPartID()%></td>
-                    <td><%=pu.getNumberUsed()%></td>
+                    <td><%= partDAO.getCarPartByID(pu.getPartID()).getPartName() %></td>
+                    <td><%=pu.getTotal()%></td>
                     <td><%=pu.getPrice()%></td>
+                    <td><%= NumberFormat.getNumberInstance().format(pu.getTotal()*pu.getPrice()) %></td>
                 </tr>
                 <%
-                        index++;
                     }
                 %>
             </table>
 
 
-            <script>
-                function showMore() {
-                    var hiddenRows = document.querySelectorAll('#partTable .hidden');
-                    hiddenRows.forEach(function (row) {
-                        row.style.display = 'table-row';
-                    });
-                    document.getElementById('moreButton').style.display = 'none';
-                }
-            </script>
+            
 
             <style>
                 .hidden {
@@ -560,7 +508,7 @@
             <h1>THREE MOST MECHANIC</h1>
             <button onclick="hiddenMechanic()">Cancel</button>
             <%
-                HashMap<Mechanic, Integer> map = (HashMap<Mechanic, Integer>) request.getAttribute("MAP_MECHANIC");
+                ArrayList<Mechanic> Mlist = (ArrayList<Mechanic>) request.getAttribute("LIST_MECHANIC");
             %>
             <table border="1">
                 <tr>
@@ -568,16 +516,15 @@
                     <th>Mechanic Name</th>
                     <th>Total</th>
                 </tr>
-                <%                if (map != null && !map.isEmpty()) {
-                        for (Map.Entry<Mechanic, Integer> mechicMap : map.entrySet()) {
-                            Mechanic mechanic = mechicMap.getKey();
-                            int total = mechicMap.getValue();
+                <%                if (Mlist != null && !Mlist.isEmpty()) {
+                        for (Mechanic me : Mlist) {
+
 
                 %>
                 <tr>
-                    <td><%=mechanic.getId()%></td>
-                    <td><%=mechanic.getName()%></td>
-                    <td><%=total%></td>
+                    <td><%=me.getId()%></td>
+                    <td><%=me.getName()%></td>
+                    <td><%=me.getTotal()%></td>
                 </tr>
                 <%
                         }

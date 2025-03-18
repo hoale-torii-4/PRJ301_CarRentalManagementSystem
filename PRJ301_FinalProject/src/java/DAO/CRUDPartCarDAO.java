@@ -167,8 +167,8 @@ public class CRUDPartCarDAO {
         return isUpdated;
     }
 
-    public boolean CreateCarPart(CarParts newPart) {
-        boolean isCreated = false;
+    public CarParts CreateCarPart(CarParts newPart) {
+        CarParts carParts = null;
         int newID = (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
         try {
             Connection cn = DBUtils.getConnection();
@@ -180,12 +180,14 @@ public class CRUDPartCarDAO {
             st.setDouble(3, newPart.getPurchasePrice());
             st.setDouble(4, newPart.getRetailPrice());
             int row = st.executeUpdate();
-            return row > 0;
+            if (row > 0) {
+                carParts = new CarParts(String.valueOf(newID), newPart.getPartName(), newPart.getPurchasePrice(), newPart.getRetailPrice());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return isCreated;
+        return carParts;
     }
 
     public boolean CreateCarPartUsed(PartUsed newPartUsed) {
@@ -284,7 +286,7 @@ public class CRUDPartCarDAO {
                 st.setString(1, "%" + keyword + "%");
                 st.setString(2, "%" + keyword + "%");
                 ResultSet rs = st.executeQuery();
-                while(rs.next()) {
+                while (rs.next()) {
                     String partID = rs.getString("partID");
                     String partName = rs.getString("partName");
                     double purchsePrice = rs.getDouble("purchasePrice".trim());

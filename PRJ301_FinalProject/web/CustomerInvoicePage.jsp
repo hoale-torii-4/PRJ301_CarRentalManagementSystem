@@ -43,7 +43,7 @@
                 background-color: #f1f1f1;
             }
             .details-btn {
-                background-color: #FF6600;
+                background-color: #003366;
                 color: white;
                 padding: 8px 12px;
                 border: none;
@@ -53,7 +53,7 @@
                 text-decoration: none;
             }
             .details-btn:hover {
-                background-color: #ff3300;
+                background-color: #002244;
             }
             .back-button {
                 display: block;
@@ -89,7 +89,7 @@
             ArrayList<SaleInvoiceDetail> saleInvoices = (ArrayList<SaleInvoiceDetail>) request.getAttribute("LIST_INVOICE");
             ArrayList<SaleInvoiceDetail> detaiInvoices = (ArrayList<SaleInvoiceDetail>) request.getAttribute("LIST_DETAIL");
 
-            boolean isDetailView = (detaiInvoices != null && !detaiInvoices.isEmpty()); 
+            boolean isDetailView = (detaiInvoices != null && !detaiInvoices.isEmpty());
         %>
         <% if (isDetailView) { %>
         <h2>Detail</h2>
@@ -99,7 +99,7 @@
                 <td><strong>Invoice ID:</strong> <%= si.getInvoiceID()%></td>
                 <td><strong>Invoice Date:</strong> <%= si.getInvoiceDate()%></td>
                 <td><strong>Sale Name:</strong> <%= si.getSalesName()%></td>
-                <td><strong>Price:</strong> <%= NumberFormat.getInstance().format(si.getInvoicePrice()) %></td>
+                <td><strong>Price:</strong> <%= NumberFormat.getInstance().format(si.getInvoicePrice())%></td>
             </tr>
             <tr>
                 <td><strong>Cust Name:</strong> <%= si.getCustName()%></td>
@@ -115,6 +115,9 @@
             </tr>
         </table>
         <% } %>
+        <div class="back-container">
+            <a href="CustomerInvoiceServlet?id=<%=session.getAttribute("customerID") %>" ><button class="back-button">Back</button></a>
+        </div>
 
         <% } else { %>
         <!-- Display list of invoices if no details available -->
@@ -129,7 +132,7 @@
                 <th>Action</th>
             </tr>
             <% if (saleInvoices != null && !saleInvoices.isEmpty()) {
-                for (SaleInvoiceDetail si : saleInvoices) {%>
+                    for (SaleInvoiceDetail si : saleInvoices) {%>
             <tr>
                 <td><%= si.getInvoiceID()%></td>
                 <td><%= si.getInvoiceDate()%></td>
@@ -144,15 +147,18 @@
                 </td>
             </tr>
             <% }
-        } else { %>
+            } else { %>
             <tr>
                 <td colspan="6" style="text-align: center; color: red;">No invoices available.</td>
             </tr>
             <% } %>
         </table>
+
+        <div class="back-container">
+            <a href="CustomerDashboardPage.jsp"><button class="back-button">Back to dashboard</button></a>
+        </div>
         <% }%>
 
-        
-        <a href="CustomerDashboardPage.jsp"><button class="back-button">Back to dashboard</button></a>
+
     </body>
 </html>

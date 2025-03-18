@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import model.Car;
 import model.Mechanic;
 import model.PartUsed;
@@ -71,23 +72,23 @@ public class ReportDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT TOP 1 WITH TIES [serviceTicketID],[partID],[numberUsed],[price],[status]\n"
+                String sql = "SELECT TOP 10 SUM([numberUsed]) AS TotalNumberOfUsed, [partID],[price]\n"
                         + "FROM [dbo].[PartsUsed]\n"
-                        + "ORDER BY numberUsed DESC";
+                        + "WHERE status = 1\n"
+                        + "GROUP BY partID, price\n"
+                        + "ORDER BY TotalNumberOfUsed DESC";
                 PreparedStatement st = cn.prepareStatement(sql);
                 ResultSet table = st.executeQuery();
-                PartUsed pu = new PartUsed();
+                PartUsed pu = null;
                 if (table != null) {
                     while (table.next()) {
-                        if (table.getBoolean("status")) {
-                            String serviceTicketID = table.getString("serviceTicketID");
+                        
                             String partID = table.getString("partID");
-                            String numberUsed = table.getString("numberUsed");
                             double price = table.getDouble("price");
-                            pu = new PartUsed(serviceTicketID, partID, numberUsed, price);
+                            int total = table.getInt("TotalNumberOfUsed");
+                            pu = new PartUsed(partID, total, price);
                             partUList.add(pu);
-                        }
-
+                       
                     }
                 }
             }
@@ -105,34 +106,30 @@ public class ReportDAO {
         return partUList;
     }
 
-    public HashMap<Mechanic, Integer> ThreeMechanicID() {
-//        ArrayList<Mechanic> listMechanic = new ArrayList<>();
-        HashMap<Mechanic, Integer> mapMechanic = new HashMap<>();
+    public ArrayList<Mechanic> ThreeMechanicID() {
+        ArrayList<Mechanic> list = new ArrayList<>();
         Connection cn = null;
-//        Mechanic mechanic = new Mechanic();
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT TOP 3 WITH TIES\n"
-                        + "    ServiceMehanic.mechanicID, \n"
-                        + "    Mechanic.mechanicName, \n"
-                        + "    COUNT(ServiceMehanic.mechanicID) AS TOTAL,Mechanic.status\n"
-                        + "FROM [dbo].[ServiceMehanic] \n"
+                String sql = "SELECT top 3 with ties ServiceMehanic.mechanicID,Mechanic.mechanicName,COUNT(ServiceMehanic.mechanicID) AS TOTAL,Mechanic.status\n"
+                        + "FROM [dbo].[ServiceMehanic]\n"
                         + "JOIN [dbo].[Mechanic] ON ServiceMehanic.mechanicID = Mechanic.mechanicID\n"
+                        + "WHERE Mechanic.status = 1\n"
                         + "GROUP BY ServiceMehanic.mechanicID, Mechanic.mechanicName, Mechanic.status\n"
-                        + "ORDER BY TOTAL DESC;";
+                        + "ORDER BY TOTAL DESC";
                 PreparedStatement st = cn.prepareStatement(sql);
                 ResultSet table = st.executeQuery();
-                if (table != null) {
-                    while (table.next()) {
-                        if (table.getBoolean("status")) {
-                            String mechanicId = table.getString("mechanicID");
-                            String name = table.getString("mechanicName");
-                            int total = table.getInt("TOTAL");
-                            mapMechanic.put(new Mechanic(mechanicId, name), total);
-//                            listMechanic.add(mechanic);
-                        }
+
+                while (table.next()) {
+                    if (table.getBoolean("status")) {
+                        String mechanicId = table.getString("mechanicID");
+                        String name = table.getString("mechanicName");
+                        int total = table.getInt("TOTAL");
+                        Mechanic m = new Mechanic(mechanicId, name, total);
+                        list.add(m);
                     }
+
                 }
             }
 
@@ -147,7 +144,7 @@ public class ReportDAO {
                 e.printStackTrace();
             }
         }
-        return mapMechanic;
+        return list;
     }
 
 //    public ArrayList<SalesInvoice> mapInvoice(String year) {
@@ -177,10 +174,9 @@ public class ReportDAO {
 //
 //        return list;
 //    }
-
-    public HashMap<Car, Integer> bestSellingCarModel() {
-        HashMap<Car, Integer> map = new HashMap<>();
-        String sql = "SELECT TOP 1 WITH TIES Cars.carID,Cars.serialNumber,Cars.model,Cars.colour,Cars.year,Cars.price,COUNT(SalesInvoice.carID) AS NumberOfCarSold\n"
+    public List<Car> bestSellingCarModel() {
+        List<Car> list = new ArrayList<>();
+        String sql = "SELECT TOP 10 WITH TIES Cars.carID,Cars.serialNumber,Cars.model,Cars.colour,Cars.year,Cars.price,COUNT(SalesInvoice.carID) AS NumberOfCarSold\n"
                 + "FROM SalesInvoice JOIN Cars ON SalesInvoice.carID = Cars.carID \n"
                 + "WHERE SalesInvoice.status = 1\n"
                 + "GROUP BY  Cars.carID,Cars.serialNumber,Cars.model,Cars.colour,Cars.year,Cars.price\n"
@@ -198,14 +194,14 @@ public class ReportDAO {
                     double price = table.getDouble("price");
                     int carNumber = table.getInt("NumberOfCarSold");
 
-                    Car car = new Car(carID, serialNumber, model, color, year, price);
-                    map.put(car, carNumber);
+                    Car car = new Car(carID, serialNumber, model, color, year, price, carNumber);
+                    list.add(car);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace(); // Nên log lỗi thay vì in ra console trong môi trường sản xuất.
         }
 
-        return map;
+        return list;
     }
 }

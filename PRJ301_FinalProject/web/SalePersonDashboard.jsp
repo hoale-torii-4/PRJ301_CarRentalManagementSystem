@@ -195,10 +195,10 @@
             }
         %>
         <a href="ListCustomer.jsp">Manage Customer</a>
-        <a href="PartManagementPage.jsp">Manage Part</a>
+        <a href="CRUDPartCarServlet?cRUDAction=SEARCH&query=">Manage Part</a>
         <a href="ViewServiceTicket?action=STAFF">Manage Service Ticket</a>
         <a href="ManageCarPage.jsp?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Car</a>
-        <a href="ReportSalePerson.jsp">Report</a>
+        <a href="ReportSalePersonServlet?reportType=MECHANIC">Report</a>
         <a href="LogoutServlet" class="logout-btn">
             <span>Log Out</span><img src="images/logout.png" alt="Logout" width="24" height="24">
         </a>

@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="model.Service"%>
 <%@page import="java.util.ArrayList"%>
@@ -30,7 +31,12 @@
             }
 
             function autoSubmit() {
-                document.getElementById("searchForm").submit();
+                let inputField = document.getElementById("searchInput");
+                let selectedValue = inputField.value;
+
+                let serviceName = selectedValue.split(" - ")[1].trim();
+                inputField.value = serviceName;
+                document.getElementById("searchForm");
             }
 
             function openUpdateModal(serviceID, name, hourlyRate) {
@@ -65,6 +71,28 @@
                 document.getElementById("createServiceModal").style.display = "none";
                 document.getElementById("createOverlay").style.display = "none";
             }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var message = "<%= request.getAttribute("responseMessage")%>";
+                if (message && message !== "null") {
+                    var popup = document.createElement("div");
+                    popup.textContent = message;
+                    popup.style.position = "fixed";
+                    popup.style.top = "20px";
+                    popup.style.right = "20px";
+                    popup.style.padding = "15px";
+                    popup.style.backgroundColor = "#4CAF50";
+                    popup.style.color = "white";
+                    popup.style.borderRadius = "5px";
+                    popup.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)";
+                    document.body.appendChild(popup);
+
+                    setTimeout(function () {
+                        popup.style.opacity = "0";
+                        setTimeout(() => popup.remove(), 500);
+                    }, 5000);
+                }
+            });
         </script>
     </head>
     <style>
@@ -123,7 +151,7 @@
         table, th, td {
             border: 1px solid #003366;
         }
-        
+
         th {
             border: 1px solid #fff;
         }
@@ -145,7 +173,7 @@
         tr:nth-child(odd) {
             background-color: #f1f1f1;
         }
-        
+
         tr:hover {
             background-color: #ccc;
         }
@@ -179,20 +207,15 @@
     <body>
         <h1>SERVICE PAGE</h1>
 
-        <form id="searchForm" action="SearchServiceByNameServlet" method="POST" accept-charset="UTF-8">
-            <input type="text" name="query" id="searchInput" list="serviceSuggestions" oninput="fetchSuggestions()" onchange="autoSubmit()">
+        <form id="searchForm" action="CRUDServiceServlet" accept-charset="UTF-8">
+            <input type="hidden" name="cRUDAction" value="SEARCH"/>
+            <input type="text" name="query" id="searchInput" list="serviceSuggestions"
+                   oninput="fetchSuggestions()" onchange="autoSubmit()" placeholder="Enter Service name">
             <datalist id="serviceSuggestions"></datalist>
             <button type="submit">Search</button>
         </form>
         <button type="button" onclick="openCreateModal()">Create Service</button>
-        <%
-            String updateMess = (String) request.getAttribute("updateMess");
-            if (updateMess != null && !updateMess.isEmpty()) {
-        %>
-        <h2><%= updateMess%></h2>
-        <%
-            }
-        %>
+        
 
 
         <table border="1">
@@ -204,7 +227,7 @@
 
             </tr>
             <%
-                ArrayList<Service> serviceList = (ArrayList<Service>) request.getAttribute("LIST_SERVICE");
+                List<Service> serviceList = (List<Service>) request.getAttribute("SERVICE_LIST");
                 if (serviceList != null && !serviceList.isEmpty()) {
                     for (Service s : serviceList) {
             %>
@@ -213,7 +236,7 @@
                 <td><%= s.getName()%></td>
                 <td><%= NumberFormat.getInstance().format(s.getHourlyRate())%></td>
                 <td>
-                    <button type="button" onclick="openUpdateModal('<%= s.getServiceID()%>', '<%= s.getName()%>', '<%= s.getHourlyRate()%>')">Update</button>
+                    <button type="button" onclick="openUpdateModal('<%= s.getServiceID()%>', '<%= s.getName()%>', '<%= NumberFormat.getNumberInstance().format(s.getHourlyRate()) %>')">Update</button>
                     <button type="button" onclick="confirmDelete('<%= s.getServiceID()%>')">Delete</button>
                 </td>
             </tr>
