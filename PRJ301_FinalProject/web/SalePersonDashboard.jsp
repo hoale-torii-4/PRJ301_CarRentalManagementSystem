@@ -194,7 +194,7 @@
                 salesID = ""; // Default value if salesID is not found in the session
             }
         %>
-        <a href="ListCustomer.jsp">Manage Customer</a>
+        <a href="CRUDCustomerServlet?cRUDAction=SEARCH&name=""">Manage Customer</a>
         <a href="PartManagementPage.jsp">Manage Part</a>
         <a href="ViewServiceTicket?action=STAFF">Manage Service Ticket</a>
         <a href="ManageCarPage.jsp?salePersonID=<%= !salesID.isEmpty() ? salesID : "" %>">Manage Car</a>
