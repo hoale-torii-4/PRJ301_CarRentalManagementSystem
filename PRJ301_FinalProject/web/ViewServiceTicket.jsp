@@ -43,7 +43,7 @@
                 padding: 10px;
                 text-align: left;
             }
-            
+
             th {
                 background-color: #003366;
                 color: white;
@@ -85,7 +85,12 @@
                 background-color: #002244;
             }
             #search-form{
-                width: 80%;
+                width: 70%;
+                margin: auto;
+            }
+            #srsubmit{
+                margin-left: 40%;
+                width: 20%;
             }
             .createBtn {
                 margin: 12px 0;
@@ -103,7 +108,7 @@
                 border-radius: 4px;
                 width: 100%;
                 box-sizing: border-box;
-                margin: 1%;              
+                margin: 1%;
             }
 
             input:focus, select:focus {
@@ -173,9 +178,9 @@
                         let sex = parts[2].trim();
                         let address = parts[3].trim();
 
-                        inputField.value = name;         
-                        phoneField.value = phone;        
-                        addressField.value = address;   
+                        inputField.value = name;
+                        phoneField.value = phone;
+                        addressField.value = address;
                         // Kiểm tra giới tính
                         if (sex.toUpperCase() === "F") {
                             sexField.value = "Female";
@@ -209,10 +214,10 @@
             }
             function autoCompletePartPrice(selectElement) {
                 let selectedOption = selectElement.options[selectElement.selectedIndex];
-                let price = selectedOption.getAttribute("data-price"); 
-                let row = selectElement.closest("tr"); 
-                let priceInput = row.querySelector("input[name='partPrice']"); 
-                priceInput.value = price; 
+                let price = selectedOption.getAttribute("data-price");
+                let row = selectElement.closest("tr");
+                let priceInput = row.querySelector("input[name='partPrice']");
+                priceInput.value = price;
             }
 
             function addRow() {
@@ -326,7 +331,7 @@
                     urlToBack = "SalePersonDashboard.jsp";
         %>
 
-        <button onclick="showCreateForm()" class="createBtn">Create new Service Ticket</button>
+
 
         <div id="createForm" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
              background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
@@ -465,7 +470,7 @@
             <label for="dateReceived">Date Received:</label>
             <input type="date" id="dateReceived" name="dateReceived" /><br/>
             <input type="hidden"  name="action" value="SEARCH">
-            <button type="submit">Search</button><br/><br/>
+            <button id="srsubmit" type="submit">Search</button><br/><br/>
         </form>
         <!--end search form-->
 
@@ -546,7 +551,12 @@
         </table>
         <% // end Detail service ticket
         } else {%>
-        <a href="<%= urlToBack%>" ><button>Back to Dashboard </button></a>
+        <div>
+            <a href="<%= urlToBack%>" ><button>Back to Dashboard </button></a>
+           <%if(saleID!=null) {%>
+            <button onclick="showCreateForm()" class="createBtn">Create new Service Ticket</button>
+            <%}%>
+        </div>
 
         <!-- List service tickets -->
         <table id="ticketList">
