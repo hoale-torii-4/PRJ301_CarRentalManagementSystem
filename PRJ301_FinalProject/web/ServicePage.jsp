@@ -180,7 +180,7 @@
         <h1>SERVICE PAGE</h1>
 
         <form id="searchForm" action="SearchServiceByNameServlet" method="POST" accept-charset="UTF-8">
-            <input type="text" name="query" id="searchInput" list="serviceSuggestions" oninput="fetchSuggestions()" onchange="autoSubmit()">
+            <input type="text" name="query" id="searchInput" list="serviceSuggestions" oninput="fetchSuggestions()" onchange="autoSubmit()" placeholder="Enter name">
             <datalist id="serviceSuggestions"></datalist>
             <button type="submit">Search</button>
         </form>
