@@ -4,7 +4,7 @@
  */
 package controller;
 
-import DAO.CRUDCustomerDAO;
+import DAO.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class CRUDCustomerServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String cRUDAction = request.getParameter("cRUDAction");
-            CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
             String isCRUD = "Failed to ";
             String customerID = "";
 
@@ -44,8 +44,6 @@ public class CRUDCustomerServlet extends HttpServlet {
                     String phone = request.getParameter("phone");
                     String sex = request.getParameter("sex");
                     String address = request.getParameter("address");
-
-                    // Tạo đối tượng khách hàng mới
                     Customer newCustomer = new Customer(0, name, phone, sex, address);
                     int custID = customerDAO.addCustomer(newCustomer);
 
@@ -57,12 +55,8 @@ public class CRUDCustomerServlet extends HttpServlet {
                     }
 
                     request.setAttribute("isCRUD", isCRUD);
-
-                    // Lấy danh sách khách hàng sau khi thêm mới
                     ArrayList<Customer> customerList = customerDAO.getCustomers();
                     request.setAttribute("customer", customerList);
-
-                    // Forward đến trang danh sách khách hàng để giữ thông báo
                     request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
                     break;
 
@@ -101,7 +95,6 @@ public class CRUDCustomerServlet extends HttpServlet {
                             isCRUD = "Update customer Successful!";
                             request.setAttribute("isCRUD", isCRUD);
                             request.getRequestDispatcher("CRUDCustomerServlet?cRUDAction=SEARCH&name=" + name).forward(request, response);
-                            url = "UpdateCustomer.jsp";
                         } else {
                             isCRUD = "Update customer failed! TRY AGAIN.";
                             request.setAttribute("isCRUD", isCRUD);
@@ -115,7 +108,7 @@ public class CRUDCustomerServlet extends HttpServlet {
 
                 case DELETE:
                     try {
-                        int id = Integer.parseInt(request.getParameter("id"));
+                        int id = Integer.parseInt(request.getParameter("CustId"));
                         boolean isDeleted = customerDAO.deleteCustomer(id);
 
                         if (isDeleted) {
@@ -139,7 +132,7 @@ public class CRUDCustomerServlet extends HttpServlet {
                 case SEARCH:
                     try {
                         name = request.getParameter("name");
-                        CRUDCustomerDAO Fincust = new CRUDCustomerDAO();
+                        CustomerDAO Fincust = new CustomerDAO();
                         ArrayList<Customer> customer = Fincust.searchCustomersByName(name);
                         request.setAttribute("customer", customer);
 

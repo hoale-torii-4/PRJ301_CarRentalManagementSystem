@@ -1,5 +1,5 @@
 <%@page import="model.Car"%>
-<%@page import="DAO.CRUDCustomerDAO"%>
+<%@page import="DAO.CustomerDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,7 +16,7 @@
                 color: #333; /* Văn bản màu tối */
                 margin: 0;
                 padding: 20px;
-                width: auto;
+                width: auto;              
             }
 
             h3 {
@@ -41,20 +41,26 @@
 
             /* Style cho Bảng */
             table {
-                width: 100%;
+                width: 90%;
+                margin: 20px auto;
                 border-collapse: collapse;
-                margin: 20px 0;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                background-color: #ffffff;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            table, th, td {
+                border: 1px solid #ddd;
             }
 
             th, td {
                 padding: 12px;
                 text-align: left;
-                border: 1px solid #ddd;
+                font-size: 14px;
+                height: 36px;
             }
 
             th {
-                background-color: #003366; /* Nền màu xanh da trời cho th */
+                background-color: #003366;
                 color: white;
             }
 
@@ -63,7 +69,7 @@
             }
 
             tr:hover {
-                background-color: #e3f2fd; /* Màu xanh nhạt khi hover */
+                background-color: #f1f1f1;
             }
 
             /* Style cho Form tìm kiếm */
@@ -263,7 +269,7 @@
                                     '<%= customer.getSex()%>', '<%= customer.getCustAddress()%>')">
                         Update
                     </button>
-                    <button type="button" onclick="deleteCustomer('<%= customer.getCustID()%>')">Delete</button>
+                    <button type="button" onclick="confirmDelete('<%= customer.getCustID()%>')">Delete</button>
                     <button type="button" onclick="openCreateInvoiceModal('<%= customer.getCustID()%>')">
                         Create Invoice
                     </button></td>
@@ -315,6 +321,17 @@
                 </form>
 
             </div>
+             <!-- Modal xác nhận xóa -->
+            <div id="deleteConfirmModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+             background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
+            <h3>Are you sure you want to delete this customer?</h3>
+            <form id="deleteCustForm" action="CRUDCustomerServlet" >
+                <input type="hidden" name="cRUDAction" value="DELETE">
+                <input type="hidden" name="CustId" id="deleteCusID">
+                <button type="submit">Yes</button>
+                <button type="button" onclick="closeDeleteModal()">No</button>
+            </form>
+        </div>
 
             <div id="createInvoiceModal" class="modal">
                 <h3>Create Invoice</h3>
@@ -389,13 +406,6 @@
                     document.getElementById("overlay").style.display = "none";
                 }
 
-
-                function deleteCustomer(customerId) {
-                    if (confirm("Are you sure you want to delete this customer?")) {
-                        window.location.href = "CRUDCustomerServlet?cRUDAction=DELETE&id=" + customerId;
-                    }
-                }
-
                 function closeAllModals() {
                     document.getElementById("addCustomerModal").style.display = "none";
                     document.getElementById("updateCustomerModal").style.display = "none";
@@ -403,6 +413,16 @@
                     document.getElementById("overlay").style.display = "none";
                     document.getElementById("customerTableResult").style.display = "none";
                 }
+                function confirmDelete(CustId) {
+                document.getElementById("deleteCusID").value = CustId;
+                document.getElementById("deleteConfirmModal").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+
+            function closeDeleteModal() {
+                document.getElementById("deleteConfirmModal").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            }
             </script>
 
 

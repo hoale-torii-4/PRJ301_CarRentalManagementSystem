@@ -1,6 +1,6 @@
 package controller;
 
-import DAO.CRUDCustomerDAO;
+import DAO.CustomerDAO;
 import DAO.SalesInvoiceDAO;
 import model.SalesInvoice;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class CreateInvoiceServlet extends HttpServlet {
         }
 
         // Lấy thông tin khách hàng từ Database
-        CRUDCustomerDAO customerDAO = new CRUDCustomerDAO();
+       CustomerDAO customerDAO = new CustomerDAO();
         Customer customer = customerDAO.getCustomerById(custId);
 
         if (customer == null) {
