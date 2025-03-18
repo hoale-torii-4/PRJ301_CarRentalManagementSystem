@@ -185,6 +185,7 @@
             <button type="submit">Search</button>
         </form>
         <button type="button" onclick="openCreateModal()">Create Service</button>
+        <a href="MechanicDashboard.jsp"><button>Back to Dashboard</button></a>
         <%
             String updateMess = (String) request.getAttribute("updateMess");
             if (updateMess != null && !updateMess.isEmpty()) {
@@ -261,5 +262,6 @@
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeUpdateModal()"></div>
         <div id="deleteOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeDeleteModal()"></div>
         <div id="createOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="closeCreateModal()"></div>
+        
     </body>
 </html>
