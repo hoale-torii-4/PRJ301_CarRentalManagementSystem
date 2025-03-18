@@ -13,7 +13,7 @@ public class PartUsed {
     private String partID;
     private String numberUsed;
     private Double price;
-
+    private String serviceID;
     public PartUsed() {
     }
 
@@ -22,6 +22,13 @@ public class PartUsed {
         this.partID = partID;
         this.numberUsed = numberUsed;
         this.price = price;
+    }
+    public PartUsed(String serviceTicketID, String partID, String numberUsed, Double price, String serviceID) {
+        this.serviceTicketID = serviceTicketID;
+        this.partID = partID;
+        this.numberUsed = numberUsed;
+        this.price = price;
+        this.serviceID = serviceID;
     }
 
     public String getServiceTicketID() {
@@ -55,5 +62,14 @@ public class PartUsed {
     public void setPrice(Double price) {
         this.price = price;
     }
+
+    public String getServiceID() {
+        return serviceID;
+    }
+
+    public void setServiceID(String serviceID) {
+        this.serviceID = serviceID;
+    }
+    
     
 }
