@@ -30,8 +30,8 @@ public class CreateInvoiceServlet extends HttpServlet {
         try {
             custId = Integer.parseInt(custIdParam);
         } catch (NumberFormatException e) {
-            request.setAttribute("errorMessage", "ID khách hàng không hợp lệ!");
-            request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
+            request.setAttribute("errorMess", "Wrong number Format!");
+            request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
             return;
         }
 

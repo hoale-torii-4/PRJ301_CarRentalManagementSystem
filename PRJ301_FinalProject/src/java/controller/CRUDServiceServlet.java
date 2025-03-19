@@ -62,7 +62,7 @@ public class CRUDServiceServlet extends HttpServlet {
                         hourlyRate = Double.parseDouble(request.getParameter("hourlyRate"));
                         if (serviceDAO.isCreated(serviceName, hourlyRate)) {
                             request.setAttribute("responseMessage", "Added successfully!");
-                            request.getRequestDispatcher("CRUDServiceServlet?cRUDAction=SEARCH&query="+serviceName).forward(request, response);
+                            request.getRequestDispatcher("CRUDServiceServlet?cRUDAction=SEARCH&query=" + serviceName).forward(request, response);
                         } else {
                             request.setAttribute("responseMessage", "Added failed!");
                         }
@@ -72,7 +72,7 @@ public class CRUDServiceServlet extends HttpServlet {
                 case DELETE:
                     serviceID = request.getParameter("serviceID");
                     if (serviceDAO.DeleteServlet(serviceID)) {
-                        request.setAttribute("responseMessage", "Deleted "+ serviceID +" successfully!");
+                        request.setAttribute("responseMessage", "Deleted " + serviceID + " successfully!");
                     } else {
                         request.setAttribute("responseMessage", "Deleted failed!");
                     }
@@ -84,7 +84,8 @@ public class CRUDServiceServlet extends HttpServlet {
                     try {
                         hourlyRate = Double.parseDouble(request.getParameter("hourlyRate").trim());
                     } catch (NumberFormatException e) {
-                        request.setAttribute("responseMessage", "Wrong format number!");
+                        request.setAttribute("errorMess", "Wrong number format!");
+                        request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
                     }
                     if (serviceDAO.UpdateService(serviceID, serviceName, hourlyRate)) {
                         request.setAttribute("responseMessage", "Updated " + serviceID + " successfully!");
