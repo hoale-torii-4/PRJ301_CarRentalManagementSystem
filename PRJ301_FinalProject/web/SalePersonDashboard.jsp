@@ -216,13 +216,13 @@
 
         <!-- Hero Section -->
         <div class="hero">
-            <h1>Welcome to Hòa Nghẹo!!!</h1>
+            <h1>Welcome to King of Garage!!!</h1>
             <p>Your journey towards excellence begins here</p>
         </div>
 
         <!-- Footer -->
         <footer>
-            <p>&copy; 2025 Hòa Nghẹo!!!. All Rights Reserved.</p>
+            <p>&copy; 2025 King of Garage!!!. All Rights Reserved.</p>
         </footer>
 
         <!-- Bootstrap JS and Popper.js -->
