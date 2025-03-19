@@ -121,14 +121,15 @@ public class CreateServiceTicketServlet extends HttpServlet {
                         //create part used
                         partDAO.CreateCarPartUsed(new PartUsed(String.valueOf(serTicketID), partDAO.getCarPartByName(partName).getPartID(), numUsed, price, service.getServiceID()));
                     } catch (NumberFormatException e) {
-                        System.err.println("Numberic ERROR: " + e.getMessage());
+                        request.setAttribute("errorMess", "Wrong number format!");
+                        request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
                     }
                 }
                 request.setAttribute("responseMessage", "Create new service ticket successful");
             } else {
                 request.setAttribute("responseMessage", "Create new service ticket failed! Try Again!!");
             }
-            request.getRequestDispatcher("ViewServiceTicket?action=DETAIL&ticketID="+ serTicketID).forward(request, response);
+            request.getRequestDispatcher("ViewServiceTicket?action=DETAIL&ticketID=" + serTicketID).forward(request, response);
         }
     }
 

@@ -102,7 +102,8 @@ public class CRUDCustomerServlet extends HttpServlet {
                         }
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
-                        response.sendRedirect("ListCustomer.jsp?error=invalid_id");
+                        request.setAttribute("errorMess", "Wrong id format!");
+                        request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
                     }
                     break;
 
@@ -126,7 +127,8 @@ public class CRUDCustomerServlet extends HttpServlet {
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         request.setAttribute("isCRUD", "Invalid customer ID!");
-                        request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
+                        request.setAttribute("errorMess", "Somethings wrong!");
+                        request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
                     }
                     break;
                 case SEARCH:
@@ -140,7 +142,8 @@ public class CRUDCustomerServlet extends HttpServlet {
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        response.sendRedirect("ListCustomer.jsp?error=search_failed");
+                        request.setAttribute("errorMess", "Somethings wrong!");
+                        request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);;
                     }
                     break;
 
@@ -149,6 +152,9 @@ public class CRUDCustomerServlet extends HttpServlet {
                     break;
             }
 
+        } catch (Exception e) {
+            request.setAttribute("errorMess", "Somethings wrong!");
+            request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
         }
     }
 

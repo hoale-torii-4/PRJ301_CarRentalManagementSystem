@@ -41,13 +41,13 @@ public class ViewServiceTicket extends HttpServlet {
                     request.setAttribute("serviceTicket", serviceTickets);
                     request.getRequestDispatcher("ViewServiceTicket.jsp").forward(request, response);
                     return;
-                    
+
                 case "UPDATE":
                     String serviceTicketID = request.getParameter("serviceTicketID");
                     String comment = request.getParameter("comment");
                     String serviceName = request.getParameter("serviceName");
                     HttpSession session = request.getSession();
-                    String mechanicID = (String)session.getAttribute("mechanicID");
+                    String mechanicID = (String) session.getAttribute("mechanicID");
                     int hour = 0;
                     double rate = 0;
                     String serviceID = serviceDAO.getOneServiceByName(serviceName).getServiceID();
@@ -55,8 +55,8 @@ public class ViewServiceTicket extends HttpServlet {
                         hour = Integer.parseInt(request.getParameter("hours"));
                         rate = Double.parseDouble(request.getParameter("rate"));
                     } catch (NumberFormatException e) {
-                        log("Error in ViewServiceTicket: " + e.getMessage());
-                        request.getSession().setAttribute("updateMess", "wrong number format");
+                        request.setAttribute("errorMess", "Wrong format number!");
+                        request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
                     }
                     boolean isUpdate = serMecDAO.UpdateServiceMechanic(serviceTicketID, serviceID, mechanicID, hour, comment, rate);
                     if (isUpdate) {
@@ -66,7 +66,7 @@ public class ViewServiceTicket extends HttpServlet {
                     }
                     request.getRequestDispatcher("ViewServiceTicket?action=DETAIL&ticketID=" + serviceTicketID).forward(request, response);
                     return;
-                    
+
                 case "STAFF":
                     serviceTickets = serviceTicketDAO.getAllServiceTicketForSalePerson();
                     request.setAttribute("serviceTicket", serviceTickets);
