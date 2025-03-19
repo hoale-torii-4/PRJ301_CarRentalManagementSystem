@@ -46,6 +46,8 @@ public class ViewServiceTicket extends HttpServlet {
                     String serviceTicketID = request.getParameter("serviceTicketID");
                     String comment = request.getParameter("comment");
                     String serviceName = request.getParameter("serviceName");
+                    HttpSession session = request.getSession();
+                    String mechanicID = (String)session.getAttribute("mechanicID");
                     int hour = 0;
                     double rate = 0;
                     String serviceID = serviceDAO.getOneServiceByName(serviceName).getServiceID();
@@ -56,7 +58,7 @@ public class ViewServiceTicket extends HttpServlet {
                         log("Error in ViewServiceTicket: " + e.getMessage());
                         request.getSession().setAttribute("updateMess", "wrong number format");
                     }
-                    boolean isUpdate = serMecDAO.UpdateServiceMechanic(serviceTicketID, serviceID, hour, comment, rate);
+                    boolean isUpdate = serMecDAO.UpdateServiceMechanic(serviceTicketID, serviceID, mechanicID, hour, comment, rate);
                     if (isUpdate) {
                         request.setAttribute("responseMessage", "Update service Ticket ID: " + serviceTicketID + " successful!");
                     } else {

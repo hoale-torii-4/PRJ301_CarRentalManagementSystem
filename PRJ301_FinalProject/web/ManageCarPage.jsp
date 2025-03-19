@@ -61,7 +61,7 @@
                 let serialNumber = selectedValue.split(" - ")[0].trim();
                 inputField.value = serialNumber; // Cập nhật lại giá trị input
 
-                document.getElementById("searchForm").submit(); // Gửi form
+                document.getElementById("searchForm").submit();
             }
             function openUpdateModal(carID, serialNumber, model, colour, year, price) {
                 document.getElementById("updateCarID").value = carID;
