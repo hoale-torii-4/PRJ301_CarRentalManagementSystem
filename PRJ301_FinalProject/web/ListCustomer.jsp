@@ -498,9 +498,6 @@
                     }
                 });
             </script>
-            <%
-                session.removeAttribute("isCRUD"); // Xóa sau khi hiển thị để tránh hiện lại khi load trang
-            %>
             <a href="SalePersonDashboard.jsp"><button>Back to Dashboard</button></a>
     </body>
 </html>
