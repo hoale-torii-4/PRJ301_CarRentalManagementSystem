@@ -310,7 +310,7 @@
             }
         %>
         <div class="hero">
-        <h1>Welcome to Khoa Gâu Gâu!!!</h1>
+        <h1>Welcome to King of cars Garage!!!</h1>
         <p>Your journey towards excellence begins here</p>
     </div>
         <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -319,7 +319,7 @@
         
         <!-- Footer -->
         <footer>
-            <p>&copy; 2025 Your Garage. All rights reserved.</p>
+            <p>&copy; 2025 King of cars Garage. All rights reserved.</p>
         </footer>
     </body>
     <script>

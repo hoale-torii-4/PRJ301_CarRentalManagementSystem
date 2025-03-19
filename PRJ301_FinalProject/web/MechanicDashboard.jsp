@@ -196,7 +196,7 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <h1>Welcome to Hoàng Mõm!!!</h1>
+        <h1>Welcome to King of Garage!!</h1>
         <p>Your journey towards excellence begins here</p>
     </div>
 
