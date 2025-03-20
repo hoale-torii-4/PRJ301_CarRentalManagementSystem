@@ -352,7 +352,7 @@
                     <tr>
                         <td><strong>Customer Name: </strong> <input type="text" name="custName" id="nameInput" list="listCustSuggestion" oninput="fetchCustSuggestions()" onchange="autoCompleteCustInfo()" required>
                             <datalist id="listCustSuggestion"></datalist></td>
-                        <td><strong>Phone: </strong><input type="text" name="custPhone" id="phoneInput" required></td>
+                        <td><strong>Phone: </strong><input type="number" name="custPhone" id="phoneInput" required></td>
                         <td><strong>Sex: </strong><input name="custSex" id="sexInput" required ></input></td>
 
                     </tr>
